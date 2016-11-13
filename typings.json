@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
+    "express-graphql": "github:arvitaly/typed-express-graphql/express-graphql.d.ts",
     "graphql": "registry:dt/graphql#0.7.0+20161028160137",
     "graphql-relay": "github:arvitaly/typed-graphql-relay/graphql-relay.d.ts",
     "jasmine": "registry:dt/jasmine#2.5.0+20161025102649",

@@ -1,3 +1,4 @@
+/// <reference path="globals/express-graphql/index.d.ts" />
 /// <reference path="globals/graphql-relay/index.d.ts" />
 /// <reference path="globals/graphql/index.d.ts" />
 /// <reference path="globals/jasmine/index.d.ts" />
