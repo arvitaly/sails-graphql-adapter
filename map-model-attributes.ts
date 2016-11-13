@@ -33,7 +33,7 @@ export default (attributes: Waterline.Attributes): Array<IAttrInfo> => {
             outType = AttributeType.Model;
         }
         if (attr['collection']) {
-            outType = AttributeType.Model;
+            outType = AttributeType.Collection;
         }
         if (!outType) {
             outType = AttributeType.String

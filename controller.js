@@ -1,11 +1,11 @@
 "use strict";
 const graphqlHTTP = require('express-graphql');
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (schema) => {
-    return {
-        index: graphqlHTTP({
-            schema: schema,
+exports.default = {
+    index: function () {
+        return graphqlHTTP({
+            schema: sails['graphql'],
             graphiql: true
-        })
-    };
+        }).apply(this, arguments);
+    }
 };

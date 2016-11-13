@@ -1,10 +1,9 @@
-import { GraphQLSchema } from 'graphql';
 import * as graphqlHTTP from 'express-graphql';
-export default (schema: GraphQLSchema) => {
-    return {
-        index: graphqlHTTP({
-            schema: schema,
+export default {
+    index: function () {
+        return graphqlHTTP({
+            schema: sails['graphql'],
             graphiql: true
-        })
+        }).apply(this, arguments);
     }
 }

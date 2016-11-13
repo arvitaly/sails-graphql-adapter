@@ -34,7 +34,7 @@ exports.default = (attributes) => {
             outType = attribute_type_1.default.Model;
         }
         if (attr['collection']) {
-            outType = attribute_type_1.default.Model;
+            outType = attribute_type_1.default.Collection;
         }
         if (!outType) {
             outType = attribute_type_1.default.String;
