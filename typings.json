@@ -1,0 +1,7 @@
+{
+  "globalDependencies": {
+    "graphql": "registry:dt/graphql#0.7.0+20161028160137",
+    "sails": "npm:sails-typings/index.d.ts",
+    "waterline": "npm:waterline-typings/index.d.ts"
+  }
+}

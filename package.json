@@ -1,0 +1,25 @@
+{
+  "name": "sails-graphql-adapter",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arvitaly/sails-graphql-adapter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arvitaly/sails-graphql-adapter/issues"
+  },
+  "homepage": "https://github.com/arvitaly/sails-graphql-adapter#readme",
+  "dependencies": {
+    "graphql": "^0.8.1",
+    "sails-typings": "0.0.1",
+    "waterline-typings": "0.0.1"
+  }
+}
