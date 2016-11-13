@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "istanbul cover node_modules/jasmine/bin/jasmine.js",
+    "watch:test": "nodemon --exec jasmine"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,12 @@
     "graphql": "^0.8.1",
     "sails-typings": "0.0.1",
     "waterline-typings": "0.0.1"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.12",
+    "istanbul": "^0.4.5",
+    "jasmine": "2.4.1",
+    "sails-memory": "^0.10.7",
+    "waterline": "^0.11.6"
   }
 }

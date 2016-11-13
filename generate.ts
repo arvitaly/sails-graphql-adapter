@@ -1,49 +1,21 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLString } from 'graphql';
-function generate(models: { [index: string]: Waterline.Model }): GraphQLSchema {
-    const nodeType = new GraphQLObjectType({
-        name: 'NodeType',
-        fields: {
+import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLFieldDefinition, GraphQLFieldDefinitionMap, GraphQLFieldConfigMap } from 'graphql';
+import generateQueryForModel from './generate-query-for-model';
 
-        }
-    })
-    let queries = {};
-    let queriesArgs = {};
+function generate(models: { [index: string]: Waterline.Model<any> }): GraphQLSchema {
+    let queryTypeFields: GraphQLFieldConfigMap<any> = {};
     for (let modelName in models) {
-        let fields = {};
-        queries[modelName] = new GraphQLObjectType({
-            name: modelName,
-            description: modelName,
-            fields: fields/*,
-            interfaces: [nodeType]*/
-        });
-        queriesArgs[modelName] = {
-
-        }
-        for (let attrName in models[modelName]._attributes) {
-            fields[attrName] = new GraphQLObjectType({
-                name: attrName,
-                description: attrName,
-                fields: {
-
-                }
-            })
-        }
+        generateQueryForModel(modelName, models[modelName]).map(({name, field}) => {
+            queryTypeFields[name] = field;
+        })
     }
 
     const queryType = new GraphQLObjectType({
-        name: 'RootQueryType',
-        fields: {
-            hello: {
-                type: GraphQLString,
-                resolve() {
-                    return 'world';
-                }
-            }
-        }
+        name: "Query",
+        fields: queryTypeFields
     })
     const schema = new GraphQLSchema({
         query: queryType
-    })
+    });
     return schema;
 }
 export default generate;

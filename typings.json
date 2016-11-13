@@ -1,6 +1,8 @@
 {
   "globalDependencies": {
     "graphql": "registry:dt/graphql#0.7.0+20161028160137",
+    "jasmine": "registry:dt/jasmine#2.5.0+20161025102649",
+    "node": "registry:dt/node#6.0.0+20161110151007",
     "sails": "npm:sails-typings/index.d.ts",
     "waterline": "npm:waterline-typings/index.d.ts"
   }

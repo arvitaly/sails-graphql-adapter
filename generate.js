@@ -1,39 +1,16 @@
 "use strict";
 const graphql_1 = require('graphql');
+const generate_query_for_model_1 = require('./generate-query-for-model');
 function generate(models) {
-    const nodeType = new graphql_1.GraphQLObjectType({
-        name: 'NodeType',
-        fields: {}
-    });
-    let queries = {};
-    let queriesArgs = {};
+    let queryTypeFields = {};
     for (let modelName in models) {
-        let fields = {};
-        queries[modelName] = new graphql_1.GraphQLObjectType({
-            name: modelName,
-            description: modelName,
-            fields: fields /*,
-            interfaces: [nodeType]*/
+        generate_query_for_model_1.default(modelName, models[modelName]).map(({ name, field }) => {
+            queryTypeFields[name] = field;
         });
-        queriesArgs[modelName] = {};
-        for (let attrName in models[modelName]._attributes) {
-            fields[attrName] = new graphql_1.GraphQLObjectType({
-                name: attrName,
-                description: attrName,
-                fields: {}
-            });
-        }
     }
     const queryType = new graphql_1.GraphQLObjectType({
-        name: 'RootQueryType',
-        fields: {
-            hello: {
-                type: graphql_1.GraphQLString,
-                resolve() {
-                    return 'world';
-                }
-            }
-        }
+        name: "Query",
+        fields: queryTypeFields
     });
     const schema = new graphql_1.GraphQLSchema({
         query: queryType
