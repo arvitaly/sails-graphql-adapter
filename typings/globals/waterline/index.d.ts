@@ -26,7 +26,7 @@ declare namespace Waterline {
         new <T>(): Waterline<T>;
     }
     export type BaseAttribute = {
-        type: string;
+        type?: string;
         autoIncrement?: boolean;
         primaryKey?: boolean;
         unique?: boolean;

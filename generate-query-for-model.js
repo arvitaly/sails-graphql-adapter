@@ -9,7 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const graphql_1 = require('graphql');
 const generate_args_for_model_1 = require('./generate-args-for-model');
-function generateQueryForModel(name, model, modelType) {
+function generateQueryForModel(name, model, generator) {
+    const modelType = generator.getType(name);
     return [{
             name: name,
             field: {

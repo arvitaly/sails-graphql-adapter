@@ -1,11 +1,12 @@
 import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLNonNull, GraphQLInt, GraphQLInputFieldConfigMap, GraphQLInputObjectType, GraphQLObjectType, GraphQLList, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
+import Generator from './generator';
 import capitalize from './capitalize';
 import mapAttrs from './map-model-attributes';
-export default (modelName: string, model: Waterline.Model<any>, modelType: GraphQLObjectType): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {
+export default (modelName: string, model: Waterline.Model<any>, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {
+    const modelType = generator.getType(modelName);
     let mutations: Array<{ name: string, field: GraphQLFieldConfig<any> }> = [];
     const updateMutationName = "MutationUpdate" + capitalize(modelName);
-
     let updateMutationInputFields: GraphQLInputFieldConfigMap = {
         id: {
             type: new GraphQLNonNull(GraphQLInt)
@@ -13,6 +14,9 @@ export default (modelName: string, model: Waterline.Model<any>, modelType: Graph
     };
     let updateMutationOutputFields: GraphQLFieldConfigMap<any> = {};
     mapAttrs(model._attributes).map(({name, type, graphqlType}) => {
+        if (!graphqlType){
+            return;
+        }
         let fields: GraphQLInputFieldConfigMap = {
 
         };

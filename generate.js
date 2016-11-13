@@ -1,17 +1,17 @@
 "use strict";
 const graphql_1 = require('graphql');
-const generate_type_for_model_1 = require('./generate-type-for-model');
 const generate_query_for_model_1 = require('./generate-query-for-model');
 const generate_mutations_for_model_1 = require('./generate-mutations-for-model');
+const generator_1 = require('./generator');
 function generate(models) {
+    let generator = new generator_1.default(models);
     let queryTypeFields = {};
     let mutationTypeFields = {};
     for (let modelName in models) {
-        let modelType = generate_type_for_model_1.default(modelName, models[modelName]);
-        generate_query_for_model_1.default(modelName, models[modelName], modelType).map(({ name, field }) => {
+        generate_query_for_model_1.default(modelName, models[modelName], generator).map(({ name, field }) => {
             queryTypeFields[name] = field;
         });
-        generate_mutations_for_model_1.default(modelName, models[modelName], modelType).map(({ name, field }) => {
+        generate_mutations_for_model_1.default(modelName, models[modelName], generator).map(({ name, field }) => {
             mutationTypeFields[name] = field;
         });
     }

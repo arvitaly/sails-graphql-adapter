@@ -12,7 +12,8 @@ const graphql_relay_1 = require('graphql-relay');
 const capitalize_1 = require('./capitalize');
 const map_model_attributes_1 = require('./map-model-attributes');
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (modelName, model, modelType) => {
+exports.default = (modelName, model, generator) => {
+    const modelType = generator.getType(modelName);
     let mutations = [];
     const updateMutationName = "MutationUpdate" + capitalize_1.default(modelName);
     let updateMutationInputFields = {
@@ -22,6 +23,9 @@ exports.default = (modelName, model, modelType) => {
     };
     let updateMutationOutputFields = {};
     map_model_attributes_1.default(model._attributes).map(({ name, type, graphqlType }) => {
+        if (!graphqlType) {
+            return;
+        }
         let fields = {};
         fields[name] = {
             type: graphqlType

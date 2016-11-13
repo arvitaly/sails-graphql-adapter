@@ -1,6 +1,8 @@
 import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLObjectType, GraphQLList, GraphQLString } from 'graphql';
+import Generator from './generator';
 import generateArgsForModel from './generate-args-for-model';
-export default function generateQueryForModel(name: string, model: Waterline.Model<any>, modelType: GraphQLObjectType): Array<{ name: string, field: GraphQLFieldConfig<any> }> {
+export default function generateQueryForModel(name: string, model: Waterline.Model<any>, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> {
+    const modelType = generator.getType(name);
     return [{
         name: name,
         field: {
