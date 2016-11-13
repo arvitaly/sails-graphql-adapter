@@ -20,6 +20,7 @@
   "homepage": "https://github.com/arvitaly/sails-graphql-adapter#readme",
   "dependencies": {
     "graphql": "^0.8.1",
+    "graphql-relay": "^0.4.3",
     "sails-typings": "0.0.1",
     "waterline-typings": "0.0.1"
   },

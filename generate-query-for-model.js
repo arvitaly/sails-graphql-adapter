@@ -9,33 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const graphql_1 = require('graphql');
 const generate_args_for_model_1 = require('./generate-args-for-model');
-function generateQueryForModel(name, model) {
-    let fields = {};
-    for (let attrName in model._attributes) {
-        let attr = model._attributes[attrName];
-        let type;
-        if (typeof (attr) === "string") {
-            type = attr;
-        }
-        else {
-            type = attr.type;
-        }
-        switch (type) {
-            case "string":
-                fields[attrName] = {
-                    args: {},
-                    type: graphql_1.GraphQLString,
-                    deprecationReason: "",
-                    description: attrName
-                };
-        }
-    }
-    const modelType = new graphql_1.GraphQLObjectType({
-        name: name.charAt(0).toUpperCase() + name.substr(1),
-        description: name,
-        fields: fields,
-        interfaces: []
-    });
+function generateQueryForModel(name, model, modelType) {
     return [{
             name: name,
             field: {

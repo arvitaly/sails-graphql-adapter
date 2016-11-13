@@ -20,7 +20,7 @@ const model1 = Waterline.Collection.extend({
     }
 });
 describe("Generate schema spec", () => {
-    let waterline, ontology;
+    let waterline, ontology, schema;
     beforeAll((done) => {
         waterline = new Waterline();
         waterline.loadCollection(model1);
@@ -35,19 +35,24 @@ describe("Generate schema spec", () => {
             }
             ontology = ontology_;
             yield ontology.collections.model1.create(model1Fix);
+            schema = generate_1.default(waterline.collections);
             done();
         }));
     });
     it("when query single model without args should return selected fields", (done) => __awaiter(this, void 0, void 0, function* () {
-        const schema = generate_1.default(waterline.collections);
         const results = yield graphql_1.graphql(schema, `query Q1 {model1{name}}`);
         expect(j(results.data)).toEqual({ model1: { name: model1Fix.name } });
         done();
     }));
     it("when query list of model without args should return array", (done) => __awaiter(this, void 0, void 0, function* () {
-        const schema = generate_1.default(waterline.collections);
         const results = yield graphql_1.graphql(schema, `query Q1 {model1s{name}}`);
         expect(j(results.data)).toEqual({ model1s: [{ name: model1Fix.name }] });
+        done();
+    }));
+    it("when call create mutation model should be added", (done) => __awaiter(this, void 0, void 0, function* () {
+        const results = yield graphql_1.graphql(schema, `mutation M1 {updateModel1(input:{clientMutationId:"1", id: 1, setName:{name:"test"} } ){clientMutationId,model1{name} } }`);
+        expect(j(results.data)).toEqual({ updateModel1: { clientMutationId: "1", model1: { name: "test" } } });
+        //console.log(results.errors.map(e => e.message));
         done();
     }));
 });

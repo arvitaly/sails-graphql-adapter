@@ -12,7 +12,7 @@ declare namespace Waterline {
         connections: { [index: string]: Connection }
     }
     type Ontology<T> = {
-        collections: T | any;
+        collections: T;
     }
     interface Waterline<T> {
         loadCollection(collection: Collection);
@@ -51,6 +51,7 @@ declare namespace Waterline {
 
     export interface BaseModel<T> {
         create: (model: T) => Promise<T>;
+        update: (conditions: T, model: T) => Promise<Array<T>>;
         find: (model: T) => Promise<Array<T>>;
     }
     export interface Model<T> extends BaseModel<T> {
