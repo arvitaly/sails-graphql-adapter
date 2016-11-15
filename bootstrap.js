@@ -5,9 +5,9 @@ const fs = require('fs');
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (config, cb) => {
     config = config || {};
-    config.isPrintSchemaToFile = config.isPrintSchemaToFile || true;
+    config.isPrintSchemaToFile = config.isPrintSchemaToFile === false ? false : true;
     config.schemaFile = config.schemaFile || process.cwd() + "/assets/schema.graphql";
-    config.isPrintJSONSchemaToFile = config.isPrintJSONSchemaToFile || true;
+    config.isPrintJSONSchemaToFile = config.isPrintJSONSchemaToFile === false ? false : true;
     config.jsonSchemaFile = config.jsonSchemaFile || process.cwd() + "/assets/schema.json";
     const schema = generate_1.default(sails.models);
     sails['schema'] = schema;

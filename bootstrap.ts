@@ -9,9 +9,9 @@ export interface IConfig {
 }
 export default (config: IConfig, cb) => {
     config = config || {};
-    config.isPrintSchemaToFile = config.isPrintSchemaToFile || true;
+    config.isPrintSchemaToFile = config.isPrintSchemaToFile === false ? false : true;
     config.schemaFile = config.schemaFile || process.cwd() + "/assets/schema.graphql";
-    config.isPrintJSONSchemaToFile = config.isPrintJSONSchemaToFile || true;
+    config.isPrintJSONSchemaToFile = config.isPrintJSONSchemaToFile === false ? false : true;
     config.jsonSchemaFile = config.jsonSchemaFile || process.cwd() + "/assets/schema.json";
 
     const schema = generate(sails.models);
@@ -47,7 +47,7 @@ export default (config: IConfig, cb) => {
             throw new Error("Error with write json graphql schema: " + err);
         }));
     }
-    Promise.all(promises).then(()=>{
+    Promise.all(promises).then(() => {
         cb();
     }).catch((e) => { cb(e) });
 }
