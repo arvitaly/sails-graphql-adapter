@@ -67,7 +67,6 @@ describe("Generate schema spec", () => {
     it("when call create mutation model should be added", async (done) => {
         const results = await graphql(schema, `mutation M1 {updateModel1(input:{clientMutationId:"1", id: 1, setName:{name:"test"} } ){clientMutationId,model1{name} } }`);
         expect(j(results.data)).toEqual({ updateModel1: { clientMutationId: "1", model1: { name: "test" } } });
-        //console.log(results.errors.map(e => e.message));
         done();
     })
     it("when query single model without args should return selected fields", async (done) => {

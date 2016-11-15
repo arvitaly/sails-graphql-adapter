@@ -4,7 +4,6 @@ import capitalize from './capitalize';
 import AttributeType from './attribute-type';
 import mapAttrs from './map-model-attributes';
 export default (modelName: string, model: Waterline.Model<any>, generator: Generator) => {
-    console.log(modelName, model._attributes);
     let fields: GraphQLFieldConfigMap<any> = {};
     mapAttrs(model._attributes).map(({name, type, graphqlType, attribute}) => {
         if (graphqlType !== null) {

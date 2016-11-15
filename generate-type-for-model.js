@@ -13,7 +13,6 @@ const attribute_type_1 = require('./attribute-type');
 const map_model_attributes_1 = require('./map-model-attributes');
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (modelName, model, generator) => {
-    console.log(modelName, model._attributes);
     let fields = {};
     map_model_attributes_1.default(model._attributes).map(({ name, type, graphqlType, attribute }) => {
         if (graphqlType !== null) {
