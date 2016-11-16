@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/arvitaly/typed-express-graphql/master/express-graphql.d.ts",
-    "raw": "github:arvitaly/typed-express-graphql/express-graphql.d.ts",
-    "typings": "https://raw.githubusercontent.com/arvitaly/typed-express-graphql/master/express-graphql.d.ts"
-  }
-}

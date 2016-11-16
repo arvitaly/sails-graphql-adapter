@@ -11,20 +11,36 @@ declare namespace Waterline {
         adapters: { [index: string]: Adapter };
         connections: { [index: string]: Connection }
     }
-    type Ontology<T> = {
-        collections: T;
+    type Ontology = {
+        collections: any;
     }
-    interface Waterline<T> {
-        loadCollection(collection: Collection);
-        initialize: (config: Config, cb: (err: Error, ontology: Ontology<T>) => any) => any;
-        collections: T;
+    interface Waterline {
+        loadCollection(collection: CollectionClass);
+        initialize: (config: Config, cb: (err: Error, ontology: Ontology) => any) => any;
+        collections: any;
     }
     interface WaterlineStatic {
         Collection: {
-            extend: (params: Collection) => Collection;
+            extend: (params: CollectionDefinitions) => CollectionClass;
         }
-        new <T>(): Waterline<T>;
+        new (): Waterline;
     }
+    interface CollectionClass {
+        (): Collection
+    }
+    export interface CollectionDefinitions {
+        attributes?: { [index: string]: CollectionAttribute };
+        connection?: string;
+        identity?: string;
+        tableName?: string;
+        migrate?: "alter" | "drop" | "safe";
+        autoPK?: boolean;
+        autoCreatedAt?: boolean;
+        autoUpdatedAt?: boolean;
+    }
+    export type Attributes = { [index: string]: Attribute };
+    export type Attribute = string | StringAttribute | IntegerAttribute | ModelAttribute | DatetimeAttribute;
+    type CollectionAttribute = Attribute;
     export type BaseAttribute = {
         type?: string;
         autoIncrement?: boolean;
@@ -46,35 +62,22 @@ declare namespace Waterline {
         type: 'datetime';
         default?: Date;
     }
-    export type Attribute = string | StringAttribute | IntegerAttribute | ModelAttribute | DatetimeAttribute;
-    export type Attributes = { [index: string]: Attribute };
-
-    export interface BaseModel<T> {
-        create: (model: T) => Promise<T>;
-        update: (conditions: T, model: T) => Promise<Array<T>>;
-        find: (model: T) => Promise<Array<T>>;
-    }
-    export interface Model<T> extends BaseModel<T> {
+    export interface Collection extends CollectionDefinitions {
+        create: (model: any) => Promise<any>;
+        update: (conditions: any, model: any) => Promise<Array<any>>;
+        find: (model: any) => Promise<Array<any>>;
         connections
-        waterline: Waterline<any>;
+        waterline: Waterline;
         adapter
         defaults
-        _cast
-        _schema
-        _validator
-        _callbacks
-        _instanceMethods
         hasSchema
         migrate
-        _model
-        _transformer
         adapterDictionary
         pkFormat
         syncable
         registerConnection
         teardown
         define
-
         findOneById
         findOneByIdIn
         findOneByIdLike
@@ -93,7 +96,6 @@ declare namespace Waterline {
         findByCreatedAt
         findByCreatedAtIn
         findByCreatedAtLike
-
         countByCreatedAt
         countByCreatedAtIn
         countByCreatedAtLike
@@ -114,20 +116,8 @@ declare namespace Waterline {
         updatedAtEndsWith
         definition
         meta
+    }
 
-        _attributes: Attributes;
-    }
-    type CollectionAttribute = Attribute;
-    export type Collection = {
-        attributes?: { [index: string]: CollectionAttribute };
-        connection?: string;
-        identity?: string;
-        tableName?: string;
-        migrate?: "alter" | "drop" | "safe";
-        autoPK?: boolean;
-        autoCreatedAt?: Date;
-        autoUpdatedAt?: Date;
-    }
 }
 declare module 'waterline' {
     var waterline: Waterline.WaterlineStatic;

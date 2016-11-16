@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/arvitaly/sails-graphql-adapter#readme",
   "dependencies": {
+    "@types/express": "^4.0.34",
+    "@types/express-graphql": "0.0.33",
+    "@types/graphql": "^0.7.3",
     "express-graphql": "^0.6.1",
     "graphql": "^0.8.1",
     "graphql-relay": "^0.4.3",
@@ -28,8 +31,12 @@
   "devDependencies": {
     "coveralls": "^2.11.12",
     "express": "^4.14.0",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
     "istanbul": "^0.4.5",
     "jasmine": "2.4.1",
+    "sails": "^0.12.9",
+    "sails-disk": "^0.10.10",
     "sails-memory": "^0.10.7",
     "waterline": "^0.11.6"
   }

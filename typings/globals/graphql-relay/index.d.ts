@@ -173,8 +173,8 @@ declare module "graphql-relay" {
 
     type MutationConfig = {
         name: string,
-        inputFields: InputObjectConfigFieldMap,
-        outputFields: GraphQLFieldConfigMap,
+        inputFields: GraphQLInputFieldConfigMap,
+        outputFields: GraphQLFieldConfigMap<any>,
         mutateAndGetPayload: mutationFn
     };
 

@@ -1,0 +1,5 @@
+export = {
+    attributes: {
+        name: "string"
+    }
+}
