@@ -1,7 +1,7 @@
 "use strict";
 const fs = require('fs');
 const graphql_1 = require('graphql');
-const generate_1 = require('./../generate');
+const generate_1 = require('./generate');
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (config, cb) => {
     config = config || {};

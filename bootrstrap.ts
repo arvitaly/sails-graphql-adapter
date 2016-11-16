@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { printSchema, introspectionQuery, graphql } from 'graphql';
-import generate from './../generate';
+import generate from './generate';
 export interface IConfig {
     isPrintSchemaToFile?: boolean;
     isPrintJSONSchemaToFile?: boolean;
