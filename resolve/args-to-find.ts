@@ -5,13 +5,15 @@ export interface FindParams {
     sort?: string;
     skip?: number;
     limit?: number;
+
 }
 export default (model: Model, args) => {
-    let where = {};
+    let where = {}, countArgs = 0, params = {};
     for (let argName in args) {
         if (model.attributes[argName]) {
             where[argName] = args[argName];
         }
+        countArgs++
     }
     for (let attrName in model.attributes) {
         let attrType = model.attributes[attrName].type;
@@ -52,10 +54,15 @@ export default (model: Model, args) => {
             where[attrName] = args[attrName + "In"];
         }
     }
-    return {
-        where: where,
-        sort: args.sort,
-        skip: args.skip,
-        limit: args.limit
+    params['where'] = where;
+    if (typeof (args.skip) !== "undefined") {
+        params['skip'] = args.skip;
     }
+    if (typeof (args.limit) !== "undefined") {
+        params['limit'] = args.limit;
+    }
+    if (args.sort) {
+        params['sort'] = args.sort;
+    }
+    return params;
 }

@@ -6,7 +6,7 @@ function generateQueryForModel(id, generator) {
     const model = generator.getModel(id);
     const modelType = generator.getType(model.id);
     return [{
-            name: model.name,
+            name: model.queryName,
             field: {
                 args: args_1.default(model),
                 description: model.name,

@@ -24,7 +24,11 @@ export default class Resolver {
         }
     }
     async resolveModel(opts: ResolveOpts) {
-        return await sails.models[opts.identity].findOne(argsToFind(this.models[opts.identity], opts.args));
+        const result = (await sails.models[opts.identity].find(argsToFind(this.models[opts.identity], opts.args)));
+        if (result){
+            return result[0];
+        }
+        return null;
     }
     async resolveListOfModel(opts: ResolveOpts): Promise<Connection<any>> {
         const findParams = argsToFind(this.models[opts.identity], opts.args);

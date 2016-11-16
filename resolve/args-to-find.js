@@ -2,11 +2,12 @@
 const attribute_type_1 = require('./../model/attribute-type');
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (model, args) => {
-    let where = {};
+    let where = {}, countArgs = 0, params = {};
     for (let argName in args) {
         if (model.attributes[argName]) {
             where[argName] = args[argName];
         }
+        countArgs++;
     }
     for (let attrName in model.attributes) {
         let attrType = model.attributes[attrName].type;
@@ -47,10 +48,15 @@ exports.default = (model, args) => {
             where[attrName] = args[attrName + "In"];
         }
     }
-    return {
-        where: where,
-        sort: args.sort,
-        skip: args.skip,
-        limit: args.limit
-    };
+    params['where'] = where;
+    if (typeof (args.skip) !== "undefined") {
+        params['skip'] = args.skip;
+    }
+    if (typeof (args.limit) !== "undefined") {
+        params['limit'] = args.limit;
+    }
+    if (args.sort) {
+        params['sort'] = args.sort;
+    }
+    return params;
 };

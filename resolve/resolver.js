@@ -23,7 +23,11 @@ class Resolver {
     }
     resolveModel(opts) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield sails.models[opts.identity].findOne(args_to_find_1.default(this.models[opts.identity], opts.args));
+            const result = (yield sails.models[opts.identity].find(args_to_find_1.default(this.models[opts.identity], opts.args)));
+            if (result) {
+                return result[0];
+            }
+            return null;
         });
     }
     resolveListOfModel(opts) {
