@@ -29,7 +29,7 @@ declare namespace Waterline {
         (): Collection
     }
     export interface CollectionDefinitions {
-        attributes?: { [index: string]: CollectionAttribute };
+        attributes?: { [index: string]: Attribute };
         connection?: string;
         identity?: string;
         tableName?: string;
@@ -39,13 +39,16 @@ declare namespace Waterline {
         autoUpdatedAt?: boolean;
     }
     export type Attributes = { [index: string]: Attribute };
-    export type Attribute = string | StringAttribute | IntegerAttribute | ModelAttribute | DatetimeAttribute;
-    type CollectionAttribute = Attribute;
+    export type Attribute = string | StringAttribute | IntegerAttribute | ModelAttribute | DatetimeAttribute | CollectionAttribute;
     export type BaseAttribute = {
         type?: string;
         autoIncrement?: boolean;
         primaryKey?: boolean;
         unique?: boolean;
+    }
+    export type CollectionAttribute = BaseAttribute & {
+        collection: string;
+        via: string;
     }
     export type StringAttribute = BaseAttribute & {
         type: 'string';

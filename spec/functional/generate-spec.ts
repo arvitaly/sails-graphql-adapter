@@ -44,6 +44,15 @@ describe("Generate functional tests", () => {
         const schema = generate(sails);
         expect(j(await graphql(schema, `query Q1 {model1(nameContains:"fe"){name}}`))).toEqual({ model1: null });
     })
+    pit("when args has In and model in one of values, should return one record", async () => {
+        await sails.models["model1"].create({ num: 14 });
+        const schema = generate(sails);
+        expect(j(await graphql(schema, `query Q1 {model1(numIn:[14,15]){num}}`))).toEqual({
+            model1: {
+                num: 14
+            }
+        });
+    })
     afterEach((done) => {
         if (sails) {
             app.lower(done);

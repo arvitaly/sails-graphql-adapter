@@ -9,7 +9,8 @@ exports.default = (model, args) => {
         }
     }
     for (let attrName in model.attributes) {
-        switch (model.attributes[attrName].type) {
+        let attrType = model.attributes[attrName].type;
+        switch (attrType) {
             case attribute_type_1.default.String:
                 if (args[attrName + "Contains"]) {
                     where[attrName] = { contains: args[attrName + "Contains"] };
@@ -24,6 +25,26 @@ exports.default = (model, args) => {
                     where[attrName] = { contains: args[attrName + "Like"] };
                 }
                 break;
+            case attribute_type_1.default.Float:
+            case attribute_type_1.default.Integer:
+            case attribute_type_1.default.Date:
+            case attribute_type_1.default.Datetime:
+                if (args[attrName + 'LessThan']) {
+                    where[attrName] = { lessThan: attrType === attribute_type_1.default.Date || attrType === attribute_type_1.default.Datetime ? new Date(args[attrName + 'LessThan']) : args[attrName + 'LessThan'] };
+                }
+                if (args[attrName + 'LessThanOrEqual']) {
+                    where[attrName] = { lessThanOrEqual: attrType === attribute_type_1.default.Date || attrType === attribute_type_1.default.Datetime ? new Date(args[attrName + 'LessThan']) : args[attrName + 'LessThanOrEqual'] };
+                }
+                if (args[attrName + 'GreaterThan']) {
+                    where[attrName] = { greaterThan: attrType === attribute_type_1.default.Date || attrType === attribute_type_1.default.Datetime ? new Date(args[attrName + 'LessThan']) : args[attrName + 'GreaterThan'] };
+                }
+                if (args[attrName + 'GreaterThanOrEqual']) {
+                    where[attrName] = { greaterThanOrEqual: attrType === attribute_type_1.default.Date || attrType === attribute_type_1.default.Datetime ? new Date(args[attrName + 'LessThan']) : args[attrName + 'GreaterThanOrEqual'] };
+                }
+                break;
+        }
+        if (args[attrName + "In"]) {
+            where[attrName] = args[attrName + "In"];
         }
     }
     return {

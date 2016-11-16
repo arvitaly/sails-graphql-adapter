@@ -6,36 +6,15 @@ function default_1(model) {
     model.mapAttributes((attr) => {
         switch (attr.type) {
             case attribute_type_1.default.String:
-                args[attr.name] = {
-                    type: graphql_1.GraphQLString,
-                    defaultValue: null,
-                    description: attr.name
-                };
-                args[attr.name + "Contains"] = {
-                    type: graphql_1.GraphQLString,
-                    defaultValue: null,
-                    description: attr.name
-                };
-                args[attr.name + "StartsWith"] = {
-                    type: graphql_1.GraphQLString,
-                    defaultValue: null,
-                    description: attr.name
-                };
-                args[attr.name + "EndsWith"] = {
-                    type: graphql_1.GraphQLString,
-                    defaultValue: null,
-                    description: attr.name
-                };
-                args[attr.name + "Like"] = {
-                    type: graphql_1.GraphQLString,
-                    defaultValue: null,
-                    description: attr.name
-                };
-                args[attr.name + "In"] = {
-                    defaultValue: null,
-                    description: attr.name,
-                    type: new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(graphql_1.GraphQLString)),
-                };
+                args[attr.name] = { type: graphql_1.GraphQLString };
+                args[attr.name + "Contains"] = { type: graphql_1.GraphQLString };
+                args[attr.name + "StartsWith"] = { type: graphql_1.GraphQLString };
+                args[attr.name + "EndsWith"] = { type: graphql_1.GraphQLString };
+                args[attr.name + "Like"] = { type: graphql_1.GraphQLString };
+                args[attr.name + "In"] = { type: new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(graphql_1.GraphQLString)) };
+                break;
+            case attribute_type_1.default.Integer:
+                args[attr.name + "In"] = { type: new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(graphql_1.GraphQLInt)) };
                 break;
         }
     });

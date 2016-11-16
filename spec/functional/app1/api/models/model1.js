@@ -1,6 +1,7 @@
 "use strict";
 module.exports = {
     attributes: {
-        name: "string"
+        name: "string",
+        num: "integer"
     }
 };

@@ -1,4 +1,4 @@
-import { GraphQLFieldConfigArgumentMap, GraphQLString, GraphQLList, GraphQLNonNull } from 'graphql';
+import { GraphQLFieldConfigArgumentMap, GraphQLString, GraphQLList, GraphQLNonNull, GraphQLInt } from 'graphql';
 import { Model } from './../model';
 import AttributeType from './../model/attribute-type';
 export default function (model: Model): GraphQLFieldConfigArgumentMap {
@@ -6,36 +6,15 @@ export default function (model: Model): GraphQLFieldConfigArgumentMap {
     model.mapAttributes((attr) => {
         switch (attr.type) {
             case AttributeType.String:
-                args[attr.name] = {
-                    type: GraphQLString,
-                    defaultValue: null,
-                    description: attr.name
-                }
-                args[attr.name + "Contains"] = {
-                    type: GraphQLString,
-                    defaultValue: null,
-                    description: attr.name
-                }
-                args[attr.name + "StartsWith"] = {
-                    type: GraphQLString,
-                    defaultValue: null,
-                    description: attr.name
-                }
-                args[attr.name + "EndsWith"] = {
-                    type: GraphQLString,
-                    defaultValue: null,
-                    description: attr.name
-                }
-                args[attr.name + "Like"] = {
-                    type: GraphQLString,
-                    defaultValue: null,
-                    description: attr.name
-                }
-                args[attr.name + "In"] = {
-                    defaultValue: null,
-                    description: attr.name,
-                    type: new GraphQLList(new GraphQLNonNull(GraphQLString)),
-                }
+                args[attr.name] = { type: GraphQLString }
+                args[attr.name + "Contains"] = { type: GraphQLString }
+                args[attr.name + "StartsWith"] = { type: GraphQLString }
+                args[attr.name + "EndsWith"] = { type: GraphQLString }
+                args[attr.name + "Like"] = { type: GraphQLString }
+                args[attr.name + "In"] = { type: new GraphQLList(new GraphQLNonNull(GraphQLString)) }
+                break;
+            case AttributeType.Integer:
+                args[attr.name + "In"] = { type: new GraphQLList(new GraphQLNonNull(GraphQLInt)) }
                 break;
         }
     })

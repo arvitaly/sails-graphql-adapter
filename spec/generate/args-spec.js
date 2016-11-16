@@ -8,36 +8,12 @@ describe("Args for model spec", () => {
     it("when attribute is string, should create name, nameContains, nameStartsWith, nameEndsWith, nameLike args", () => {
         const defaultStr1 = "def";
         const expected = {
-            str1: {
-                type: graphql_1.GraphQLString,
-                defaultValue: null,
-                description: "str1"
-            },
-            str1Contains: {
-                type: graphql_1.GraphQLString,
-                defaultValue: null,
-                description: "str1"
-            },
-            str1EndsWith: {
-                type: graphql_1.GraphQLString,
-                defaultValue: null,
-                description: "str1"
-            },
-            str1StartsWith: {
-                type: graphql_1.GraphQLString,
-                defaultValue: null,
-                description: "str1"
-            },
-            str1Like: {
-                type: graphql_1.GraphQLString,
-                defaultValue: null,
-                description: "str1"
-            },
-            str1In: {
-                type: new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(graphql_1.GraphQLString)),
-                defaultValue: null,
-                description: "str1"
-            }
+            str1: { type: graphql_1.GraphQLString },
+            str1Contains: { type: graphql_1.GraphQLString },
+            str1EndsWith: { type: graphql_1.GraphQLString },
+            str1StartsWith: { type: graphql_1.GraphQLString },
+            str1Like: { type: graphql_1.GraphQLString },
+            str1In: { type: new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(graphql_1.GraphQLString)) }
         };
         const result = args_1.default(new model_1.Model({
             globalId: "Model1",

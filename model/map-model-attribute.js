@@ -10,6 +10,10 @@ exports.default = (name, attr) => {
         type = attr.type;
     }
     switch (("" + type).toLowerCase()) {
+        case "email":
+        case "mediumtext":
+        case "longtext":
+        case "json":
         case "string":
             outType = attribute_type_1.default.String;
             break;
@@ -27,6 +31,7 @@ exports.default = (name, attr) => {
     }
     if (attr['collection']) {
         outType = attribute_type_1.default.Collection;
+        model = attr.collection.toLowerCase();
     }
     if (!outType) {
         outType = attribute_type_1.default.String;
@@ -37,3 +42,21 @@ exports.default = (name, attr) => {
         type: outType
     };
 };
+/*
+Sails model attributes
+string
+text
+integer
+float
+date
+datetime
+boolean
+binary
+array
+json
+mediumtext
+longtext
+objectid
+
+email
+*/ 

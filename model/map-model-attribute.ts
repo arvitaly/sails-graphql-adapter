@@ -10,6 +10,10 @@ export default (name: string, attr: Waterline.Attribute): Attribute => {
         type = (attr as Waterline.BaseAttribute).type;
     }
     switch (("" + type).toLowerCase()) {
+        case "email":
+        case "mediumtext":
+        case "longtext":
+        case "json":
         case "string":
             outType = AttributeType.String;
             break;
@@ -27,6 +31,7 @@ export default (name: string, attr: Waterline.Attribute): Attribute => {
     }
     if (attr['collection']) {
         outType = AttributeType.Collection;
+        model = (attr as Waterline.CollectionAttribute).collection.toLowerCase();
     }
     if (!outType) {
         outType = AttributeType.String
@@ -37,3 +42,21 @@ export default (name: string, attr: Waterline.Attribute): Attribute => {
         type: outType
     }
 }
+/*
+Sails model attributes
+string
+text
+integer
+float
+date
+datetime
+boolean
+binary
+array
+json
+mediumtext
+longtext
+objectid
+
+email
+*/

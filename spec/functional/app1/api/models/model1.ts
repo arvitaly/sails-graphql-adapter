@@ -1,5 +1,6 @@
 export = {
     attributes: {
-        name: "string"
+        name: "string",
+        num: "integer"
     }
 }
