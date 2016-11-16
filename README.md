@@ -48,3 +48,20 @@ This is lib create graphql api for Sails application. (In depelopment)
 
     npm install    
     npm test
+    
+# Todo
+
+- [ ] Node object
+- [ ] Queries
+    - [ ] Args
+        - [ ] Useful args
+    - [ ] Relay connection
+    - [ ] Populate
+- [ ] Mutations
+    - [ ] Update
+        - [ ] Submodel create
+    - [ ] Create
+        - [ ] Submodel create
+    - [ ] Remove
+    
+- [ ] Subscriptions
