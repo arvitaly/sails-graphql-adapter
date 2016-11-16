@@ -1,6 +1,13 @@
 {
   "data": {
-    "model1": []
+    "model1": [
+      {
+        "name": "test1",
+        "createdAt": "2016-11-16T16:24:56.350Z",
+        "updatedAt": "2016-11-16T16:24:56.350Z",
+        "id": 9
+      }
+    ]
   },
   "schema": {
     "model1": {
@@ -22,6 +29,8 @@
     }
   },
   "counters": {
-    "model1": {}
+    "model1": {
+      "id": 9
+    }
   }
 }

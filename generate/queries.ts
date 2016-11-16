@@ -1,25 +1,44 @@
 import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLObjectType, GraphQLList, GraphQLString } from 'graphql';
+import ResolveType from './../resolve/type';
 import Generator from './generator';
+import { Model } from './../model';
 import argsForModel from './args';
-export default function generateQueryForModel(model: Sails.Model, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> {
-    const modelType = generator.getType(model.identity);
+
+export default function generateQueryForModel(model: Model, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> {
+    const modelType = generator.getType(model.id);
     return [{
-        name: model.globalId,
+        name: model.name,
         field: {
             args: argsForModel(model),
-            description: model.globalId,
-            resolve: async (parent, args, context) => {
-                return (await model.find({ limit: 1 }))[0];
+            description: model.name,
+            resolve: (parent, args, context) => {
+                return generator.resolver.resolve({
+                    type: ResolveType.Model,
+                    identity: model.id,
+                    parentIdentity: null,
+                    attrName: null,
+                    root: parent,
+                    args: args,
+                    context: context
+                });
             },
             type: modelType
         }
     }, {
-        name: model.globalId + "s",
+        name: model.pluralizeQueryName,
         field: {
             args: argsForModel(model),
-            description: model.globalId,
-            resolve: async (parent, args, context) => {
-                return (await model.find({}));
+            description: "List of " + model.name,
+            resolve: (parent, args, context) => {
+                return generator.resolver.resolve({
+                    type: ResolveType.ListOfModel,
+                    identity: model.id,
+                    parentIdentity: null,
+                    attrName: null,
+                    root: parent,
+                    args: args,
+                    context: context
+                });
             },
             type: new GraphQLList(modelType)
         }

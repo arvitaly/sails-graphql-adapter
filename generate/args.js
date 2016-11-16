@@ -14,27 +14,27 @@ function default_1(model) {
         switch (type) {
             case "string":
                 args[attrName] = {
-                    type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+                    type: graphql_1.GraphQLString,
                     defaultValue: null,
                     description: attrName
                 };
                 args[attrName + "Contains"] = {
-                    type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+                    type: graphql_1.GraphQLString,
                     defaultValue: null,
                     description: attrName
                 };
                 args[attrName + "StartsWith"] = {
-                    type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+                    type: graphql_1.GraphQLString,
                     defaultValue: null,
                     description: attrName
                 };
                 args[attrName + "EndsWith"] = {
-                    type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+                    type: graphql_1.GraphQLString,
                     defaultValue: null,
                     description: attrName
                 };
                 args[attrName + "Like"] = {
-                    type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+                    type: graphql_1.GraphQLString,
                     defaultValue: null,
                     description: attrName
                 };

@@ -1,34 +1,43 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments)).next());
-    });
-};
 const graphql_1 = require('graphql');
+const type_1 = require('./../resolve/type');
 const args_1 = require('./args');
 function generateQueryForModel(model, generator) {
-    const modelType = generator.getType(model.identity);
+    const modelType = generator.getType(model.id);
     return [{
-            name: model.globalId,
+            name: model.name,
             field: {
                 args: args_1.default(model),
-                description: model.globalId,
-                resolve: (parent, args, context) => __awaiter(this, void 0, void 0, function* () {
-                    return (yield model.find({ limit: 1 }))[0];
-                }),
+                description: model.name,
+                resolve: (parent, args, context) => {
+                    return generator.resolver.resolve({
+                        type: type_1.default.Model,
+                        identity: model.id,
+                        parentIdentity: null,
+                        attrName: null,
+                        root: parent,
+                        args: args,
+                        context: context
+                    });
+                },
                 type: modelType
             }
         }, {
-            name: model.globalId + "s",
+            name: model.pluralizeQueryName,
             field: {
                 args: args_1.default(model),
-                description: model.globalId,
-                resolve: (parent, args, context) => __awaiter(this, void 0, void 0, function* () {
-                    return (yield model.find({}));
-                }),
+                description: "List of " + model.name,
+                resolve: (parent, args, context) => {
+                    return generator.resolver.resolve({
+                        type: type_1.default.ListOfModel,
+                        identity: model.id,
+                        parentIdentity: null,
+                        attrName: null,
+                        root: parent,
+                        args: args,
+                        context: context
+                    });
+                },
                 type: new graphql_1.GraphQLList(modelType)
             }
         }];

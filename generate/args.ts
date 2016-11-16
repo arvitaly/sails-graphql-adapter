@@ -12,27 +12,27 @@ export default function (model: Sails.Model): GraphQLFieldConfigArgumentMap {
         switch (type) {
             case "string":
                 args[attrName] = {
-                    type: new GraphQLNonNull(GraphQLString),
+                    type: GraphQLString,
                     defaultValue: null,
                     description: attrName
                 }
                 args[attrName + "Contains"] = {
-                    type: new GraphQLNonNull(GraphQLString),
+                    type: GraphQLString,
                     defaultValue: null,
                     description: attrName
                 }
                 args[attrName + "StartsWith"] = {
-                    type: new GraphQLNonNull(GraphQLString),
+                    type: GraphQLString,
                     defaultValue: null,
                     description: attrName
                 }
                 args[attrName + "EndsWith"] = {
-                    type: new GraphQLNonNull(GraphQLString),
+                    type: GraphQLString,
                     defaultValue: null,
                     description: attrName
                 }
                 args[attrName + "Like"] = {
-                    type: new GraphQLNonNull(GraphQLString),
+                    type: GraphQLString,
                     defaultValue: null,
                     description: attrName
                 }

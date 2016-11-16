@@ -12,29 +12,29 @@ function generate(models: { [index: string]: Sails.Model }): GraphQLSchema {
         queriesForModel(models[modelName], generator).map(({name, field}) => {
             queryTypeFields[name] = field;
         })
-        mutationsForModel(models[modelName], generator).map(({name, field}) => {
+        /*mutationsForModel(models[modelName], generator).map(({name, field}) => {
             mutationTypeFields[name] = field;
         })
         subscriptionsForModel(models[modelName], generator).map(({name, field}) => {
             mutationTypeFields[name] = field;
-        })
+        })*/
     }
     const queryType = new GraphQLObjectType({
         name: "Query",
         fields: queryTypeFields
     })
-    const mutationType = new GraphQLObjectType({
+    /*const mutationType = new GraphQLObjectType({
         name: 'Mutation',
         fields: mutationTypeFields
     });
     const subscriptionType = new GraphQLObjectType({
         name: "Subscription",
         fields: subscriptionTypeFields
-    })
+    })*/
     const schema = new GraphQLSchema({
-        query: queryType,
+        query: queryType/*,
         mutation: mutationType,
-        subscription: subscriptionType
+        subscription: subscriptionType*/
     });
     return schema;
 }

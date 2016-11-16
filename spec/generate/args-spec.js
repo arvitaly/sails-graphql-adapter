@@ -1,6 +1,6 @@
 "use strict";
 const graphql_1 = require('graphql');
-const args_1 = require('./../generate/args');
+const args_1 = require('./../../generate/args');
 describe("Args for model spec", () => {
     it("when attribute not object (only string-type), should convert it to object with default type params", () => {
     });
@@ -8,27 +8,27 @@ describe("Args for model spec", () => {
         const defaultStr1 = "def";
         const expected = {
             str1: {
-                type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+                type: graphql_1.GraphQLString,
                 defaultValue: null,
                 description: "str1"
             },
             str1Contains: {
-                type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+                type: graphql_1.GraphQLString,
                 defaultValue: null,
                 description: "str1"
             },
             str1EndsWith: {
-                type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+                type: graphql_1.GraphQLString,
                 defaultValue: null,
                 description: "str1"
             },
             str1StartsWith: {
-                type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+                type: graphql_1.GraphQLString,
                 defaultValue: null,
                 description: "str1"
             },
             str1Like: {
-                type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+                type: graphql_1.GraphQLString,
                 defaultValue: null,
                 description: "str1"
             },

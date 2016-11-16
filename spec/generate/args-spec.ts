@@ -1,5 +1,5 @@
 import { GraphQLFieldConfigArgumentMap, GraphQLString, GraphQLList, GraphQLNonNull } from 'graphql';
-import argsForModel from './../generate/args';
+import argsForModel from './../../generate/args';
 describe("Args for model spec", () => {
     it("when attribute not object (only string-type), should convert it to object with default type params", () => {
 
@@ -8,27 +8,27 @@ describe("Args for model spec", () => {
         const defaultStr1 = "def";
         const expected: GraphQLFieldConfigArgumentMap = {
             str1: {
-                type: new GraphQLNonNull(GraphQLString),
+                type: GraphQLString,
                 defaultValue: null,
                 description: "str1"
             },
             str1Contains: {
-                type: new GraphQLNonNull(GraphQLString),
+                type: GraphQLString,
                 defaultValue: null,
                 description: "str1"
             },
             str1EndsWith: {
-                type: new GraphQLNonNull(GraphQLString),
+                type: GraphQLString,
                 defaultValue: null,
                 description: "str1"
             },
             str1StartsWith: {
-                type: new GraphQLNonNull(GraphQLString),
+                type: GraphQLString,
                 defaultValue: null,
                 description: "str1"
             },
             str1Like: {
-                type: new GraphQLNonNull(GraphQLString),
+                type: GraphQLString,
                 defaultValue: null,
                 description: "str1"
             },

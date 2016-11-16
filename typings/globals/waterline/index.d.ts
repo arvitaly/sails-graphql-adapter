@@ -78,6 +78,7 @@ declare namespace Waterline {
         registerConnection
         teardown
         define
+        findOne
         findOneById
         findOneByIdIn
         findOneByIdLike

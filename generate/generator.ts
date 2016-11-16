@@ -1,7 +1,9 @@
 import { GraphQLObjectType } from 'graphql';
 import generateTypeForModel from './type';
+import Resolver from './../resolve/resolver';
 class Generator implements Generator {
     types: { [index: string]: GraphQLObjectType } = {};
+    public resolver: Resolver;
     constructor(public models: { [index: string]: Sails.Model }) {
 
     }

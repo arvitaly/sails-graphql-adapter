@@ -4,7 +4,7 @@ import generate from './../../generate'
 const SailsConstructor = Sails.constructor;
 describe("Generate functional tests", () => {
     let sails: Sails.Sails, app: Sails.App;
-    beforeAll((done) => {
+    beforeEach((done) => {
         app = new SailsConstructor();
         app.load({
             log: {
@@ -26,17 +26,22 @@ describe("Generate functional tests", () => {
     })
     it("Test", async (done) => {
         try {
+            await sails.models["model1"].create({name: "test1"});
             const schema = generate(sails.models);
-            graphql(schema, `query Q1 {model1{name}}`).catch((err) => {
-                fail(err);
-                done();
-            })
+            expect(j(await graphql(schema, `query Q1 {model1(nameContains:"ghj"){name}}`))).toEqual({
+                data:{
+                    model1:{
+                        name: "test1"
+                    }
+                }
+            });
+            done();
         } catch (e) {
             fail(e);
             done()
         }
     })
-    afterAll((done) => {
+    afterEach((done) => {
         if (sails) {
             app.lower(done);
         } else {
@@ -44,3 +49,6 @@ describe("Generate functional tests", () => {
         }
     })
 })
+function j(data) {
+    return JSON.parse(JSON.stringify(data));
+}

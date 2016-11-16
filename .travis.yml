@@ -3,7 +3,7 @@ node_js:
   - "6"
 install:
   - npm install
-  - cd spec/functional/app && npm install
+  - cd spec/functional/app1 && npm install
 script:
   - npm test
 after_script: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
