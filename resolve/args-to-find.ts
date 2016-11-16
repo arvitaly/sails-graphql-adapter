@@ -29,7 +29,7 @@ export default (model: Model, args) => {
                     where[attrName] = { contains: args[attrName + "EndsWith"] };
                 }
                 if (args[attrName + "Like"]) {
-                    where[attrName] = { contains: args[attrName + "Like"] };
+                    where[attrName] = { like: args[attrName + "Like"] };
                 }
                 break;
             case AttributeType.Float:

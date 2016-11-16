@@ -23,7 +23,7 @@ exports.default = (model, args) => {
                     where[attrName] = { contains: args[attrName + "EndsWith"] };
                 }
                 if (args[attrName + "Like"]) {
-                    where[attrName] = { contains: args[attrName + "Like"] };
+                    where[attrName] = { like: args[attrName + "Like"] };
                 }
                 break;
             case attribute_type_1.default.Float:
