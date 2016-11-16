@@ -38,6 +38,7 @@
     "sails": "^0.12.9",
     "sails-disk": "^0.10.10",
     "sails-memory": "^0.10.7",
+    "typescript": "^2.0.10",
     "waterline": "^0.11.6"
   }
 }
