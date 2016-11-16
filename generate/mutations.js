@@ -9,58 +9,64 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const graphql_1 = require('graphql');
 const graphql_relay_1 = require('graphql-relay');
+const attribute_type_1 = require('./../model/attribute-type');
 const capitalize_1 = require('./../utils/capitalize');
-const map_model_attributes_1 = require('./map-model-attributes');
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (model, generator) => {
-    const modelType = generator.getType(model.identity);
+exports.default = (id, generator) => {
+    const model = generator.getModel(id);
+    const modelType = generator.getType(model.id);
     let mutations = [];
-    const updateMutationName = "MutationUpdate" + capitalize_1.default(modelName);
+    const updateMutationName = "MutationUpdate" + capitalize_1.default(model.name);
     let updateMutationInputFields = {
         id: {
             type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLInt)
         }
     };
     let updateMutationOutputFields = {};
-    map_model_attributes_1.default(model._attributes).map(({ name, type, graphqlType }) => {
-        if (!graphqlType) {
-            return;
-        }
+    model.mapAttributes((attr) => {
         let fields = {};
-        fields[name] = {
-            type: graphqlType
-        };
-        updateMutationInputFields["set" + capitalize_1.default(name)] = {
+        switch (attr.type) {
+            case attribute_type_1.default.String:
+                fields[attr.name] = { type: graphql_1.GraphQLString };
+                break;
+            case attribute_type_1.default.Integer:
+                fields[attr.name] = { type: graphql_1.GraphQLInt };
+                break;
+            case attribute_type_1.default.Float:
+                fields[attr.name] = { type: graphql_1.GraphQLFloat };
+                break;
+        }
+        updateMutationInputFields["set" + capitalize_1.default(attr.name)] = {
             type: new graphql_1.GraphQLInputObjectType({
                 name: updateMutationName + "Set" + capitalize_1.default(name),
-                description: modelName,
+                description: model.name,
                 fields: fields
             })
         };
     });
-    updateMutationOutputFields[modelName] = {
+    updateMutationOutputFields[model.queryName] = {
         type: modelType
     };
     const updateMutation = graphql_relay_1.mutationWithClientMutationId({
         inputFields: updateMutationInputFields,
         mutateAndGetPayload: (args) => __awaiter(this, void 0, void 0, function* () {
-            let outputModel = {};
-            map_model_attributes_1.default(model._attributes).map(({ name, type, graphqlType }) => {
-                const setName = "set" + capitalize_1.default(name);
+            /*let outputModel = {};
+            mapAttrs(model._attributes).map(({name, type, graphqlType}) => {
+                const setName = "set" + capitalize(name);
                 if (typeof (args[setName]) !== "undefined") {
                     outputModel[name] = args[setName][name];
                 }
-            });
-            const results = yield model.update({ where: { id: args.id } }, outputModel);
+            })
+            const results = await model.update({ where: { id: args.id } }, outputModel);
             let ret = { clientMutationId: args.clientMutationId };
             ret[modelName] = results[0];
-            return ret;
+            return ret;*/
         }),
         name: updateMutationName,
         outputFields: updateMutationOutputFields
     });
     mutations.push({
-        name: "update" + capitalize_1.default(modelName),
+        name: "update" + capitalize_1.default(model.name),
         field: updateMutation
     });
     return mutations;

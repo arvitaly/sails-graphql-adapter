@@ -11,7 +11,7 @@ const graphql_1 = require('graphql');
 const Sails = require('sails');
 const generate_1 = require('./../../generate');
 const SailsConstructor = Sails.constructor;
-fdescribe("Generate functional tests", () => {
+describe("Generate functional tests", () => {
     let sails, app;
     beforeEach((done) => {
         app = new SailsConstructor();
@@ -20,7 +20,13 @@ fdescribe("Generate functional tests", () => {
                 level: "warn"
             },
             models: {
+                connection: "memory",
                 migrate: "drop"
+            },
+            connections: {
+                memory: {
+                    adapter: "sails-memory"
+                }
             },
             appPath: __dirname + "/app1"
         }, (err, sails_) => {

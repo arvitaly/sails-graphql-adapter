@@ -1,43 +1,49 @@
-import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLNonNull, GraphQLInt, GraphQLInputFieldConfigMap, GraphQLInputObjectType, GraphQLObjectType, GraphQLList, GraphQLString } from 'graphql';
+import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLNonNull, GraphQLInt, GraphQLFloat, GraphQLInputFieldConfigMap, GraphQLInputObjectType, GraphQLObjectType, GraphQLList, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 import Generator from './generator';
+import AttributeType from './../model/attribute-type';
 import capitalize from './../utils/capitalize';
-import mapAttrs from './map-model-attributes';
-export default (model: Sails.Model, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {
-    const modelType = generator.getType(model.identity);
+export default (id: string, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {
+    const model = generator.getModel(id);
+    const modelType = generator.getType(model.id);
     let mutations: Array<{ name: string, field: GraphQLFieldConfig<any> }> = [];
-    const updateMutationName = "MutationUpdate" + capitalize(modelName);
+    const updateMutationName = "MutationUpdate" + capitalize(model.name);
     let updateMutationInputFields: GraphQLInputFieldConfigMap = {
         id: {
             type: new GraphQLNonNull(GraphQLInt)
         }
     };
     let updateMutationOutputFields: GraphQLFieldConfigMap<any> = {};
-    mapAttrs(model._attributes).map(({name, type, graphqlType}) => {
-        if (!graphqlType) {
-            return;
-        }
+    model.mapAttributes((attr) => {
         let fields: GraphQLInputFieldConfigMap = {
 
         };
-        fields[name] = {
-            type: graphqlType
+        switch (attr.type) {
+            case AttributeType.String:
+                fields[attr.name] = { type: GraphQLString };
+                break;
+            case AttributeType.Integer:
+                fields[attr.name] = { type: GraphQLInt };
+                break;
+            case AttributeType.Float:
+                fields[attr.name] = { type: GraphQLFloat };
+                break;
         }
-        updateMutationInputFields["set" + capitalize(name)] = {
+        updateMutationInputFields["set" + capitalize(attr.name)] = {
             type: new GraphQLInputObjectType({
                 name: updateMutationName + "Set" + capitalize(name),
-                description: modelName,
+                description: model.name,
                 fields: fields
             })
         }
     })
-    updateMutationOutputFields[modelName] = {
+    updateMutationOutputFields[model.queryName] = {
         type: modelType
     };
     const updateMutation: GraphQLFieldConfig<any> = mutationWithClientMutationId({
         inputFields: updateMutationInputFields,
         mutateAndGetPayload: async (args): Promise<any> => {
-            let outputModel = {};
+            /*let outputModel = {};
             mapAttrs(model._attributes).map(({name, type, graphqlType}) => {
                 const setName = "set" + capitalize(name);
                 if (typeof (args[setName]) !== "undefined") {
@@ -47,13 +53,13 @@ export default (model: Sails.Model, generator: Generator): Array<{ name: string,
             const results = await model.update({ where: { id: args.id } }, outputModel);
             let ret = { clientMutationId: args.clientMutationId };
             ret[modelName] = results[0];
-            return ret;
+            return ret;*/
         },
         name: updateMutationName,
         outputFields: updateMutationOutputFields
     })
     mutations.push({
-        name: "update" + capitalize(modelName),
+        name: "update" + capitalize(model.name),
         field: updateMutation
     })
 

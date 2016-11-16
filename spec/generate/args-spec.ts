@@ -1,5 +1,6 @@
 import { GraphQLFieldConfigArgumentMap, GraphQLString, GraphQLList, GraphQLNonNull } from 'graphql';
 import argsForModel from './../../generate/args';
+import { Model } from './../../model';
 describe("Args for model spec", () => {
     it("when attribute not object (only string-type), should convert it to object with default type params", () => {
 
@@ -38,7 +39,7 @@ describe("Args for model spec", () => {
                 description: "str1"
             }
         }
-        const result = argsForModel({
+        const result = argsForModel(new Model({
             globalId: "Model1",
             attributes: {
                 str1: {
@@ -46,7 +47,7 @@ describe("Args for model spec", () => {
                     defaultsTo: defaultStr1
                 }
             }
-        } as any);
+        } as any));
         expect(result).toEqual(expected);
     })
 })

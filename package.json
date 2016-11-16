@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover node_modules/jasmine/bin/jasmine.js",
+    "test": "tsc && istanbul cover node_modules/jasmine/bin/jasmine.js",
     "watch:test": "nodemon --exec jasmine"
   },
   "repository": {

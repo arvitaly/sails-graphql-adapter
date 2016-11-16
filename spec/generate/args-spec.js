@@ -1,6 +1,7 @@
 "use strict";
 const graphql_1 = require('graphql');
 const args_1 = require('./../../generate/args');
+const model_1 = require('./../../model');
 describe("Args for model spec", () => {
     it("when attribute not object (only string-type), should convert it to object with default type params", () => {
     });
@@ -38,7 +39,7 @@ describe("Args for model spec", () => {
                 description: "str1"
             }
         };
-        const result = args_1.default({
+        const result = args_1.default(new model_1.Model({
             globalId: "Model1",
             attributes: {
                 str1: {
@@ -46,7 +47,7 @@ describe("Args for model spec", () => {
                     defaultsTo: defaultStr1
                 }
             }
-        });
+        }));
         expect(result).toEqual(expected);
     });
 });

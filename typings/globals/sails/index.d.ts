@@ -4,13 +4,19 @@ declare namespace Sails {
     export interface Sails {
         models: { [index: string]: Sails.Model };
     }
+    export interface Connection {
+        adapter?: string;
+    }
     export interface AppConfig {
         log?: {
             level?: 'warn'
         }
         models?: {
             migrate?: "alter" | "safe" | "drop",
-            connection?: "string"
+            connection?: string;
+        }
+        connections?: {
+            [index: string]: Connection;
         }
         appPath?: string
     }

@@ -6,29 +6,29 @@ export interface Attribute {
     type: AttributeType;
     model?: string;
 }
-export interface Model {
+export class Model {
     id: string;
     pluralizeQueryName: string;
     name: string;
     queryName: string;
+    attrsArray?: Array<Attribute>;
     attributes?: { [index: string]: Attribute };
-    mapAttributes<T>(cb: (attr: Attribute) => T): Array<T>
+    mapAttributes<T>(cb: (attr: Attribute) => T): Array<T> {
+        return this.attrsArray.map(cb);
+    }
+    constructor(sailsModel: Sails.Model) {
+        this.attributes = {};
+        this.attrsArray = [];
+        for (let attrName in sailsModel.attributes) {
+            this.attributes[attrName] = convertAttribute(attrName, sailsModel.attributes[attrName]);
+            this.attrsArray.push(this.attributes[attrName]);
+        }
+        this.queryName = decapitalize(sailsModel.globalId);
+        this.id = sailsModel.identity;
+        this.name = sailsModel.globalId;
+        this.pluralizeQueryName = this.queryName + "s";
+    }
 }
 export default (sailsModel: Sails.Model): Model => {
-    let attributes = {};
-    let attrsArray = [];
-    for (let attrName in sailsModel.attributes) {
-        attributes[attrName] = convertAttribute(attrName, sailsModel.attributes[attrName]);
-        attrsArray.push(attributes[attrName]);
-    }
-    const queryName = decapitalize(sailsModel.globalId);
-    let model = {
-        id: sailsModel.identity,
-        name: sailsModel.globalId,
-        queryName: queryName,
-        pluralizeQueryName: queryName + "s",
-        attributes: attributes,
-        mapAttributes: attrsArray.map.bind(attrsArray)
-    };
-    return model;
+    return new Model(sailsModel);
 }
