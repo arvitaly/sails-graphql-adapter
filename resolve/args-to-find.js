@@ -2,7 +2,7 @@
 const attribute_type_1 = require('./../model/attribute-type');
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (model, args) => {
-    let where = {}, sort, skip, limit;
+    let where = {};
     for (let argName in args) {
         if (model.attributes[argName]) {
             where[argName] = args[argName];
@@ -49,8 +49,8 @@ exports.default = (model, args) => {
     }
     return {
         where: where,
-        sort: sort,
-        skip: skip,
-        limit: limit
+        sort: args.sort,
+        skip: args.skip,
+        limit: args.limit
     };
 };

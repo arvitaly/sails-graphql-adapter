@@ -7,7 +7,7 @@ export interface FindParams {
     limit?: number;
 }
 export default (model: Model, args) => {
-    let where = {}, sort, skip, limit;
+    let where = {};
     for (let argName in args) {
         if (model.attributes[argName]) {
             where[argName] = args[argName];
@@ -51,11 +51,11 @@ export default (model: Model, args) => {
         if (args[attrName + "In"]) {
             where[attrName] = args[attrName + "In"];
         }
-    }    
+    }
     return {
         where: where,
-        sort: sort,
-        skip: skip,
-        limit: limit
+        sort: args.sort,
+        skip: args.skip,
+        limit: args.limit
     }
 }
