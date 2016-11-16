@@ -24,6 +24,9 @@ export default (name: string, attr: Waterline.Attribute): Attribute => {
         case "float":
             outType = AttributeType.Float;
         break;
+        case "date":
+            outType = AttributeType.Date;
+            break;        
         case "datetime":
             outType = AttributeType.Datetime;
             break;

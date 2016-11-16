@@ -1,7 +1,7 @@
 {
   "name": "sails-graphql-adapter",
-  "version": "0.0.5",
-  "description": "",
+  "version": "0.0.6",
+  "description": "This is lib create graphql api for Sails application. (In depelopment)",
   "main": "index.js",
   "scripts": {
     "test": "tsc && istanbul cover node_modules/jasmine/bin/jasmine.js",
