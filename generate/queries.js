@@ -2,7 +2,8 @@
 const graphql_1 = require('graphql');
 const type_1 = require('./../resolve/type');
 const args_1 = require('./args');
-function generateQueryForModel(model, generator) {
+function generateQueryForModel(id, generator) {
+    const model = generator.getModel(id);
     const modelType = generator.getType(model.id);
     return [{
             name: model.name,

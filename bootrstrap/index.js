@@ -9,7 +9,7 @@ exports.default = (config, cb) => {
     config.schemaFile = config.schemaFile || process.cwd() + "/assets/schema.graphql";
     config.isPrintJSONSchemaToFile = config.isPrintJSONSchemaToFile === false ? false : true;
     config.jsonSchemaFile = config.jsonSchemaFile || process.cwd() + "/assets/schema.json";
-    const schema = generate_1.default(sails.models);
+    const schema = generate_1.default(sails);
     sails['schema'] = schema;
     //writings
     let promises = [];

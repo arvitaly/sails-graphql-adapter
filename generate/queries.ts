@@ -3,8 +3,8 @@ import ResolveType from './../resolve/type';
 import Generator from './generator';
 import { Model } from './../model';
 import argsForModel from './args';
-
-export default function generateQueryForModel(model: Model, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> {
+export default function generateQueryForModel(id: string, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> {
+    const model = generator.getModel(id);    
     const modelType = generator.getType(model.id);
     return [{
         name: model.name,

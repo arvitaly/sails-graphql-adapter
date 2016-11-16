@@ -2,7 +2,9 @@ import AttributeType from './attribute-type';
 import decapitalize from './../utils/decapitalize';
 import convertAttribute from './map-model-attribute';
 export interface Attribute {
+    name: string;
     type: AttributeType;
+    model?: string;
 }
 export interface Model {
     id: string;
@@ -10,11 +12,14 @@ export interface Model {
     name: string;
     queryName: string;
     attributes?: { [index: string]: Attribute };
+    mapAttributes<T>(cb: (attr: Attribute) => T): Array<T>
 }
 export default (sailsModel: Sails.Model): Model => {
     let attributes = {};
+    let attrsArray = [];
     for (let attrName in sailsModel.attributes) {
-        attributes[attrName] = convertAttribute(sailsModel.attributes[attrName]);
+        attributes[attrName] = convertAttribute(attrName, sailsModel.attributes[attrName]);
+        attrsArray.push(attributes[attrName]);
     }
     const queryName = decapitalize(sailsModel.globalId);
     let model = {
@@ -22,7 +27,8 @@ export default (sailsModel: Sails.Model): Model => {
         name: sailsModel.globalId,
         queryName: queryName,
         pluralizeQueryName: queryName + "s",
-        attributes: attributes
+        attributes: attributes,
+        mapAttributes: attrsArray.map.bind(attrsArray)
     };
     return model;
 }

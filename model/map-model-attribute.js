@@ -1,8 +1,8 @@
 "use strict";
 const attribute_type_1 = require('./attribute-type');
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (attr) => {
-    let type = "", outType;
+exports.default = (name, attr) => {
+    let type = "", outType, model = "";
     if (typeof (attr) === "string") {
         type = attr;
     }
@@ -23,6 +23,7 @@ exports.default = (attr) => {
     }
     if (attr['model']) {
         outType = attribute_type_1.default.Model;
+        model = attr.model.toLowerCase();
     }
     if (attr['collection']) {
         outType = attribute_type_1.default.Collection;
@@ -31,6 +32,8 @@ exports.default = (attr) => {
         outType = attribute_type_1.default.String;
     }
     return {
+        name: name,
+        model: model,
         type: outType
     };
 };

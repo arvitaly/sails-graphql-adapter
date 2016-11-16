@@ -1,38 +1,56 @@
-import { GraphQLFieldConfigMap, GraphQLObjectType } from 'graphql';
+import { GraphQLFieldConfigMap, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLUnionType } from 'graphql';
 import Generator from './generator';
-import capitalize from './../utils/capitalize';
-import AttributeType from './attribute-type';
-import mapAttrs from './map-model-attributes';
-export default (model: Sails.Model, generator: Generator) => {
+import ResolveType from './../resolve/type';
+import { Model } from './../model';
+import AttributeType from './../model/attribute-type';
+export default (model: Model, generator: Generator) => {
     let fields: GraphQLFieldConfigMap<any> = {};
-    mapAttrs(model.attributes).map(({name, type, graphqlType, attribute}) => {
-        if (graphqlType !== null) {
-            fields[name] = {
+    model.mapAttributes((attr) => {
+        if (attr.type === AttributeType.Model) {
+            fields[attr.name] = {
                 args: {},
-                type: graphqlType,
-                deprecationReason: "",
-                description: name
+                type: generator.getType(attr.model),
+                description: attr.name,
+                resolve: async (parent, args, context) => {
+                    return generator.resolver.resolve({
+                        attrName: attr.name,
+                        type: ResolveType.Submodel,
+                        identity: model.id,
+                        parentIdentity: attr.model,
+                        root: parent,
+                        args: args,
+                        context: context
+                    })
+                }
             }
         } else {
-            switch (type) {
-                case AttributeType.Model:
-                    let childModelName = (attribute as Waterline.ModelAttribute).model;
-                    fields[name] = {
-                        args: {},
-                        type: generator.getType(childModelName),
-                        deprecationReason: "",
-                        description: name,
-                        resolve: async (parent, b, c) => {
-                            return (await generator.models[childModelName].findById(parent[name]))[0];
-                        }
-                    }
+            let graphqlType;
+            switch (attr.type) {
+                case AttributeType.String:
+                    graphqlType = GraphQLString;
                     break;
+                case AttributeType.Integer:
+                    graphqlType = GraphQLInt;
+                    break;
+                case AttributeType.Float:
+                    graphqlType = GraphQLFloat;
+                    break;
+                case AttributeType.Datetime:
+                    graphqlType = GraphQLString;
+                    break;
+                default:
+                    throw new Error("Not supported type " + attr.type);
+            }
+            fields[attr.name] = {
+                args: {},
+                type: graphqlType,
+                description: attr.name
             }
         }
     })
     return new GraphQLObjectType({
-        name: model.globalId,
-        description: model.globalId,
+        name: model.name,
+        description: model.name,
         fields: fields,
         interfaces: []
     })

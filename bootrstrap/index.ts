@@ -14,7 +14,7 @@ export default (config: IConfig, cb) => {
     config.isPrintJSONSchemaToFile = config.isPrintJSONSchemaToFile === false ? false : true;
     config.jsonSchemaFile = config.jsonSchemaFile || process.cwd() + "/assets/schema.json";
 
-    const schema = generate(sails.models);
+    const schema = generate(sails);
     sails['schema'] = schema;
     //writings
     let promises: Array<Promise<any>> = [];

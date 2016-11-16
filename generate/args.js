@@ -1,51 +1,44 @@
 "use strict";
 const graphql_1 = require('graphql');
+const attribute_type_1 = require('./../model/attribute-type');
 function default_1(model) {
     let args = {};
-    for (let attrName in model.attributes) {
-        let attr = model.attributes[attrName];
-        let type;
-        if (typeof (attr) === "string") {
-            type = attr;
-        }
-        else {
-            type = attr.type;
-        }
-        switch (type) {
-            case "string":
-                args[attrName] = {
+    model.mapAttributes((attr) => {
+        switch (attr.type) {
+            case attribute_type_1.default.String:
+                args[attr.name] = {
                     type: graphql_1.GraphQLString,
                     defaultValue: null,
-                    description: attrName
+                    description: attr.name
                 };
-                args[attrName + "Contains"] = {
+                args[attr.name + "Contains"] = {
                     type: graphql_1.GraphQLString,
                     defaultValue: null,
-                    description: attrName
+                    description: attr.name
                 };
-                args[attrName + "StartsWith"] = {
+                args[attr.name + "StartsWith"] = {
                     type: graphql_1.GraphQLString,
                     defaultValue: null,
-                    description: attrName
+                    description: attr.name
                 };
-                args[attrName + "EndsWith"] = {
+                args[attr.name + "EndsWith"] = {
                     type: graphql_1.GraphQLString,
                     defaultValue: null,
-                    description: attrName
+                    description: attr.name
                 };
-                args[attrName + "Like"] = {
+                args[attr.name + "Like"] = {
                     type: graphql_1.GraphQLString,
                     defaultValue: null,
-                    description: attrName
+                    description: attr.name
                 };
-                args[attrName + "In"] = {
+                args[attr.name + "In"] = {
                     defaultValue: null,
-                    description: attrName,
+                    description: attr.name,
                     type: new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(graphql_1.GraphQLString)),
                 };
                 break;
         }
-    }
+    });
     return args;
 }
 Object.defineProperty(exports, "__esModule", { value: true });

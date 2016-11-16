@@ -1,8 +1,8 @@
 import { graphql } from 'graphql';
 import * as Sails from 'sails';
-import generate from './../../generate'
+import generate from './../../generate';
 const SailsConstructor = Sails.constructor;
-describe("Generate functional tests", () => {
+fdescribe("Generate functional tests", () => {
     let sails: Sails.Sails, app: Sails.App;
     beforeEach((done) => {
         app = new SailsConstructor();
@@ -24,22 +24,19 @@ describe("Generate functional tests", () => {
             done();
         })
     })
-    it("Test", async (done) => {
-        try {
-            await sails.models["model1"].create({name: "test1"});
-            const schema = generate(sails.models);
-            expect(j(await graphql(schema, `query Q1 {model1(nameContains:"ghj"){name}}`))).toEqual({
-                data:{
-                    model1:{
-                        name: "test1"
-                    }
-                }
-            });
-            done();
-        } catch (e) {
-            fail(e);
-            done()
-        }
+    pit("when args has nameContains and name contains it, should return one record", async () => {
+        await sails.models["model1"].create({ name: "test1" });
+        const schema = generate(sails);
+        expect(j(await graphql(schema, `query Q1 {model1(nameContains:"te"){name}}`))).toEqual({
+            model1: {
+                name: "test1"
+            }
+        });
+    })
+    pit("when args has nameContains and name not contains it, should return null", async () => {
+        await sails.models["model1"].create({ name: "test1" });
+        const schema = generate(sails);
+        expect(j(await graphql(schema, `query Q1 {model1(nameContains:"fe"){name}}`))).toEqual({ model1: null });
     })
     afterEach((done) => {
         if (sails) {
@@ -50,5 +47,5 @@ describe("Generate functional tests", () => {
     })
 })
 function j(data) {
-    return JSON.parse(JSON.stringify(data));
+    return JSON.parse(JSON.stringify(data)).data;
 }

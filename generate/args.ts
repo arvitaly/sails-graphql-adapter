@@ -1,48 +1,43 @@
 import { GraphQLFieldConfigArgumentMap, GraphQLString, GraphQLList, GraphQLNonNull } from 'graphql';
-export default function (model: Sails.Model): GraphQLFieldConfigArgumentMap {
+import { Model } from './../model';
+import AttributeType from './../model/attribute-type';
+export default function (model: Model): GraphQLFieldConfigArgumentMap {
     let args: GraphQLFieldConfigArgumentMap = {};
-    for (let attrName in model.attributes) {
-        let attr = model.attributes[attrName];
-        let type: string;
-        if (typeof (attr) === "string") {
-            type = attr;
-        } else {
-            type = (attr as Waterline.BaseAttribute).type;
-        }
-        switch (type) {
-            case "string":
-                args[attrName] = {
+    model.mapAttributes((attr) => {
+        switch (attr.type) {
+            case AttributeType.String:
+                args[attr.name] = {
                     type: GraphQLString,
                     defaultValue: null,
-                    description: attrName
+                    description: attr.name
                 }
-                args[attrName + "Contains"] = {
+                args[attr.name + "Contains"] = {
                     type: GraphQLString,
                     defaultValue: null,
-                    description: attrName
+                    description: attr.name
                 }
-                args[attrName + "StartsWith"] = {
+                args[attr.name + "StartsWith"] = {
                     type: GraphQLString,
                     defaultValue: null,
-                    description: attrName
+                    description: attr.name
                 }
-                args[attrName + "EndsWith"] = {
+                args[attr.name + "EndsWith"] = {
                     type: GraphQLString,
                     defaultValue: null,
-                    description: attrName
+                    description: attr.name
                 }
-                args[attrName + "Like"] = {
+                args[attr.name + "Like"] = {
                     type: GraphQLString,
                     defaultValue: null,
-                    description: attrName
+                    description: attr.name
                 }
-                args[attrName + "In"] = {
+                args[attr.name + "In"] = {
                     defaultValue: null,
-                    description: attrName,
+                    description: attr.name,
                     type: new GraphQLList(new GraphQLNonNull(GraphQLString)),
                 }
                 break;
         }
-    }
+    })
     return args;
 }

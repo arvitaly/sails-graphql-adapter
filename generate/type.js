@@ -8,40 +8,58 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const graphql_1 = require('graphql');
-const attribute_type_1 = require('./attribute-type');
-const map_model_attributes_1 = require('./map-model-attributes');
+const type_1 = require('./../resolve/type');
+const attribute_type_1 = require('./../model/attribute-type');
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (model, generator) => {
     let fields = {};
-    map_model_attributes_1.default(model.attributes).map(({ name, type, graphqlType, attribute }) => {
-        if (graphqlType !== null) {
-            fields[name] = {
+    model.mapAttributes((attr) => {
+        if (attr.type === attribute_type_1.default.Model) {
+            fields[attr.name] = {
                 args: {},
-                type: graphqlType,
-                deprecationReason: "",
-                description: name
+                type: generator.getType(attr.model),
+                description: attr.name,
+                resolve: (parent, args, context) => __awaiter(this, void 0, void 0, function* () {
+                    return generator.resolver.resolve({
+                        attrName: attr.name,
+                        type: type_1.default.Submodel,
+                        identity: model.id,
+                        parentIdentity: attr.model,
+                        root: parent,
+                        args: args,
+                        context: context
+                    });
+                })
             };
         }
         else {
-            switch (type) {
-                case attribute_type_1.default.Model:
-                    let childModelName = attribute.model;
-                    fields[name] = {
-                        args: {},
-                        type: generator.getType(childModelName),
-                        deprecationReason: "",
-                        description: name,
-                        resolve: (parent, b, c) => __awaiter(this, void 0, void 0, function* () {
-                            return (yield generator.models[childModelName].findById(parent[name]))[0];
-                        })
-                    };
+            let graphqlType;
+            switch (attr.type) {
+                case attribute_type_1.default.String:
+                    graphqlType = graphql_1.GraphQLString;
                     break;
+                case attribute_type_1.default.Integer:
+                    graphqlType = graphql_1.GraphQLInt;
+                    break;
+                case attribute_type_1.default.Float:
+                    graphqlType = graphql_1.GraphQLFloat;
+                    break;
+                case attribute_type_1.default.Datetime:
+                    graphqlType = graphql_1.GraphQLString;
+                    break;
+                default:
+                    throw new Error("Not supported type " + attr.type);
             }
+            fields[attr.name] = {
+                args: {},
+                type: graphqlType,
+                description: attr.name
+            };
         }
     });
     return new graphql_1.GraphQLObjectType({
-        name: model.globalId,
-        description: model.globalId,
+        name: model.name,
+        description: model.name,
         fields: fields,
         interfaces: []
     });
