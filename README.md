@@ -31,7 +31,7 @@ This is lib create graphql api for Sails application.
     sails generate controller GraphQL
     //api/controllers/GraphQLController.js
     var Controller = require('sails-graphql-adapter/controller');
-    module.exports = Controller;
+    module.exports = Controller(sails.schema);
 
 # Usage
 
