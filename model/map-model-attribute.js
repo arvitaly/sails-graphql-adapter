@@ -21,6 +21,9 @@ exports.default = (name, attr) => {
         case "int":
             outType = attribute_type_1.default.Integer;
             break;
+        case "float":
+            outType = attribute_type_1.default.Float;
+            break;
         case "datetime":
             outType = attribute_type_1.default.Datetime;
             break;

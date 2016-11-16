@@ -3,20 +3,19 @@ import Generator from './generator';
 import ResolveType from './../resolve/type';
 import { Model } from './../model';
 import AttributeType from './../model/attribute-type';
-export default (model: Model, generator: Generator) => {
+export default (id: string, generator: Generator) => {
+    const model = generator.getModel(id);
     let fields: GraphQLFieldConfigMap<any> = {};
     model.mapAttributes((attr) => {
         if (attr.type === AttributeType.Model) {
             fields[attr.name] = {
-                args: {},
                 type: generator.getType(attr.model),
-                description: attr.name,
                 resolve: async (parent, args, context) => {
                     return generator.resolver.resolve({
                         attrName: attr.name,
                         type: ResolveType.Submodel,
-                        identity: model.id,
-                        parentIdentity: attr.model,
+                        identity: attr.model,
+                        parentIdentity: model.id,
                         root: parent,
                         args: args,
                         context: context
@@ -35,6 +34,9 @@ export default (model: Model, generator: Generator) => {
                 case AttributeType.Float:
                     graphqlType = GraphQLFloat;
                     break;
+                case AttributeType.Date:
+                    graphqlType = GraphQLString;
+                    break;
                 case AttributeType.Datetime:
                     graphqlType = GraphQLString;
                     break;
@@ -42,9 +44,7 @@ export default (model: Model, generator: Generator) => {
                     throw new Error("Not supported type " + attr.type);
             }
             fields[attr.name] = {
-                args: {},
-                type: graphqlType,
-                description: attr.name
+                type: graphqlType
             }
         }
     })

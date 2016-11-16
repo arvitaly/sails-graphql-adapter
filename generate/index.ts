@@ -6,15 +6,11 @@ import subscriptionsForModel from './subscriptions';
 import Generator from './generator';
 function generate(sails: Sails.Sails): GraphQLSchema {
     let models: { [index: string]: Model } = {};
-    const sailsModels = sailsModelsToArray(sails.models);
-    sailsModels.map((sailsModel) => {
-        models[sailsModel.identity] = convertModel(sailsModel);
-    })
-    let generator: Generator = new Generator(sails, models),
+    let generator: Generator = new Generator(sails),
         queryTypeFields: GraphQLFieldConfigMap<any> = {},
         mutationTypeFields: GraphQLFieldConfigMap<any> = {},
         subscriptionTypeFields: GraphQLFieldConfigMap<any> = {};
-    sailsModels.map((sailsModel) => {        
+    generator.mapSailsModels((sailsModel) => {
         queriesForModel(sailsModel.identity, generator).map(({name, field}) => {
             queryTypeFields[name] = field;
         })
@@ -44,11 +40,5 @@ function generate(sails: Sails.Sails): GraphQLSchema {
     });
     return schema;
 }
-function sailsModelsToArray(sailsModels: { [index: string]: Sails.Model }): Array<Sails.Model> {
-    let arr = [];
-    for (let modelName in sailsModels) {
-        arr.push(sailsModels[modelName])
-    }
-    return arr;
-}
+
 export default generate;
