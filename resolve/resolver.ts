@@ -31,7 +31,7 @@ export default class Resolver {
     protected async mutateAndGetPayloadUpdate(opts: ResolveOpts) {
         const model = this.generator.getModel(opts.identity);
         let updated = {};
-        let where = opts.mutateObject.where || {};
+        const where = argsToFind(this.generator.getModel(opts.identity), opts.mutateObject.where || {});
         model.attributes.map((attr) => {
             if (typeof (opts.mutateObject["set" + attr.capitalizeName]) !== "undefined") {
                 updated[attr.name] = opts.mutateObject["set" + attr.capitalizeName][attr.name];

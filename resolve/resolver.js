@@ -31,7 +31,7 @@ class Resolver {
         return __awaiter(this, void 0, void 0, function* () {
             const model = this.generator.getModel(opts.identity);
             let updated = {};
-            let where = opts.mutateObject.where || {};
+            const where = args_to_find_1.default(this.generator.getModel(opts.identity), opts.mutateObject.where || {});
             model.attributes.map((attr) => {
                 if (typeof (opts.mutateObject["set" + attr.capitalizeName]) !== "undefined") {
                     updated[attr.name] = opts.mutateObject["set" + attr.capitalizeName][attr.name];

@@ -1,6 +1,7 @@
 import AttributeType from "./../../model/attribute-type";
 import ResolveType from "./../../resolve/type";
 import scalarTypeToGraphql from "./../../utils/scalar-type-to-graphql";
+import argsForQuery from "./../args";
 import Generator from "./../generator";
 import {
     GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLInputFieldConfigMap,
@@ -38,6 +39,7 @@ const create = (id: string, generator: Generator): Array<{ name: string, field: 
             }),
         };
     });
+    whereFields = argsForQuery(id, generator);
     // tslint:disable:no-string-literal
     inputFields["where"] = {
         type: new GraphQLInputObjectType({

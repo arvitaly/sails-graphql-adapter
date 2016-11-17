@@ -2,6 +2,7 @@
 const attribute_type_1 = require("./../../model/attribute-type");
 const type_1 = require("./../../resolve/type");
 const scalar_type_to_graphql_1 = require("./../../utils/scalar-type-to-graphql");
+const args_1 = require("./../args");
 const graphql_1 = require("graphql");
 const graphql_relay_1 = require("graphql-relay");
 const create = (id, generator) => {
@@ -35,6 +36,7 @@ const create = (id, generator) => {
             }),
         };
     });
+    whereFields = args_1.default(id, generator);
     // tslint:disable:no-string-literal
     inputFields["where"] = {
         type: new graphql_1.GraphQLInputObjectType({
