@@ -37,8 +37,10 @@ class Generator {
 }
 function sailsModelsToArray(sailsModels) {
     let arr = [];
-    for (let modelName of Object.keys(sailsModels)) {
-        arr.push(sailsModels[modelName]);
+    for (let modelName in sailsModels) {
+        if (sailsModels.hasOwnProperty(modelName)) {
+            arr.push(sailsModels[modelName]);
+        }
     }
     return arr;
 }

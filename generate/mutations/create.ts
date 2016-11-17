@@ -1,5 +1,6 @@
 import { Model } from "./../../model";
 import { GraphQLFieldConfig, GraphQLInputFieldConfigMap } from "graphql";
+import capitalize from './../utils/capitalize';
 // import { mutationWithClientMutationId } from 'graphql-relay';
 import capitalize from "./../../utils/capitalize";
 export default (model: Model): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {

@@ -1,7 +1,7 @@
-import { GraphQLObjectType } from "graphql";
 import convertModel, { Model } from "./../model";
 import Resolver from "./../resolve/resolver";
 import generateTypeForModel from "./type";
+import { GraphQLObjectType } from "graphql";
 class Generator implements Generator {
     public resolver: Resolver;
     public models: { [index: string]: Model } = {};
@@ -11,7 +11,7 @@ class Generator implements Generator {
         this.sailsModels = sailsModelsToArray(sails.models);
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = convertModel(sailsModel);
-        })
+        });
         this.resolver = new Resolver(sails, this.models);
     }
     public mapSailsModels(cb) {
@@ -39,8 +39,10 @@ class Generator implements Generator {
 }
 function sailsModelsToArray(sailsModels: { [index: string]: Sails.Model }): Array<Sails.Model> {
     let arr = [];
-    for (let modelName of Object.keys(sailsModels)) {
-        arr.push(sailsModels[modelName])
+    for (let modelName in sailsModels) {
+        if (sailsModels.hasOwnProperty(modelName)) {
+            arr.push(sailsModels[modelName]);
+        }
     }
     return arr;
 }
