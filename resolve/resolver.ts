@@ -18,6 +18,8 @@ export default class Resolver {
         switch (opts.type) {
             case ResolveType.Model:
                 return this.resolveOne(opts);
+            case ResolveType.Submodel:
+                return this.resolveSubmodel(opts);
             case ResolveType.ListOfModel:
                 return this.resolveConnection(opts);
             case ResolveType.MutateAndGetPayloadCreate:
@@ -25,7 +27,7 @@ export default class Resolver {
             case ResolveType.MutateAndGetPayloadUpdate:
                 return this.mutateAndGetPayloadUpdate(opts);
             default:
-                throw new Error("Unknown resolve type");
+                throw new Error("Unknown resolve type: " + ResolveType[opts.type]);
         }
     }
     protected async mutateAndGetPayloadUpdate(opts: ResolveOpts) {
@@ -55,6 +57,16 @@ export default class Resolver {
         let res = {};
         res[model.queryName] = result;
         return res;
+    }
+    protected async resolveSubmodel(opts: ResolveOpts) {
+        const model = this.generator.getModel(opts.identity);
+        let where = {};
+        where[model.primary.name] = opts.root[opts.attrName];
+        const result = (await this.generator.sails.models[opts.identity].find(where));
+        if (result) {
+            return result[0];
+        }
+        return null;
     }
     protected async resolveOne(opts: ResolveOpts) {
         const args = argsToFind(this.generator.getModel(opts.identity), opts.args);
