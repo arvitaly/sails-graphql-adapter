@@ -30,4 +30,41 @@ describe("Resolver spec", () => {
         });
         expect(result).toEqual(m1);
     }));
+    pit("when resolve connection, should return", () => __awaiter(this, void 0, void 0, function* () {
+        const findSpy = spyOn(model1_1.default, "find");
+        const m1 = {
+            id: 1,
+            name: "nameTest",
+            title: "titleTest",
+        };
+        const m2 = {
+            id: 2,
+            name: "nameTest",
+            title: "titleTest",
+        };
+        findSpy.and.returnValue([m1, m2]);
+        const resolver = new resolver_1.default(generator1_1.default);
+        const result = yield resolver.resolve({
+            args: {
+                nameContains: "te",
+            },
+            identity: "modelname1",
+            type: type_1.default.ListOfModel,
+        });
+        const expected = {
+            edges: [m1, m2].map((n) => {
+                return {
+                    cursor: "",
+                    node: n,
+                };
+            }),
+            pageInfo: {
+                endCursor: "",
+                hasNextPage: true,
+                hasPreviousPage: true,
+                startCursor: "",
+            }
+        };
+        expect(result).toEqual(expected);
+    }));
 });

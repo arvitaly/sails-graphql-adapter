@@ -19,7 +19,7 @@ export default class Resolver {
             case ResolveType.Model:
                 return this.resolveOne(opts);
             case ResolveType.ListOfModel:
-                break;
+                return this.resolveConnection(opts);
             case ResolveType.MutateAndGetPayload:
                 return this.mutateAndGetPayload(opts);
             default:
@@ -38,9 +38,8 @@ export default class Resolver {
         return null;
     }
     protected async resolveConnection(opts: ResolveOpts): Promise<Connection<any>> {
-        throw new Error("Not implemented");
-        /*const findParams = argsToFind(this.models[opts.identity], opts.args);
-        const result = await sails.models[opts.identity].find(findParams);
+        const args = argsToFind(this.generator.getModel(opts.identity), opts.args);
+        const result = (await this.generator.sails.models[opts.identity].find(args));
         const connection: Connection<any> = {
             edges: result.map((n) => {
                 return {
@@ -48,13 +47,14 @@ export default class Resolver {
                     node: n,
                 };
             }),
+            // TODO 
             pageInfo: {
-                endCursor: "ggg",
+                endCursor: "",
                 hasNextPage: true,
                 hasPreviousPage: true,
-                startCursor: "sss",
+                startCursor: "",
             },
         };
-        return connection;*/
+        return connection;
     }
 };
