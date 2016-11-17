@@ -10,12 +10,18 @@ class Model {
             if (sailsModel.attributes.hasOwnProperty(attrName)) {
                 this.attributes[attrName] = map_model_attribute_1.default(attrName, sailsModel.attributes[attrName]);
                 this.attrsArray.push(this.attributes[attrName]);
+                if (this.attributes[attrName].isPrimaryKey) {
+                    this.primaryAttribute = this.attributes[attrName];
+                }
             }
         }
         this.queryName = decapitalize_1.default(sailsModel.globalId);
         this.id = sailsModel.identity;
         this.name = sailsModel.globalId;
         this.pluralizeQueryName = this.queryName + "s";
+    }
+    getPrimaryAttribute() {
+        return this.primaryAttribute;
     }
     getNameWithPrefix(prefix) {
         return prefix + capitalize_1.default(this.name);

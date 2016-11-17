@@ -4,6 +4,10 @@ exports.default = {
     globalId: "ModelName1",
     identity: "modelname1",
     attributes: {
+        id: {
+            type: "integer",
+            primaryKey: true,
+        },
         name: "string",
         title: {
             type: "string",
@@ -14,6 +18,10 @@ exports.default = {
         },
         sum: {
             type: "float",
+        },
+        isActive: {
+            type: "boolean",
+            required: true
         },
         firstActive: {
             type: "Date",

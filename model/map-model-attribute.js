@@ -3,7 +3,7 @@ const attribute_type_1 = require("./attribute-type");
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (name, attr) => {
     let type = "";
-    let outType;
+    let outType = null;
     let model = "";
     if (typeof (attr) === "string") {
         type = attr;
@@ -12,6 +12,9 @@ exports.default = (name, attr) => {
         type = attr.type;
     }
     switch (("" + type).toLowerCase()) {
+        case "boolean":
+            outType = attribute_type_1.default.Boolean;
+            break;
         case "email":
         case "mediumtext":
         case "longtext":
@@ -42,15 +45,19 @@ exports.default = (name, attr) => {
         outType = attribute_type_1.default.Collection;
         model = attr.collection.toLowerCase();
     }
-    if (!outType) {
-        outType = attribute_type_1.default.String;
+    if (outType === null) {
+        throw new Error("Unknown sails type for attribute " + JSON.stringify(attr));
     }
-    return {
+    let outAttr = {
         isRequired: attr.required === true,
-        name: name,
-        model: model,
+        model,
+        name,
         type: outType,
     };
+    if (attr.primaryKey === true) {
+        outAttr.isPrimaryKey = true;
+    }
+    return outAttr;
 };
 /*
 Sails model attributes

@@ -9,7 +9,7 @@ export interface IAttrInfo {
 }
 export default (name: string, attr: Waterline.Attribute): Attribute => {
     let type: string = "";
-    let outType: AttributeType;
+    let outType: AttributeType = null;
     let model: string = "";
     if (typeof (attr) === "string") {
         type = attr;
@@ -17,6 +17,9 @@ export default (name: string, attr: Waterline.Attribute): Attribute => {
         type = (attr as Waterline.BaseAttribute).type;
     }
     switch (("" + type).toLowerCase()) {
+        case "boolean":
+            outType = AttributeType.Boolean;
+            break;
         case "email":
         case "mediumtext":
         case "longtext":
@@ -48,15 +51,19 @@ export default (name: string, attr: Waterline.Attribute): Attribute => {
         outType = AttributeType.Collection;
         model = (attr as Waterline.CollectionAttribute).collection.toLowerCase();
     }
-    if (!outType) {
-        outType = AttributeType.String;
+    if (outType === null) {
+        throw new Error("Unknown sails type for attribute " + JSON.stringify(attr));
     }
-    return {
+    let outAttr: Attribute = {
         isRequired: (attr as Waterline.BaseAttribute).required === true,
-        name: name,
-        model: model,
+        model,
+        name,
         type: outType,
+    };
+    if ((attr as Waterline.BaseAttribute).primaryKey === true) {
+        outAttr.isPrimaryKey = true;
     }
+    return outAttr;
 }
 /*
 Sails model attributes

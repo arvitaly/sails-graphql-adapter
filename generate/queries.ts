@@ -1,46 +1,47 @@
-import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLObjectType, GraphQLList, GraphQLString } from 'graphql';
-import ResolveType from './../resolve/type';
-import Generator from './generator';
-import { Model } from './../model';
-import argsForModel from './args';
-export default function generateQueryForModel(id: string, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> {
+import ResolveType from "./../resolve/type";
+import argsForModel from "./args";
+import Generator from "./generator";
+import { GraphQLFieldConfig, GraphQLList } from "graphql";
+export type Queries = Array<{ name: string, field: GraphQLFieldConfig<any> }>;
+export default function generateQueryForModel(id: string, generator: Generator): Queries {
     const model = generator.getModel(id);
     const modelType = generator.getType(model.id);
     return [{
-        name: model.queryName,
         field: {
-            args: argsForModel(model),
+            args: argsForModel(id, generator),
             description: model.name,
-            resolve: (parent, args, context) => {
+            resolve: (root, args, context) => {
                 return generator.resolver.resolve({
+                    args,
+                    attrName: null,
+                    context,
+                    identity: model.id,
+                    parentIdentity: null,
+                    root,
                     type: ResolveType.Model,
-                    identity: model.id,
-                    parentIdentity: null,
-                    attrName: null,
-                    root: parent,
-                    args: args,
-                    context: context
                 });
             },
-            type: modelType
-        }
+            type: modelType,
+        },
+        name: model.queryName,
+
     }, {
-        name: model.pluralizeQueryName,
         field: {
-            args: argsForModel(model),
+            args: argsForModel(id, generator),
             description: "List of " + model.name,
-            resolve: (parent, args, context) => {
+            resolve: (root, args, context) => {
                 return generator.resolver.resolve({
-                    type: ResolveType.ListOfModel,
+                    args,
+                    attrName: null,
+                    context,
                     identity: model.id,
                     parentIdentity: null,
-                    attrName: null,
-                    root: parent,
-                    args: args,
-                    context: context
+                    root,
+                    type: ResolveType.ListOfModel,
                 });
             },
-            type: new GraphQLList(modelType)
-        }
-    }]
+            type: new GraphQLList(modelType),
+        },
+        name: model.pluralizeQueryName,
+    }];
 }

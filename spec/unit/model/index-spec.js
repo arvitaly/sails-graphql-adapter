@@ -17,6 +17,19 @@ describe("Adapter model spec", () => {
                 name: "firstActive",
                 type: attribute_type_1.default.Date,
             },
+            id: {
+                isPrimaryKey: true,
+                isRequired: false,
+                model: "",
+                name: "id",
+                type: attribute_type_1.default.Integer,
+            },
+            isActive: {
+                isRequired: true,
+                model: "",
+                name: "isActive",
+                type: attribute_type_1.default.Boolean,
+            },
             lastActive: {
                 isRequired: false,
                 model: "",
@@ -58,7 +71,7 @@ describe("Adapter model spec", () => {
         model.mapAttributes((attr) => {
             count++;
         });
-        expect(count).toBe(7);
+        expect(count).toBe(9);
         expect(model.getNameWithPostfix("Test")).toBe("ModelName1Test");
         expect(model.getNameWithPrefix("Test")).toBe("TestModelName1");
     });

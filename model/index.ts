@@ -7,6 +7,7 @@ export type Attribute = {
     type: AttributeType;
     model?: string;
     isRequired?: boolean;
+    isPrimaryKey?: boolean;
 }
 export class Model {
     public id: string;
@@ -15,6 +16,7 @@ export class Model {
     public queryName: string;
     public attributes?: { [index: string]: Attribute };
     private attrsArray?: Array<Attribute>;
+    private primaryAttribute: Attribute;
     constructor(sailsModel: Sails.Model) {
         this.attributes = {};
         this.attrsArray = [];
@@ -22,12 +24,18 @@ export class Model {
             if (sailsModel.attributes.hasOwnProperty(attrName)) {
                 this.attributes[attrName] = convertAttribute(attrName, sailsModel.attributes[attrName]);
                 this.attrsArray.push(this.attributes[attrName]);
+                if (this.attributes[attrName].isPrimaryKey) {
+                    this.primaryAttribute = this.attributes[attrName];
+                }
             }
         }
         this.queryName = decapitalize(sailsModel.globalId);
         this.id = sailsModel.identity;
         this.name = sailsModel.globalId;
         this.pluralizeQueryName = this.queryName + "s";
+    }
+    public getPrimaryAttribute() {
+        return this.primaryAttribute;
     }
     public getNameWithPrefix(prefix: string) {
         return prefix + capitalize(this.name);

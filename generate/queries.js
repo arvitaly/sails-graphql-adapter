@@ -1,46 +1,46 @@
 "use strict";
-const graphql_1 = require('graphql');
-const type_1 = require('./../resolve/type');
-const args_1 = require('./args');
+const type_1 = require("./../resolve/type");
+const args_1 = require("./args");
+const graphql_1 = require("graphql");
 function generateQueryForModel(id, generator) {
     const model = generator.getModel(id);
     const modelType = generator.getType(model.id);
     return [{
-            name: model.queryName,
             field: {
-                args: args_1.default(model),
+                args: args_1.default(id, generator),
                 description: model.name,
-                resolve: (parent, args, context) => {
+                resolve: (root, args, context) => {
                     return generator.resolver.resolve({
+                        args,
+                        attrName: null,
+                        context,
+                        identity: model.id,
+                        parentIdentity: null,
+                        root,
                         type: type_1.default.Model,
-                        identity: model.id,
-                        parentIdentity: null,
-                        attrName: null,
-                        root: parent,
-                        args: args,
-                        context: context
                     });
                 },
-                type: modelType
-            }
+                type: modelType,
+            },
+            name: model.queryName,
         }, {
-            name: model.pluralizeQueryName,
             field: {
-                args: args_1.default(model),
+                args: args_1.default(id, generator),
                 description: "List of " + model.name,
-                resolve: (parent, args, context) => {
+                resolve: (root, args, context) => {
                     return generator.resolver.resolve({
-                        type: type_1.default.ListOfModel,
+                        args,
+                        attrName: null,
+                        context,
                         identity: model.id,
                         parentIdentity: null,
-                        attrName: null,
-                        root: parent,
-                        args: args,
-                        context: context
+                        root,
+                        type: type_1.default.ListOfModel,
                     });
                 },
-                type: new graphql_1.GraphQLList(modelType)
-            }
+                type: new graphql_1.GraphQLList(modelType),
+            },
+            name: model.pluralizeQueryName,
         }];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
