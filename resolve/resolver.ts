@@ -43,7 +43,18 @@ export default class Resolver {
         return res;
     }
     protected async mutateAndGetPayloadCreate(opts: ResolveOpts) {
-        // TODO 
+        const model = this.generator.getModel(opts.identity);
+        let created = Object.assign({}, opts.mutateObject);
+        model.attributes.map((attr) => {
+            if (typeof (opts.mutateObject["create" + attr.capitalizeName]) !== "undefined") {
+                created[attr.name] = opts.mutateObject["create" + attr.capitalizeName];
+                delete created["create" + attr.capitalizeName];
+            }
+        });
+        const result = (await this.generator.sails.models[opts.identity].create(created));
+        let res = {};
+        res[model.queryName] = result;
+        return res;
     }
     protected async resolveOne(opts: ResolveOpts) {
         const args = argsToFind(this.generator.getModel(opts.identity), opts.args);

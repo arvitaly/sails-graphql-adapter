@@ -45,7 +45,18 @@ class Resolver {
     }
     mutateAndGetPayloadCreate(opts) {
         return __awaiter(this, void 0, void 0, function* () {
-            // TODO 
+            const model = this.generator.getModel(opts.identity);
+            let created = Object.assign({}, opts.mutateObject);
+            model.attributes.map((attr) => {
+                if (typeof (opts.mutateObject["create" + attr.capitalizeName]) !== "undefined") {
+                    created[attr.name] = opts.mutateObject["create" + attr.capitalizeName];
+                    delete created["create" + attr.capitalizeName];
+                }
+            });
+            const result = (yield this.generator.sails.models[opts.identity].create(created));
+            let res = {};
+            res[model.queryName] = result;
+            return res;
         });
     }
     resolveOne(opts) {
