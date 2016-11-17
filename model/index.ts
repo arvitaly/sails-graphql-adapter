@@ -21,13 +21,15 @@ export class Model {
         this.attributes = {};
         this.attrsArray = [];
         for (let attrName in sailsModel.attributes) {
-            if (sailsModel.attributes.hasOwnProperty(attrName)) {
-                this.attributes[attrName] = convertAttribute(attrName, sailsModel.attributes[attrName]);
-                this.attrsArray.push(this.attributes[attrName]);
-                if (this.attributes[attrName].isPrimaryKey) {
-                    this.primaryAttribute = this.attributes[attrName];
-                }
+            this.attributes[attrName] = convertAttribute(attrName, sailsModel.attributes[attrName]);
+            this.attrsArray.push(this.attributes[attrName]);
+            if (this.attributes[attrName].isPrimaryKey) {
+                this.primaryAttribute = this.attributes[attrName];
             }
+        }
+        if (!this.primaryAttribute) {
+            // tslint:disable:no-string-literal
+            this.primaryAttribute = this.attributes["id"];
         }
         this.queryName = decapitalize(sailsModel.globalId);
         this.id = sailsModel.identity;

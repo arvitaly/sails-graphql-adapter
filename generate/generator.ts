@@ -40,9 +40,7 @@ class Generator implements Generator {
 function sailsModelsToArray(sailsModels: { [index: string]: Sails.Model }): Array<Sails.Model> {
     let arr = [];
     for (let modelName in sailsModels) {
-        if (sailsModels.hasOwnProperty(modelName)) {
-            arr.push(sailsModels[modelName]);
-        }
+        arr.push(sailsModels[modelName]);
     }
     return arr;
 }

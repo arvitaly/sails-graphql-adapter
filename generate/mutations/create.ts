@@ -3,7 +3,7 @@ import ResolveType from "./../../resolve/type";
 import Generator from "./../generator";
 import {
     GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLInputFieldConfigMap,
-    GraphQLInt, GraphQLNonNull, GraphQLString
+    GraphQLInt, GraphQLNonNull, GraphQLString,
 } from "graphql";
 import { mutationWithClientMutationId } from "graphql-relay";
 export default (id: string, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {
@@ -27,7 +27,7 @@ export default (id: string, generator: Generator): Array<{ name: string, field: 
     });
     let outputFields: GraphQLFieldConfigMap<any> = {};
     outputFields[model.queryName] = {
-        type: generator.getType(model.id)
+        type: generator.getType(model.id),
     };
     return [{
         field: mutationWithClientMutationId({

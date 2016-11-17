@@ -28,6 +28,7 @@ class Resolver {
     }
     mutateAndGetPayload(opts) {
         return __awaiter(this, void 0, void 0, function* () {
+            // TODO 
         });
     }
     resolveModel(opts) {
@@ -41,25 +42,27 @@ class Resolver {
     }
     resolveListOfModel(opts) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findParams = args_to_find_1.default(this.models[opts.identity], opts.args);
-            const result = yield sails.models[opts.identity].find(findParams);
-            const connection = {
+            throw new Error("Not implemented");
+            /*const findParams = argsToFind(this.models[opts.identity], opts.args);
+            const result = await sails.models[opts.identity].find(findParams);
+            const connection: Connection<any> = {
                 edges: result.map((n) => {
                     return {
+                        cursor: "",
                         node: n,
-                        cursor: ""
                     };
                 }),
                 pageInfo: {
+                    endCursor: "ggg",
                     hasNextPage: true,
                     hasPreviousPage: true,
                     startCursor: "sss",
-                    endCursor: "ggg"
-                }
+                },
             };
-            return connection;
+            return connection;*/
         });
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Resolver;
+;

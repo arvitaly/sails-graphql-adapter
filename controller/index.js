@@ -5,19 +5,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (opts) => {
     let schema;
     opts = opts || {};
-    if (!opts.schema) {
-        if (opts.sails) {
-            schema = generate_1.default(opts.sails);
-        }
-        else {
-            throw new Error("Should be setted schema or sails");
-        }
-    }
-    else {
-        schema = opts.schema;
-    }
     // tslint:disable:only-arrow-functions
     const index = function (req, res) {
+        if (!schema) {
+            if (!opts.schema) {
+                if (opts.sails) {
+                    schema = generate_1.default(opts.sails);
+                }
+                else {
+                    schema = generate_1.default(sails);
+                }
+            }
+            else {
+                schema = opts.schema;
+            }
+        }
         return graphqlHTTP({
             graphiql: true,
             schema,

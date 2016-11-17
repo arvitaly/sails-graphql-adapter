@@ -8,6 +8,6 @@ exports.default = {
         key: {
             type: "string",
             primaryKey: true,
-        }
+        },
     },
 };

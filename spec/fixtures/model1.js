@@ -21,7 +21,7 @@ exports.default = {
         },
         isActive: {
             type: "boolean",
-            required: true
+            required: true,
         },
         firstActive: {
             type: "Date",

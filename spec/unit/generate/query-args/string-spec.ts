@@ -4,7 +4,7 @@ import { GraphQLList, GraphQLNonNull, GraphQLString } from "graphql";
 describe("Query's args for string attribute", () => {
     it("should return all useful args", () => {
         const str = "Str1";
-        expect(argsForString(str)).toEqual(<Args>[
+        expect(argsForString(str)).toEqual(<Args> [
             { field: { type: GraphQLString }, name: str },
             { field: { type: GraphQLString }, name: str + "Contains" },
             { field: { type: GraphQLString }, name: str + "StartsWith" },

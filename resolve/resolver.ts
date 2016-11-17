@@ -19,7 +19,7 @@ export default class Resolver {
     public resolve(opts: ResolveOpts) {
         switch (opts.type) {
             case ResolveType.Model:
-                return this.resolveModel(opts)
+                return this.resolveModel(opts);
             case ResolveType.ListOfModel:
                 break;
             case ResolveType.MutateAndGetPayload:
@@ -29,7 +29,7 @@ export default class Resolver {
         }
     }
     protected async mutateAndGetPayload(opts: ResolveOpts) {
-
+        // TODO 
     }
     protected async resolveModel(opts: ResolveOpts) {
         const result = (await sails.models[opts.identity].find(argsToFind(this.models[opts.identity], opts.args)));
@@ -39,22 +39,23 @@ export default class Resolver {
         return null;
     }
     protected async resolveListOfModel(opts: ResolveOpts): Promise<Connection<any>> {
-        const findParams = argsToFind(this.models[opts.identity], opts.args);
+        throw new Error("Not implemented");
+        /*const findParams = argsToFind(this.models[opts.identity], opts.args);
         const result = await sails.models[opts.identity].find(findParams);
         const connection: Connection<any> = {
             edges: result.map((n) => {
                 return {
+                    cursor: "",
                     node: n,
-                    cursor: ""
-                }
+                };
             }),
             pageInfo: {
+                endCursor: "ggg",
                 hasNextPage: true,
                 hasPreviousPage: true,
                 startCursor: "sss",
-                endCursor: "ggg"
-            }
+            },
         };
-        return connection;
+        return connection;*/
     }
-} 
+};

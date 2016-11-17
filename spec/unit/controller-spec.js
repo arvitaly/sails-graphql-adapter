@@ -38,7 +38,18 @@ describe("Controller spec", () => {
                 }]]);
         expect(graphqlHTTPHandler.calls.allArgs()).toEqual([["req1", "res1"]]);
     });
-    it("when schema not setted and sails not setted, should throw error", () => {
-        expect(controller.bind(this, {})).toThrowError("Should be setted schema or sails");
+    it("when schema not setted and sails not setted, should get global sails", () => {
+        graphqlHTTP.and.returnValue(graphqlHTTPHandler);
+        generateSpy.and.returnValue(schema);
+        // tslint:disable:no-string-literal
+        global["sails"] = sails;
+        controller().index(req, res);
+        expect(generateSpy.calls.allArgs()).toEqual([[sails]]);
+        expect(graphqlHTTP.calls.allArgs()).toEqual([[{
+                    schema,
+                    graphiql: true,
+                }]]);
+        expect(graphqlHTTPHandler.calls.allArgs()).toEqual([["req1", "res1"]]);
+        delete global["sails"];
     });
 });

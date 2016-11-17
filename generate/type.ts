@@ -1,27 +1,28 @@
-import { GraphQLFieldConfigMap, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLUnionType } from 'graphql';
-import Generator from './generator';
-import ResolveType from './../resolve/type';
-import { Model } from './../model';
-import AttributeType from './../model/attribute-type';
+import AttributeType from "./../model/attribute-type";
+import ResolveType from "./../resolve/type";
+import Generator from "./generator";
+import {
+    GraphQLFieldConfigMap, GraphQLFloat, GraphQLInt, GraphQLObjectType, GraphQLString,
+} from "graphql";
 export default (id: string, generator: Generator) => {
     const model = generator.getModel(id);
     let fields: GraphQLFieldConfigMap<any> = {};
     model.mapAttributes((attr) => {
         if (attr.type === AttributeType.Model) {
             fields[attr.name] = {
-                type: generator.getType(attr.model),
-                resolve: async (parent, args, context) => {
+                resolve: async (root, args, context) => {
                     return generator.resolver.resolve({
+                        args,
                         attrName: attr.name,
-                        type: ResolveType.Submodel,
+                        context,
                         identity: attr.model,
                         parentIdentity: model.id,
-                        root: parent,
-                        args: args,
-                        context: context
-                    })
-                }
-            }
+                        root,
+                        type: ResolveType.Submodel,
+                    });
+                },
+                type: generator.getType(attr.model),
+            };
         } else {
             let graphqlType;
             switch (attr.type) {
@@ -44,14 +45,14 @@ export default (id: string, generator: Generator) => {
                     throw new Error("Not supported type " + attr.type);
             }
             fields[attr.name] = {
-                type: graphqlType
-            }
+                type: graphqlType,
+            };
         }
-    })
+    });
     return new GraphQLObjectType({
-        name: model.name,
         description: model.name,
-        fields: fields,
-        interfaces: []
-    })
-}
+        fields,
+        interfaces: [],
+        name: model.name,
+    });
+};

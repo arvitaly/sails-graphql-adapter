@@ -4,4 +4,4 @@ enum ResolveType {
     Submodel,
     MutateAndGetPayload
 }
-export default ResolveType; 
+export default ResolveType;

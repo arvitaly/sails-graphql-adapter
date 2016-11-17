@@ -22,7 +22,7 @@ describe("Generate CreateMutation spec", () => {
             field: mutationWithClientMutationId({
                 inputFields: {
                     name: {
-                        type: GraphQLString
+                        type: GraphQLString,
                     },
                     num: {
                         type: GraphQLInt,

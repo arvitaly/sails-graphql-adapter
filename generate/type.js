@@ -7,9 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-const graphql_1 = require('graphql');
-const type_1 = require('./../resolve/type');
-const attribute_type_1 = require('./../model/attribute-type');
+const attribute_type_1 = require("./../model/attribute-type");
+const type_1 = require("./../resolve/type");
+const graphql_1 = require("graphql");
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (id, generator) => {
     const model = generator.getModel(id);
@@ -17,18 +17,18 @@ exports.default = (id, generator) => {
     model.mapAttributes((attr) => {
         if (attr.type === attribute_type_1.default.Model) {
             fields[attr.name] = {
-                type: generator.getType(attr.model),
-                resolve: (parent, args, context) => __awaiter(this, void 0, void 0, function* () {
+                resolve: (root, args, context) => __awaiter(this, void 0, void 0, function* () {
                     return generator.resolver.resolve({
+                        args,
                         attrName: attr.name,
-                        type: type_1.default.Submodel,
+                        context,
                         identity: attr.model,
                         parentIdentity: model.id,
-                        root: parent,
-                        args: args,
-                        context: context
+                        root,
+                        type: type_1.default.Submodel,
                     });
-                })
+                }),
+                type: generator.getType(attr.model),
             };
         }
         else {
@@ -53,14 +53,14 @@ exports.default = (id, generator) => {
                     throw new Error("Not supported type " + attr.type);
             }
             fields[attr.name] = {
-                type: graphqlType
+                type: graphqlType,
             };
         }
     });
     return new graphql_1.GraphQLObjectType({
-        name: model.name,
         description: model.name,
-        fields: fields,
-        interfaces: []
+        fields,
+        interfaces: [],
+        name: model.name,
     });
 };

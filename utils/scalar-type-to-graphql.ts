@@ -1,5 +1,5 @@
 import AttributeType from "./../model/attribute-type";
-import { GraphQLBoolean, GraphQLFloat, GraphQLInt, GraphQLString, } from "graphql";
+import { GraphQLBoolean, GraphQLFloat, GraphQLInt, GraphQLString } from "graphql";
 export default (type: AttributeType) => {
     switch (type) {
         case AttributeType.String:

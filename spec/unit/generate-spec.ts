@@ -66,7 +66,9 @@ describe("Generate schema spec", () => {
         done();
     })
     it("when call create mutation model should be added", async (done) => {
-        const results = await graphql(schema, `mutation M1 {updateModel1(input:{clientMutationId:"1", id: 1, setName:{name:"test"} } ){clientMutationId,model1{name} } }`);
+        const results = await graphql(schema, 
+        `mutation M1 {updateModel1(input:{clientMutationId:"1", id: 1, 
+        setName:{name:"test"} } ){clientMutationId,model1{name} } }`);
         expect(j(results.data)).toEqual({ updateModel1: { clientMutationId: "1", model1: { name: "test" } } });
         done();
     })

@@ -9,4 +9,4 @@ enum AttributeType {
     Model,
     Collection
 }
-export default AttributeType; 
+export default AttributeType;

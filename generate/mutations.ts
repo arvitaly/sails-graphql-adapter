@@ -1,4 +1,4 @@
-import { GraphQLFieldConfig } from "graphql";
+/*import { GraphQLFieldConfig } from "graphql";
 import Generator from "./generator";
 
 export default (id: string, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {
@@ -7,4 +7,4 @@ export default (id: string, generator: Generator): Array<{ name: string, field: 
     let mutations: Array<{ name: string, field: GraphQLFieldConfig<any> }> = [];
 
     return mutations;
-}
+}*/

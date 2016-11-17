@@ -64,7 +64,7 @@ export default (name: string, attr: Waterline.Attribute): Attribute => {
         outAttr.isPrimaryKey = true;
     }
     return outAttr;
-}
+};
 /*
 Sails model attributes
 string

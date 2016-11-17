@@ -7,6 +7,6 @@ export default {
         key: {
             type: "string",
             primaryKey: true,
-        }
+        },
     },
 };

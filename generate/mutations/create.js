@@ -25,7 +25,7 @@ exports.default = (id, generator) => {
     });
     let outputFields = {};
     outputFields[model.queryName] = {
-        type: generator.getType(model.id)
+        type: generator.getType(model.id),
     };
     return [{
             field: graphql_relay_1.mutationWithClientMutationId({

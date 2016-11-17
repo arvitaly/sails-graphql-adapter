@@ -23,7 +23,7 @@ describe("Generate CreateMutation spec", () => {
                 field: graphql_relay_1.mutationWithClientMutationId({
                     inputFields: {
                         name: {
-                            type: graphql_1.GraphQLString
+                            type: graphql_1.GraphQLString,
                         },
                         num: {
                             type: graphql_1.GraphQLInt,

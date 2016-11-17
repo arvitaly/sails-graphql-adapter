@@ -5,9 +5,8 @@ describe("Args for queries spec", () => {
         const result = argsForQuery("modelname1", generator);
         let count = 0;
         for (let argName in result) {
-            if (result.hasOwnProperty(argName)) {
-                count++;
-            }
+            argName = argName;
+            count++;
         }
         expect(count).toBe(49);
     });

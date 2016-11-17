@@ -9,7 +9,7 @@ describe("Generate graphql type for model spec", () => {
                 firstActive: "date",
                 lastActive: "datetime",
                 model2: {
-                    model: "model2"
+                    model: "model2",
                 },
                 name: "string",
                 num: "integer",
@@ -21,7 +21,7 @@ describe("Generate graphql type for model spec", () => {
         } as any;
         const model2 = {
             attributes: {
-                name: "string"
+                name: "string",
             },
             globalId: "Model2",
             identity: "model2",
@@ -66,5 +66,5 @@ describe("Generate graphql type for model spec", () => {
             root: "v1",
             type: ResolveType.Submodel,
         }]]);
-    })
-})
+    });
+});

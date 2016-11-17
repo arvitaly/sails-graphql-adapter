@@ -1,10 +1,14 @@
 "use strict";
-const graphql_1 = require('graphql');
-const queries_1 = require('./queries');
-const generator_1 = require('./generator');
+const generator_1 = require("./generator");
+const queries_1 = require("./queries");
+const graphql_1 = require("graphql");
+// import mutationsForModel from "./mutations";
+// import subscriptionsForModel from "./subscriptions";
 function generate(sails) {
-    let models = {};
-    let generator = new generator_1.default(sails), queryTypeFields = {}, mutationTypeFields = {}, subscriptionTypeFields = {};
+    let generator = new generator_1.default(sails);
+    let queryTypeFields = {};
+    // let mutationTypeFields: GraphQLFieldConfigMap<any> = {};
+    // let subscriptionTypeFields: GraphQLFieldConfigMap<any> = {};
     generator.mapSailsModels((sailsModel) => {
         queries_1.default(sailsModel.identity, generator).map(({ name, field }) => {
             queryTypeFields[name] = field;
@@ -17,8 +21,8 @@ function generate(sails) {
         })*/
     });
     const queryType = new graphql_1.GraphQLObjectType({
+        fields: queryTypeFields,
         name: "Query",
-        fields: queryTypeFields
     });
     /*const mutationType = new GraphQLObjectType({
         name: 'Mutation',
@@ -29,9 +33,7 @@ function generate(sails) {
         fields: subscriptionTypeFields
     })*/
     const schema = new graphql_1.GraphQLSchema({
-        query: queryType /*,
-        mutation: mutationType,
-        subscription: subscriptionType*/
+        query: queryType,
     });
     return schema;
 }

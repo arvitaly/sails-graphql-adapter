@@ -2,6 +2,6 @@
 module.exports = {
     attributes: {
         name: "string",
-        num: "integer"
-    }
+        num: "integer",
+    },
 };
