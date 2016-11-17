@@ -1,5 +1,6 @@
-import convertModel, { Model } from "./../../../model";
+import convertModel from "./../../../model";
 import AttributeType from "./../../../model/attribute-type";
+import Model from "./../../../model/model";
 import { default as sailsModel } from "./../../fixtures/model1";
 describe("Adapter model spec", () => {
     it("when created, should convert all attributes", () => {
@@ -9,7 +10,7 @@ describe("Adapter model spec", () => {
         expect(model.name).toBe("ModelName1");
         expect(model.pluralizeQueryName).toBe("modelName1s");
         expect(model.queryName).toBe("modelName1");
-        expect(model.attributes).toEqual({
+        const expected = {
             firstActive: {
                 isRequired: true,
                 model: "",
@@ -65,12 +66,11 @@ describe("Adapter model spec", () => {
                 name: "title",
                 type: AttributeType.String,
             },
+        };
+        expect(model.attributes.length).toBe(9);
+        model.attributes.map((attr) => {
+            expect(attr).toEqual(jasmine.objectContaining(expected[attr.name]));
         });
-        let count = 0;
-        model.mapAttributes((attr) => {
-            count++;
-        });
-        expect(count).toBe(9);
         expect(model.getNameWithPostfix("Test")).toBe("ModelName1Test");
         expect(model.getNameWithPrefix("Test")).toBe("TestModelName1");
     });

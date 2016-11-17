@@ -1,45 +1,35 @@
 "use strict";
-const generator_1 = require("./../../../../generate/generator");
 const create_1 = require("./../../../../generate/mutations/create");
+const generator1_1 = require("./../../../fixtures/generator1");
 const graphql_1 = require("graphql");
 const graphql_relay_1 = require("graphql-relay");
 describe("Generate CreateMutation spec", () => {
     it("", () => {
-        const generator = new generator_1.default({
-            models: {
-                model1: {
-                    attributes: {
-                        name: "string",
-                        num: {
-                            type: "integer",
-                        },
-                    },
-                    globalId: "Model1",
-                    identity: "model1",
-                },
-            },
-        });
         const expected = [{
                 field: graphql_relay_1.mutationWithClientMutationId({
                     inputFields: {
-                        name: {
-                            type: graphql_1.GraphQLString,
-                        },
-                        num: {
-                            type: graphql_1.GraphQLInt,
-                        },
+                        createModel2Field: { type: generator1_1.default.getCreateType("model2") },
+                        firstActive: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+                        id: { type: graphql_1.GraphQLInt },
+                        isActive: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLBoolean) },
+                        lastActive: { type: graphql_1.GraphQLString },
+                        model2Field: { type: graphql_1.GraphQLString },
+                        name: { type: graphql_1.GraphQLString },
+                        num: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLInt) },
+                        sum: { type: graphql_1.GraphQLFloat },
+                        title: { type: graphql_1.GraphQLString },
                     },
                     mutateAndGetPayload: jasmine.any(Function),
-                    name: "CreateModel1Mutation",
+                    name: "CreateModelName1Mutation",
                     outputFields: {
-                        model1: {
-                            type: generator.getType("model1"),
+                        modelName1: {
+                            type: generator1_1.default.getType("modelname1"),
                         },
                     },
                 }),
-                name: "createModel1",
+                name: "createModelName1",
             }];
-        const result = create_1.default("model1", generator);
+        const result = create_1.default("modelname1", generator1_1.default);
         expect(result[0].name).toBe(expected[0].name);
         /* tslint:disable:no-string-literal */
         expect(result[0].field.type["name"]).toBe(expected[0].field.type["name"]);

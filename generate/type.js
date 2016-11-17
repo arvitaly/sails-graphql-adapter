@@ -9,12 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const attribute_type_1 = require("./../model/attribute-type");
 const type_1 = require("./../resolve/type");
+const scalar_type_to_graphql_1 = require("./../utils/scalar-type-to-graphql");
 const graphql_1 = require("graphql");
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (id, generator) => {
     const model = generator.getModel(id);
     let fields = {};
-    model.mapAttributes((attr) => {
+    model.attributes.map((attr) => {
         if (attr.type === attribute_type_1.default.Model) {
             fields[attr.name] = {
                 resolve: (root, args, context) => __awaiter(this, void 0, void 0, function* () {
@@ -35,22 +36,15 @@ exports.default = (id, generator) => {
             let graphqlType;
             switch (attr.type) {
                 case attribute_type_1.default.String:
-                    graphqlType = graphql_1.GraphQLString;
-                    break;
                 case attribute_type_1.default.Integer:
-                    graphqlType = graphql_1.GraphQLInt;
-                    break;
                 case attribute_type_1.default.Float:
-                    graphqlType = graphql_1.GraphQLFloat;
-                    break;
                 case attribute_type_1.default.Date:
-                    graphqlType = graphql_1.GraphQLString;
-                    break;
                 case attribute_type_1.default.Datetime:
-                    graphqlType = graphql_1.GraphQLString;
+                case attribute_type_1.default.Boolean:
+                    graphqlType = scalar_type_to_graphql_1.default(attr.type);
                     break;
                 default:
-                    throw new Error("Not supported type " + attr.type);
+                    throw new Error("Not supported type " + attribute_type_1.default[attr.type]);
             }
             fields[attr.name] = {
                 type: graphqlType,

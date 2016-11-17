@@ -1,24 +1,30 @@
 import AttributeType from "./../../model/attribute-type";
 import ResolveType from "./../../resolve/type";
+import capitalize from "./../../utils/capitalize";
+import scalarTypeToGraphql from "./../../utils/scalar-type-to-graphql";
 import Generator from "./../generator";
-import {
-    GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLInputFieldConfigMap,
-    GraphQLInt, GraphQLNonNull, GraphQLString,
-} from "graphql";
+import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLInputFieldConfigMap, GraphQLNonNull } from "graphql";
 import { mutationWithClientMutationId } from "graphql-relay";
-export default (id: string, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {
+const create = (id: string, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {
     const model = generator.getModel(id);
     let inputFields: GraphQLInputFieldConfigMap = {};
-    model.mapAttributes((attr) => {
+    model.attributes.map((attr) => {
         switch (attr.type) {
             case AttributeType.String:
-                inputFields[attr.name] = {
-                    type: attr.isRequired ? new GraphQLNonNull(GraphQLString) : GraphQLString,
-                };
-                break;
             case AttributeType.Integer:
+            case AttributeType.Float:
+            case AttributeType.Boolean:
+            case AttributeType.Date:
+            case AttributeType.Datetime:
+                const gType = scalarTypeToGraphql(attr.type);
+                inputFields[attr.name] = { type: attr.isRequired ? new GraphQLNonNull(gType) : gType };
+                break;
+            case AttributeType.Model:
                 inputFields[attr.name] = {
-                    type: attr.isRequired ? new GraphQLNonNull(GraphQLInt) : GraphQLInt,
+                    type: scalarTypeToGraphql(generator.getModel(attr.model).primary.type),
+                };
+                inputFields["create" + capitalize(attr.name)] = {
+                    type: generator.getCreateType(attr.model),
                 };
                 break;
             default:
@@ -46,3 +52,4 @@ export default (id: string, generator: Generator): Array<{ name: string, field: 
         name: model.getNameWithPrefix("create"),
     }];
 };
+export default create;

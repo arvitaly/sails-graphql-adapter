@@ -7,14 +7,15 @@ exports.default = (model, args) => {
     let params = {};
     if (args) {
         for (let argName in args) {
-            if (model.attributes[argName]) {
+            if (model.getAttribute(argName)) {
                 where[argName] = args[argName];
             }
             countArgs++;
         }
     }
-    for (let attrName in model.attributes) {
-        let attrType = model.attributes[attrName].type;
+    model.attributes.map((attr) => {
+        const attrName = attr.name;
+        const attrType = attr.type;
         switch (attrType) {
             case attribute_type_1.default.String:
                 if (args[attrName + "Contains"]) {
@@ -69,7 +70,7 @@ exports.default = (model, args) => {
         if (args[attrName + "In"]) {
             where[attrName] = args[attrName + "In"];
         }
-    }
+    });
     params.where = where;
     if (typeof (args.skip) !== "undefined") {
         params.skip = args.skip;

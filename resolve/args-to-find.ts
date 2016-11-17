@@ -1,5 +1,5 @@
-import { Model } from "./../model";
 import AttributeType from "./../model/attribute-type";
+import Model from "./../model/model";
 export type FindParams = {
     where?;
     sort?: string;
@@ -12,14 +12,15 @@ export default (model: Model, args: any) => {
     let params: FindParams = {};
     if (args) {
         for (let argName in args) {
-            if (model.attributes[argName]) {
+            if (model.getAttribute(argName)) {
                 where[argName] = args[argName];
             }
             countArgs++;
         }
     }
-    for (let attrName in model.attributes) {
-        let attrType = model.attributes[attrName].type;
+    model.attributes.map((attr) => {
+        const attrName = attr.name;
+        const attrType = attr.type;
         switch (attrType) {
             case AttributeType.String:
                 if (args[attrName + "Contains"]) {
@@ -74,7 +75,7 @@ export default (model: Model, args: any) => {
         if (args[attrName + "In"]) {
             where[attrName] = args[attrName + "In"];
         }
-    }
+    });
     params.where = where;
     if (typeof (args.skip) !== "undefined") {
         params.skip = args.skip;

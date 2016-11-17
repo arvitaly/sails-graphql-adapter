@@ -1,44 +1,34 @@
-import Generator from "./../../../../generate/generator";
 import generateCreateMutation from "./../../../../generate/mutations/create";
-import { GraphQLFieldConfig, GraphQLInt, GraphQLString } from "graphql";
+import generator from "./../../../fixtures/generator1";
+import { GraphQLBoolean, GraphQLFieldConfig, GraphQLFloat, GraphQLInt, GraphQLNonNull, GraphQLString } from "graphql";
 import { mutationWithClientMutationId } from "graphql-relay";
 describe("Generate CreateMutation spec", () => {
     it("", () => {
-        const generator = new Generator({
-            models: {
-                model1: {
-                    attributes: {
-                        name: "string",
-                        num: {
-                            type: "integer",
-                        },
-                    },
-                    globalId: "Model1",
-                    identity: "model1",
-                } as any,
-            },
-        });
         const expected: Array<{ name: string, field: GraphQLFieldConfig<any> }> = [{
             field: mutationWithClientMutationId({
                 inputFields: {
-                    name: {
-                        type: GraphQLString,
-                    },
-                    num: {
-                        type: GraphQLInt,
-                    },
+                    createModel2Field: { type: generator.getCreateType("model2") },
+                    firstActive: { type: new GraphQLNonNull(GraphQLString) },
+                    id: { type: GraphQLInt },
+                    isActive: { type: new GraphQLNonNull(GraphQLBoolean) },
+                    lastActive: { type: GraphQLString },
+                    model2Field: { type: GraphQLString },
+                    name: { type: GraphQLString },
+                    num: { type: new GraphQLNonNull(GraphQLInt) },
+                    sum: { type: GraphQLFloat },
+                    title: { type: GraphQLString },
                 },
                 mutateAndGetPayload: jasmine.any(Function) as any,
-                name: "CreateModel1Mutation",
+                name: "CreateModelName1Mutation",
                 outputFields: {
-                    model1: {
-                        type: generator.getType("model1"),
+                    modelName1: {
+                        type: generator.getType("modelname1"),
                     },
                 },
             }),
-            name: "createModel1",
+            name: "createModelName1",
         }];
-        const result = generateCreateMutation("model1", generator);
+        const result = generateCreateMutation("modelname1", generator);
         expect(result[0].name).toBe(expected[0].name);
         /* tslint:disable:no-string-literal */
         expect(result[0].field.type["name"]).toBe(expected[0].field.type["name"]);

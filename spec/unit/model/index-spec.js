@@ -1,16 +1,17 @@
 "use strict";
 const model_1 = require("./../../../model");
 const attribute_type_1 = require("./../../../model/attribute-type");
+const model_2 = require("./../../../model/model");
 const model1_1 = require("./../../fixtures/model1");
 describe("Adapter model spec", () => {
     it("when created, should convert all attributes", () => {
         const model = model_1.default(model1_1.default);
-        expect(model).toEqual(new model_1.Model(model1_1.default));
+        expect(model).toEqual(new model_2.default(model1_1.default));
         expect(model.id).toBe(model1_1.default.identity);
         expect(model.name).toBe("ModelName1");
         expect(model.pluralizeQueryName).toBe("modelName1s");
         expect(model.queryName).toBe("modelName1");
-        expect(model.attributes).toEqual({
+        const expected = {
             firstActive: {
                 isRequired: true,
                 model: "",
@@ -66,12 +67,11 @@ describe("Adapter model spec", () => {
                 name: "title",
                 type: attribute_type_1.default.String,
             },
+        };
+        expect(model.attributes.length).toBe(9);
+        model.attributes.map((attr) => {
+            expect(attr).toEqual(jasmine.objectContaining(expected[attr.name]));
         });
-        let count = 0;
-        model.mapAttributes((attr) => {
-            count++;
-        });
-        expect(count).toBe(9);
         expect(model.getNameWithPostfix("Test")).toBe("ModelName1Test");
         expect(model.getNameWithPrefix("Test")).toBe("TestModelName1");
     });

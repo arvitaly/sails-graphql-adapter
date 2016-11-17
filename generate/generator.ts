@@ -1,11 +1,14 @@
-import convertModel, { Model } from "./../model";
+import convertModel from "./../model";
+import Model from "./../model/model";
 import Resolver from "./../resolve/resolver";
+import generateCreateMutationType from "./mutations/create-type";
 import generateTypeForModel from "./type";
-import { GraphQLObjectType } from "graphql";
+import { GraphQLInputObjectType, GraphQLObjectType } from "graphql";
 class Generator implements Generator {
     public resolver: Resolver;
     public models: { [index: string]: Model } = {};
     protected types: { [index: string]: GraphQLObjectType } = {};
+    protected createTypes: { [index: string]: GraphQLInputObjectType } = {};
     protected sailsModels: Array<Sails.Model>;
     constructor(sails: Sails.Sails) {
         this.sailsModels = sailsModelsToArray(sails.models);
@@ -23,8 +26,11 @@ class Generator implements Generator {
         }
         return this.models[id];
     }
-    public getCreateType() {
-        // TODO
+    public getCreateType(id: string) {
+        if (!this.createTypes[id]) {
+            this.createTypes[id] = generateCreateMutationType(id, this);
+        }
+        return this.createTypes[id];
     }
     public getType(name: string): GraphQLObjectType {
         if (!name) {

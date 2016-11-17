@@ -1,10 +1,7 @@
-/*import { GraphQLFieldConfig } from "graphql";
 import Generator from "./generator";
-
+import createMutation from "./mutations/create";
+import { GraphQLFieldConfig } from "graphql";
 export default (id: string, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {
-    const model = generator.getModel(id);
-    const modelType = generator.getType(model.id);
-    let mutations: Array<{ name: string, field: GraphQLFieldConfig<any> }> = [];
-
+    let mutations: Array<{ name: string, field: GraphQLFieldConfig<any> }> = createMutation(id, generator);
     return mutations;
-}*/
+};

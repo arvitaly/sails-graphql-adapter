@@ -1,4 +1,4 @@
-import { Model } from "./../model";
+import Model from "./../model/model";
 import argsToFind from "./args-to-find";
 import ResolveType from "./type";
 import { Connection } from "graphql-relay";

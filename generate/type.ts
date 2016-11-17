@@ -1,13 +1,12 @@
 import AttributeType from "./../model/attribute-type";
 import ResolveType from "./../resolve/type";
+import scalarTypeToGraphql from "./../utils/scalar-type-to-graphql";
 import Generator from "./generator";
-import {
-    GraphQLFieldConfigMap, GraphQLFloat, GraphQLInt, GraphQLObjectType, GraphQLString,
-} from "graphql";
+import { GraphQLFieldConfigMap, GraphQLObjectType } from "graphql";
 export default (id: string, generator: Generator) => {
     const model = generator.getModel(id);
     let fields: GraphQLFieldConfigMap<any> = {};
-    model.mapAttributes((attr) => {
+    model.attributes.map((attr) => {
         if (attr.type === AttributeType.Model) {
             fields[attr.name] = {
                 resolve: async (root, args, context) => {
@@ -27,22 +26,15 @@ export default (id: string, generator: Generator) => {
             let graphqlType;
             switch (attr.type) {
                 case AttributeType.String:
-                    graphqlType = GraphQLString;
-                    break;
                 case AttributeType.Integer:
-                    graphqlType = GraphQLInt;
-                    break;
                 case AttributeType.Float:
-                    graphqlType = GraphQLFloat;
-                    break;
                 case AttributeType.Date:
-                    graphqlType = GraphQLString;
-                    break;
                 case AttributeType.Datetime:
-                    graphqlType = GraphQLString;
+                case AttributeType.Boolean:
+                    graphqlType = scalarTypeToGraphql(attr.type);
                     break;
                 default:
-                    throw new Error("Not supported type " + attr.type);
+                    throw new Error("Not supported type " + AttributeType[attr.type]);
             }
             fields[attr.name] = {
                 type: graphqlType,

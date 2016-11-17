@@ -7,7 +7,7 @@ export type Args = Array<{ name: string, field: GraphQLArgumentConfig }>;
 export default function (id: string, generator: Generator): GraphQLFieldConfigArgumentMap {
     const model = generator.getModel(id);
     let argsA: Args = [];
-    model.mapAttributes((attr) => {
+    model.attributes.map((attr) => {
         if (attr.type === AttributeType.Model) {
             argsA = argsA.concat(argsForModel(attr, generator));
         } else {

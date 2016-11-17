@@ -1,11 +1,13 @@
 "use strict";
 const model_1 = require("./../model");
 const resolver_1 = require("./../resolve/resolver");
+const create_type_1 = require("./mutations/create-type");
 const type_1 = require("./type");
 class Generator {
     constructor(sails) {
         this.models = {};
         this.types = {};
+        this.createTypes = {};
         this.sailsModels = sailsModelsToArray(sails.models);
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = model_1.default(sailsModel);
@@ -21,8 +23,11 @@ class Generator {
         }
         return this.models[id];
     }
-    getCreateType() {
-        // TODO
+    getCreateType(id) {
+        if (!this.createTypes[id]) {
+            this.createTypes[id] = create_type_1.default(id, this);
+        }
+        return this.createTypes[id];
     }
     getType(name) {
         if (!name) {

@@ -5,7 +5,7 @@ const model_1 = require("./query-args/model");
 function default_1(id, generator) {
     const model = generator.getModel(id);
     let argsA = [];
-    model.mapAttributes((attr) => {
+    model.attributes.map((attr) => {
         if (attr.type === attribute_type_1.default.Model) {
             argsA = argsA.concat(model_1.default(attr, generator));
         }
