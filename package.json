@@ -11,7 +11,12 @@
     "type": "git",
     "url": "git+https://github.com/arvitaly/sails-graphql-adapter.git"
   },
-  "keywords": [],
+  "keywords": [
+    "sails",
+    "graphql",
+    "waterline",
+    "relay"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
