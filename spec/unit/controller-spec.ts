@@ -7,20 +7,38 @@ describe("Controller spec", () => {
     let req = "req1";
     let res = "res1";
     let schema = "schema";
+    let sails = "sails";
+    let generateSpy: jasmine.Spy;
     beforeEach(() => {
         graphqlHTTP = jasmine.createSpy("");
         graphqlHTTPHandler = jasmine.createSpy("");
-        controller = mock.require("./../controller", {
+        generateSpy = jasmine.createSpy("");
+        controller = mock.require("./../../controller", {
             "express-graphql": graphqlHTTP,
+            "./../../generate": { default: generateSpy },
         }).default;
     });
     it("when schema setted and call index, should call graphqlHTTP with this schema", () => {
         graphqlHTTP.and.returnValue(graphqlHTTPHandler);
-        controller(schema as any).index(req, res);
+        controller({ schema: schema as any }).index(req, res);
         expect(graphqlHTTP.calls.allArgs()).toEqual([[{
             schema,
             graphiql: true,
         }]]);
         expect(graphqlHTTPHandler.calls.allArgs()).toEqual([["req1", "res1"]]);
+    });
+    it("when schema not setted and set sails, should generate schema and call graphqlHTTP with this schema", () => {
+        graphqlHTTP.and.returnValue(graphqlHTTPHandler);
+        generateSpy.and.returnValue(schema);
+        controller({ sails: sails as any }).index(req, res);
+        expect(generateSpy.calls.allArgs()).toEqual([[sails]]);
+        expect(graphqlHTTP.calls.allArgs()).toEqual([[{
+            schema,
+            graphiql: true,
+        }]]);
+        expect(graphqlHTTPHandler.calls.allArgs()).toEqual([["req1", "res1"]]);
+    });
+    it("when schema not setted and sails not setted, should throw error", () => {
+        expect(controller.bind(this, {})).toThrowError("Should be setted schema or sails");
     });
 });
