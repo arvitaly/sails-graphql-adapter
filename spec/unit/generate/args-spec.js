@@ -1,8 +1,9 @@
 "use strict";
 const args_1 = require("./../../../generate/args");
 const model_1 = require("./../../../model");
+const model1_1 = require("./../../fixtures/model1");
 const graphql_1 = require("graphql");
-describe("Args for model spec", () => {
+fdescribe("Args for model spec", () => {
     it("when called should create all useful args", () => {
         const expected = {
             firstActive: { type: graphql_1.GraphQLString },
@@ -36,20 +37,7 @@ describe("Args for model spec", () => {
             sumLessThan: { type: graphql_1.GraphQLFloat },
             sumLessThanOrEqual: { type: graphql_1.GraphQLFloat },
         };
-        const result = args_1.default(new model_1.Model({
-            attributes: {
-                firstActive: "date",
-                lastActive: "datetime",
-                num: "integer",
-                str1: {
-                    type: "string"
-                },
-                sum: {
-                    type: "float"
-                },
-            },
-            globalId: "Model1",
-        }));
+        const result = args_1.default(new model_1.Model(model1_1.default));
         expect(result).toEqual(expected);
     });
 });

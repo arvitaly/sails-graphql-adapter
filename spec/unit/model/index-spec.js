@@ -1,24 +1,34 @@
 "use strict";
 const model_1 = require("./../../../model");
 const attribute_type_1 = require("./../../../model/attribute-type");
+const model1_1 = require("./../../fixtures/model1");
 describe("Adapter model spec", () => {
     it("when created, should convert all attributes", () => {
-        const sailsModel = {
-            attributes: {
-                name: "string",
-                num: "integer",
-                sum: "float",
-            },
-            globalId: "Model1",
-            identity: "model1",
-        };
-        const model = model_1.default(sailsModel);
-        expect(model).toEqual(new model_1.Model(sailsModel));
-        expect(model.id).toBe(sailsModel.identity);
-        expect(model.name).toBe("Model1");
-        expect(model.pluralizeQueryName).toBe("model1s");
-        expect(model.queryName).toBe("model1");
+        const model = model_1.default(model1_1.default);
+        expect(model).toEqual(new model_1.Model(model1_1.default));
+        expect(model.id).toBe(model1_1.default.identity);
+        expect(model.name).toBe("ModelName1");
+        expect(model.pluralizeQueryName).toBe("modelName1s");
+        expect(model.queryName).toBe("modelName1");
         expect(model.attributes).toEqual({
+            firstActive: {
+                isRequired: true,
+                model: "",
+                name: "firstActive",
+                type: attribute_type_1.default.Date,
+            },
+            lastActive: {
+                isRequired: false,
+                model: "",
+                name: "lastActive",
+                type: attribute_type_1.default.Datetime,
+            },
+            model2Field: {
+                isRequired: false,
+                model: "model2",
+                name: "model2Field",
+                type: attribute_type_1.default.Model,
+            },
             name: {
                 isRequired: false,
                 model: "",
@@ -26,7 +36,7 @@ describe("Adapter model spec", () => {
                 type: attribute_type_1.default.String,
             },
             num: {
-                isRequired: false,
+                isRequired: true,
                 model: "",
                 name: "num",
                 type: attribute_type_1.default.Integer,
@@ -37,13 +47,19 @@ describe("Adapter model spec", () => {
                 name: "sum",
                 type: attribute_type_1.default.Float,
             },
+            title: {
+                isRequired: false,
+                model: "",
+                name: "title",
+                type: attribute_type_1.default.String,
+            },
         });
         let count = 0;
         model.mapAttributes((attr) => {
             count++;
         });
-        expect(count).toBe(3);
-        expect(model.getNameWithPostfix("Test")).toBe("Model1Test");
-        expect(model.getNameWithPrefix("Test")).toBe("TestModel1");
+        expect(count).toBe(7);
+        expect(model.getNameWithPostfix("Test")).toBe("ModelName1Test");
+        expect(model.getNameWithPrefix("Test")).toBe("TestModelName1");
     });
 });

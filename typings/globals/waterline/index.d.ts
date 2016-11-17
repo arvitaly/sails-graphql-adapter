@@ -45,6 +45,7 @@ declare namespace Waterline {
         autoIncrement?: boolean;
         primaryKey?: boolean;
         unique?: boolean;
+        required?: boolean;
     }
     export type CollectionAttribute = BaseAttribute & {
         collection: string;
