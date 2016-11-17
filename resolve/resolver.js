@@ -45,16 +45,21 @@ class Resolver {
             return res;
         });
     }
+    generateCreateParams(modelId, createParams) {
+        const model = this.generator.getModel(modelId);
+        let created = Object.assign({}, createParams);
+        model.attributes.map((attr) => {
+            if (typeof (createParams["create" + attr.capitalizeName]) !== "undefined") {
+                created[attr.name] = this.generateCreateParams(attr.model, createParams["create" + attr.capitalizeName]);
+                delete created["create" + attr.capitalizeName];
+            }
+        });
+        return created;
+    }
     mutateAndGetPayloadCreate(opts) {
         return __awaiter(this, void 0, void 0, function* () {
             const model = this.generator.getModel(opts.identity);
-            let created = Object.assign({}, opts.mutateObject);
-            model.attributes.map((attr) => {
-                if (typeof (opts.mutateObject["create" + attr.capitalizeName]) !== "undefined") {
-                    created[attr.name] = opts.mutateObject["create" + attr.capitalizeName];
-                    delete created["create" + attr.capitalizeName];
-                }
-            });
+            let created = this.generateCreateParams(opts.identity, opts.mutateObject);
             const result = (yield this.generator.sails.models[opts.identity].create(created));
             let res = {};
             res[model.queryName] = result;

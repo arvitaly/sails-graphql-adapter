@@ -44,15 +44,22 @@ export default class Resolver {
         res[model.pluralizeQueryName] = result;
         return res;
     }
-    protected async mutateAndGetPayloadCreate(opts: ResolveOpts) {
-        const model = this.generator.getModel(opts.identity);
-        let created = Object.assign({}, opts.mutateObject);
+    protected generateCreateParams(modelId: string, createParams) {
+        const model = this.generator.getModel(modelId);
+        let created = Object.assign({}, createParams);
         model.attributes.map((attr) => {
-            if (typeof (opts.mutateObject["create" + attr.capitalizeName]) !== "undefined") {
-                created[attr.name] = opts.mutateObject["create" + attr.capitalizeName];
+            if (typeof (createParams["create" + attr.capitalizeName]) !== "undefined") {
+                created[attr.name] = this.generateCreateParams(
+                    attr.model,
+                    createParams["create" + attr.capitalizeName]);
                 delete created["create" + attr.capitalizeName];
             }
         });
+        return created;
+    }
+    protected async mutateAndGetPayloadCreate(opts: ResolveOpts) {
+        const model = this.generator.getModel(opts.identity);
+        let created = this.generateCreateParams(opts.identity, opts.mutateObject);
         const result = (await this.generator.sails.models[opts.identity].create(created));
         let res = {};
         res[model.queryName] = result;
