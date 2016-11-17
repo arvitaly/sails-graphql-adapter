@@ -10,14 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const args_to_find_1 = require("./args-to-find");
 const type_1 = require("./type");
 class Resolver {
-    constructor(sails, models) {
-        this.sails = sails;
-        this.models = models;
+    constructor(generator) {
+        this.generator = generator;
     }
     resolve(opts) {
         switch (opts.type) {
             case type_1.default.Model:
-                return this.resolveModel(opts);
+                return this.resolveOne(opts);
             case type_1.default.ListOfModel:
                 break;
             case type_1.default.MutateAndGetPayload:
@@ -31,16 +30,17 @@ class Resolver {
             // TODO 
         });
     }
-    resolveModel(opts) {
+    resolveOne(opts) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = (yield sails.models[opts.identity].find(args_to_find_1.default(this.models[opts.identity], opts.args)));
+            const args = args_to_find_1.default(this.generator.getModel(opts.identity), opts.args);
+            const result = (yield this.generator.sails.models[opts.identity].find(args));
             if (result) {
                 return result[0];
             }
             return null;
         });
     }
-    resolveListOfModel(opts) {
+    resolveConnection(opts) {
         return __awaiter(this, void 0, void 0, function* () {
             throw new Error("Not implemented");
             /*const findParams = argsToFind(this.models[opts.identity], opts.args);

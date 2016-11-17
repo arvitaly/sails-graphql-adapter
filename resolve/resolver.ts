@@ -1,4 +1,4 @@
-import Model from "./../model/model";
+import Generator from "./../generate/generator";
 import argsToFind from "./args-to-find";
 import ResolveType from "./type";
 import { Connection } from "graphql-relay";
@@ -13,13 +13,11 @@ type ResolveOpts = {
     mutateObject?: any;
 }
 export default class Resolver {
-    constructor(public sails: Sails.Sails, public models: { [index: string]: Model }) {
-
-    }
+    constructor(public generator: Generator) { }
     public resolve(opts: ResolveOpts) {
         switch (opts.type) {
             case ResolveType.Model:
-                return this.resolveModel(opts);
+                return this.resolveOne(opts);
             case ResolveType.ListOfModel:
                 break;
             case ResolveType.MutateAndGetPayload:
@@ -31,14 +29,15 @@ export default class Resolver {
     protected async mutateAndGetPayload(opts: ResolveOpts) {
         // TODO 
     }
-    protected async resolveModel(opts: ResolveOpts) {
-        const result = (await sails.models[opts.identity].find(argsToFind(this.models[opts.identity], opts.args)));
+    protected async resolveOne(opts: ResolveOpts) {
+        const args = argsToFind(this.generator.getModel(opts.identity), opts.args);
+        const result = (await this.generator.sails.models[opts.identity].find(args));
         if (result) {
             return result[0];
         }
         return null;
     }
-    protected async resolveListOfModel(opts: ResolveOpts): Promise<Connection<any>> {
+    protected async resolveConnection(opts: ResolveOpts): Promise<Connection<any>> {
         throw new Error("Not implemented");
         /*const findParams = argsToFind(this.models[opts.identity], opts.args);
         const result = await sails.models[opts.identity].find(findParams);

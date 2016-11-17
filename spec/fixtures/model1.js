@@ -34,4 +34,7 @@ exports.default = {
             model: "model2",
         },
     },
+    find: () => {
+        throw new Error("Not implemented");
+    },
 };

@@ -5,6 +5,7 @@ const create_type_1 = require("./mutations/create-type");
 const type_1 = require("./type");
 class Generator {
     constructor(sails) {
+        this.sails = sails;
         this.models = {};
         this.types = {};
         this.createTypes = {};
@@ -12,7 +13,7 @@ class Generator {
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = model_1.default(sailsModel);
         });
-        this.resolver = new resolver_1.default(sails, this.models);
+        this.resolver = new resolver_1.default(this);
     }
     mapSailsModels(cb) {
         return this.sailsModels.map(cb);

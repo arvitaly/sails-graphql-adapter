@@ -10,12 +10,12 @@ class Generator implements Generator {
     protected types: { [index: string]: GraphQLObjectType } = {};
     protected createTypes: { [index: string]: GraphQLInputObjectType } = {};
     protected sailsModels: Array<Sails.Model>;
-    constructor(sails: Sails.Sails) {
+    constructor(public sails: Sails.Sails) {
         this.sailsModels = sailsModelsToArray(sails.models);
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = convertModel(sailsModel);
         });
-        this.resolver = new Resolver(sails, this.models);
+        this.resolver = new Resolver(this);
     }
     public mapSailsModels(cb) {
         return this.sailsModels.map(cb);

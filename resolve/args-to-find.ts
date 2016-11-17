@@ -69,6 +69,12 @@ export default (model: Model, args: any) => {
                     };
                 }
                 break;
+            case AttributeType.Boolean:
+                // TODO 
+                break;
+            case AttributeType.Model:
+                // TODO
+                break;
             default:
                 throw new Error("Unknown attr type " + AttributeType[attrType] + " for args to find");
         }
