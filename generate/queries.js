@@ -1,10 +1,11 @@
 "use strict";
 const type_1 = require("./../resolve/type");
 const args_1 = require("./args");
-const graphql_1 = require("graphql");
+const graphql_relay_1 = require("graphql-relay");
 function generateQueryForModel(id, generator) {
     const model = generator.getModel(id);
     const modelType = generator.getType(model.id);
+    const connectionParams = graphql_relay_1.connectionDefinitions({ nodeType: modelType });
     return [{
             field: {
                 args: args_1.default(id, generator),
@@ -38,7 +39,7 @@ function generateQueryForModel(id, generator) {
                         type: type_1.default.ListOfModel,
                     });
                 },
-                type: new graphql_1.GraphQLList(modelType),
+                type: connectionParams.connectionType,
             },
             name: model.pluralizeQueryName,
         }];

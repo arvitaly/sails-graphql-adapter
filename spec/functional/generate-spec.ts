@@ -1,35 +1,9 @@
 import generate from "./../../generate";
+import app1 from "./app1";
 import { graphql } from "graphql";
-import * as Sails from "sails";
-const SailsConstructor = Sails.constructor;
 describe("Functional tests for generate", () => {
-    let sails: Sails.Sails;
-    let app: Sails.App;
     beforeEach((done) => {
-        app = new SailsConstructor();
-        app.load({
-            appPath: __dirname + "/../fixtures/app1",
-            connections: {
-                memory: {
-                    adapter: "sails-memory",
-                },
-            },
-            log: {
-                level: "warn",
-            },
-            models: {
-                connection: "memory",
-                migrate: "drop",
-            },
-        }, (err, sailsNew) => {
-            if (err) {
-                fail(err);
-                done();
-                return;
-            }
-            sails = sailsNew;
-            done();
-        });
+        app1(done);
     });
     /* tslint:disable:no-string-literal */
     pit("when args has nameContains and name contains it, should return one record", async () => {
@@ -56,11 +30,7 @@ describe("Functional tests for generate", () => {
         });
     });
     afterEach((done) => {
-        if (sails) {
-            app.lower(done);
-        } else {
-            done();
-        }
+        sails.lower(done);
     });
 });
 function j(data) {

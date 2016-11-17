@@ -8,37 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const generate_1 = require("./../../generate");
+const app1_1 = require("./app1");
 const graphql_1 = require("graphql");
-const Sails = require("sails");
-const SailsConstructor = Sails.constructor;
 describe("Functional tests for generate", () => {
-    let sails;
-    let app;
     beforeEach((done) => {
-        app = new SailsConstructor();
-        app.load({
-            appPath: __dirname + "/../fixtures/app1",
-            connections: {
-                memory: {
-                    adapter: "sails-memory",
-                },
-            },
-            log: {
-                level: "warn",
-            },
-            models: {
-                connection: "memory",
-                migrate: "drop",
-            },
-        }, (err, sailsNew) => {
-            if (err) {
-                fail(err);
-                done();
-                return;
-            }
-            sails = sailsNew;
-            done();
-        });
+        app1_1.default(done);
     });
     /* tslint:disable:no-string-literal */
     pit("when args has nameContains and name contains it, should return one record", () => __awaiter(this, void 0, void 0, function* () {
@@ -65,12 +39,7 @@ describe("Functional tests for generate", () => {
         });
     }));
     afterEach((done) => {
-        if (sails) {
-            app.lower(done);
-        }
-        else {
-            done();
-        }
+        sails.lower(done);
     });
 });
 function j(data) {

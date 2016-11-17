@@ -48,15 +48,15 @@ describe("Resolver spec", () => {
                 return {
                     cursor: "",
                     node: n,
-                }
+                };
             }),
             pageInfo: {
                 endCursor: "",
                 hasNextPage: true,
                 hasPreviousPage: true,
                 startCursor: "",
-            }
-        }
+            },
+        };
         expect(result).toEqual(expected);
-    })
+    });
 });

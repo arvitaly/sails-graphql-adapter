@@ -63,7 +63,7 @@ describe("Resolver spec", () => {
                 hasNextPage: true,
                 hasPreviousPage: true,
                 startCursor: "",
-            }
+            },
         };
         expect(result).toEqual(expected);
     }));
