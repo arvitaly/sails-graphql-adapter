@@ -6,6 +6,7 @@ export type Attribute = {
     name: string;
     type: AttributeType;
     model?: string;
+    isRequired?: boolean;
 }
 export class Model {
     public id: string;

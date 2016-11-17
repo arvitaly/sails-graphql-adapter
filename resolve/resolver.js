@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-const type_1 = require('./type');
-const args_to_find_1 = require('./args-to-find');
+const args_to_find_1 = require("./args-to-find");
+const type_1 = require("./type");
 class Resolver {
     constructor(sails, models) {
         this.sails = sails;
@@ -19,7 +19,16 @@ class Resolver {
             case type_1.default.Model:
                 return this.resolveModel(opts);
             case type_1.default.ListOfModel:
+                break;
+            case type_1.default.MutateAndGetPayload:
+                return this.mutateAndGetPayload(opts);
+            default:
+                throw new Error("Unknown resolve type");
         }
+    }
+    mutateAndGetPayload(opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
     }
     resolveModel(opts) {
         return __awaiter(this, void 0, void 0, function* () {

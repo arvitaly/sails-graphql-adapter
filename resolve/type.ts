@@ -1,6 +1,7 @@
 enum ResolveType {
     Model,
     ListOfModel,
-    Submodel
+    Submodel,
+    MutateAndGetPayload
 }
 export default ResolveType; 

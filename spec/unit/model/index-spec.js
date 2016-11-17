@@ -20,16 +20,19 @@ describe("Adapter model spec", () => {
         expect(model.queryName).toBe("model1");
         expect(model.attributes).toEqual({
             name: {
+                isRequired: false,
                 model: "",
                 name: "name",
                 type: attribute_type_1.default.String,
             },
             num: {
+                isRequired: false,
                 model: "",
                 name: "num",
                 type: attribute_type_1.default.Integer,
             },
             sum: {
+                isRequired: false,
                 model: "",
                 name: "sum",
                 type: attribute_type_1.default.Float,
