@@ -1,4 +1,5 @@
 "use strict";
+const capitalize_1 = require("./../utils/capitalize");
 const attribute_type_1 = require("./attribute-type");
 class Attribute {
     constructor(name, attr) {
@@ -51,6 +52,7 @@ class Attribute {
         this.isRequired = attr.required === true;
         this.model = model;
         this.name = name;
+        this.capitalizeName = capitalize_1.default(name);
         this.type = outType;
         if (attr.primaryKey === true) {
             this.isPrimaryKey = true;

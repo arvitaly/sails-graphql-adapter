@@ -1,6 +1,8 @@
+import capitalize from "./../utils/capitalize";
 import AttributeType from "./attribute-type";
 export default class Attribute {
     public name: string;
+    public capitalizeName: string;
     public type: AttributeType;
     public model?: string;
     public isRequired?: boolean;
@@ -55,6 +57,7 @@ export default class Attribute {
         this.isRequired = (attr as Waterline.BaseAttribute).required === true;
         this.model = model;
         this.name = name;
+        this.capitalizeName = capitalize(name);
         this.type = outType;
         if ((attr as Waterline.BaseAttribute).primaryKey === true) {
             this.isPrimaryKey = true;

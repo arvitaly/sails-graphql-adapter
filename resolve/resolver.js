@@ -19,13 +19,31 @@ class Resolver {
                 return this.resolveOne(opts);
             case type_1.default.ListOfModel:
                 return this.resolveConnection(opts);
-            case type_1.default.MutateAndGetPayload:
-                return this.mutateAndGetPayload(opts);
+            case type_1.default.MutateAndGetPayloadCreate:
+                return this.mutateAndGetPayloadCreate(opts);
+            case type_1.default.MutateAndGetPayloadUpdate:
+                return this.mutateAndGetPayloadUpdate(opts);
             default:
                 throw new Error("Unknown resolve type");
         }
     }
-    mutateAndGetPayload(opts) {
+    mutateAndGetPayloadUpdate(opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const model = this.generator.getModel(opts.identity);
+            let updated = {};
+            let where = opts.mutateObject.where || {};
+            model.attributes.map((attr) => {
+                if (typeof (opts.mutateObject["set" + attr.capitalizeName]) !== "undefined") {
+                    updated[attr.name] = opts.mutateObject["set" + attr.capitalizeName][attr.name];
+                }
+            });
+            const result = yield this.generator.sails.models[opts.identity].update(where, updated);
+            let res = {};
+            res[model.pluralizeQueryName] = result;
+            return res;
+        });
+    }
+    mutateAndGetPayloadCreate(opts) {
         return __awaiter(this, void 0, void 0, function* () {
             // TODO 
         });

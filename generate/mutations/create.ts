@@ -43,7 +43,7 @@ const create = (id: string, generator: Generator): Array<{ name: string, field: 
                     identity: model.id,
                     mutateObject,
                     parentIdentity: null,
-                    type: ResolveType.MutateAndGetPayload,
+                    type: ResolveType.MutateAndGetPayloadCreate,
                 });
             },
             name: model.getNameWithPrefix("Create") + "Mutation",
