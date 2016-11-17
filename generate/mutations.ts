@@ -62,6 +62,6 @@ export default (id: string, generator: Generator): Array<{ name: string, field: 
         name: "update" + capitalize(model.name),
         field: updateMutation
     })
-
+updateMutation.type
     return mutations;
 }

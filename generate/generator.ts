@@ -1,12 +1,12 @@
-import { GraphQLObjectType } from 'graphql';
-import generateTypeForModel from './type';
-import convertModel, { Model } from './../model';
-import Resolver from './../resolve/resolver';
+import { GraphQLObjectType } from "graphql";
+import convertModel, { Model } from "./../model";
+import Resolver from "./../resolve/resolver";
+import generateTypeForModel from "./type";
 class Generator implements Generator {
-    types: { [index: string]: GraphQLObjectType } = {};
     public resolver: Resolver;
     public models: { [index: string]: Model } = {};
-    sailsModels: Array<Sails.Model>;
+    protected types: { [index: string]: GraphQLObjectType } = {};
+    protected sailsModels: Array<Sails.Model>;
     constructor(sails: Sails.Sails) {
         this.sailsModels = sailsModelsToArray(sails.models);
         this.sailsModels.map((sailsModel) => {
@@ -14,16 +14,19 @@ class Generator implements Generator {
         })
         this.resolver = new Resolver(sails, this.models);
     }
-    mapSailsModels(cb){
+    public mapSailsModels(cb) {
         return this.sailsModels.map(cb);
     }
-    getModel(id: string): Model {
-        if (!this.models[id]){
+    public getModel(id: string): Model {
+        if (!this.models[id]) {
             throw new Error("Not found model with id " + id);
         }
         return this.models[id];
     }
-    getType(name: string): GraphQLObjectType {
+    public getCreateType() {
+        // TODO
+    }
+    public getType(name: string): GraphQLObjectType {
         if (!name) {
             throw new Error("Name should be set");
         }
@@ -36,7 +39,7 @@ class Generator implements Generator {
 }
 function sailsModelsToArray(sailsModels: { [index: string]: Sails.Model }): Array<Sails.Model> {
     let arr = [];
-    for (let modelName in sailsModels) {
+    for (let modelName of Object.keys(sailsModels)) {
         arr.push(sailsModels[modelName])
     }
     return arr;

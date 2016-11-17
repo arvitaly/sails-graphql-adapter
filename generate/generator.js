@@ -1,11 +1,11 @@
 "use strict";
-const type_1 = require('./type');
-const model_1 = require('./../model');
-const resolver_1 = require('./../resolve/resolver');
+const model_1 = require("./../model");
+const resolver_1 = require("./../resolve/resolver");
+const type_1 = require("./type");
 class Generator {
     constructor(sails) {
-        this.types = {};
         this.models = {};
+        this.types = {};
         this.sailsModels = sailsModelsToArray(sails.models);
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = model_1.default(sailsModel);
@@ -21,6 +21,9 @@ class Generator {
         }
         return this.models[id];
     }
+    getCreateType() {
+        // TODO
+    }
     getType(name) {
         if (!name) {
             throw new Error("Name should be set");
@@ -34,7 +37,7 @@ class Generator {
 }
 function sailsModelsToArray(sailsModels) {
     let arr = [];
-    for (let modelName in sailsModels) {
+    for (let modelName of Object.keys(sailsModels)) {
         arr.push(sailsModels[modelName]);
     }
     return arr;

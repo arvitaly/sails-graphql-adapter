@@ -69,5 +69,6 @@ exports.default = (id, generator) => {
         name: "update" + capitalize_1.default(model.name),
         field: updateMutation
     });
+    updateMutation.type;
     return mutations;
 };

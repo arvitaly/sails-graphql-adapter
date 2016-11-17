@@ -4,7 +4,7 @@
   "description": "This is lib create graphql api for Sails application. (In depelopment)",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && istanbul cover node_modules/jasmine/bin/jasmine.js",
+    "test": "tsc && tslint --project=tsconfig.json && istanbul cover node_modules/jasmine/bin/jasmine.js",
     "watch:test": "nodemon --exec jasmine"
   },
   "repository": {
