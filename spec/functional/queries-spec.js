@@ -2,7 +2,7 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
@@ -10,48 +10,75 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const generate_1 = require("./../../generate");
 const app1_1 = require("./app1");
 const graphql_1 = require("graphql");
-/* tslint:disable:no-string-literal */
-describe("Function tests for queries", () => {
-    beforeEach((done) => {
-        global["l"] = console.log;
-        app1_1.default(done);
-    });
+const dt1 = "Fri Nov 18 2016 18:25:11 GMT+0700 (SE Asia Standard Time)";
+fdescribe("Function tests for queries", () => {
+    let query;
     pit("query for single model", () => __awaiter(this, void 0, void 0, function* () {
-        // TODO: create test for single model
-        yield sails.models["model1"].create({ name: "n1" });
-        const schema = generate_1.default(sails);
-        expect(j(yield graphql_1.graphql(schema, `query Q1 {model1(nameContains:"n1"){name}}`))).toEqual({
-            model1: {
-                name: "n1",
+        const dt2 = "Fri Nov 10 2016 18:25:11 GMT+0700 (SE Asia Standard Time)";
+        const dt3 = "Fri Nov 20 2016 18:25:11 GMT+0700 (SE Asia Standard Time)";
+        yield createRow({ isActive: true, name: "fn1f" });
+        expect(yield query(`query Q1 {modelName1(
+                nameContains:"n1"
+                isActive: true
+                lastActiveGreaterThan:"${dt2}"                
+                lastActiveLessThan :"${dt3}"
+            ){name lastActive}}`)).toEqual({
+            modelName1: {
+                lastActive: dt1,
+                name: "fn1f",
             },
         });
     }));
     pit("query for connection of model", () => __awaiter(this, void 0, void 0, function* () {
-        // TODO: create test for connection of model
-        yield sails.models["model1"].create([{ name: "n1" }, { name: "n2" }]);
-        const schema = generate_1.default(sails);
-        const result = yield graphql_1.graphql(schema, `query Q1 {model1s(nameContains:"n"){edges{node{name} }}}`);
-        expect(j(result)).toEqual({
-            model1s: {
-                edges: [{
-                        node: {
-                            name: "n1",
-                        },
-                    }, {
-                        node: {
-                            name: "n2",
-                        },
-                    }],
+        yield createRow({ name: "n1" });
+        yield createRow({ name: "n2" });
+        const result = yield query(`query Q1 {modelName1s(nameContains:"n"){edges{node{name} }}}`);
+        expect(result).toEqual({
+            modelName1s: {
+                edges: [
+                    { node: { name: "n1" } },
+                    { node: { name: "n2" } }],
             },
         });
     }));
     it("query for count of model", () => {
         // TODO: create test for count of model
     });
+    /* tslint:disable:no-string-literal */
+    beforeEach((done) => {
+        global["l"] = console.log;
+        app1_1.default(() => {
+            const schema = generate_1.default(sails);
+            query = (q) => __awaiter(this, void 0, void 0, function* () {
+                const result = yield graphql_1.graphql(schema, q);
+                if (result.errors) {
+                    console.error(result.errors);
+                    fail(result.errors);
+                    return;
+                }
+                return j(result.data);
+            });
+            done();
+        });
+    });
     afterEach((done) => {
         sails.lower(done);
     });
 });
 function j(data) {
-    return JSON.parse(JSON.stringify(data)).data;
+    return JSON.parse(JSON.stringify(data));
+}
+const row1 = {
+    firstActive: dt1,
+    isActive: false,
+    lastActive: dt1,
+    name: "n1",
+    num: 0,
+};
+function getRow(params) {
+    return Object.assign({}, row1, params);
+}
+;
+function createRow(params) {
+    return sails.models["modelname1"].create(getRow(params));
 }

@@ -1,10 +1,36 @@
 import AttributeType from "./../model/attribute-type";
 import Model from "./../model/model";
+import decapitalize from "./../utils/decapitalize";
 export type FindParams = {
     where?;
     sort?: string;
     skip?: number;
     limit?: number;
+}
+function addStringArgs(where, args, attrName) {
+    const postfixes = ["Contains", "StartsWith", "EndsWith", "Like"];
+    postfixes.map((postfix) => {
+        if (args[attrName + postfix]) {
+            if (!where[attrName]) {
+                where[attrName] = {};
+            }
+            where[attrName][decapitalize(postfix)] = args[attrName + postfix];
+        }
+    });
+}
+function addNumericArgs(where, args, attrName, attrType: AttributeType) {
+    const postfixes = ["LessThan", "LessThanOrEqual", "GreaterThan", "GreaterThanOrEqual"];
+    postfixes.map((postfix) => {
+        if (args[attrName + postfix]) {
+            if (!where[attrName]) {
+                where[attrName] = {};
+            }
+            where[attrName][decapitalize(postfix)] =
+                attrType === AttributeType.Date || attrType === AttributeType.Datetime ?
+                    new Date(args[attrName + postfix]) :
+                    args[attrName + postfix];
+        }
+    });
 }
 export default (model: Model, args: any) => {
     let where = {};
@@ -23,51 +49,13 @@ export default (model: Model, args: any) => {
         const attrType = attr.type;
         switch (attrType) {
             case AttributeType.String:
-                if (args[attrName + "Contains"]) {
-                    where[attrName] = { contains: args[attrName + "Contains"] };
-                }
-                if (args[attrName + "StartsWith"]) {
-                    where[attrName] = { contains: args[attrName + "StartsWith"] };
-                }
-                if (args[attrName + "EndsWith"]) {
-                    where[attrName] = { contains: args[attrName + "EndsWith"] };
-                }
-                if (args[attrName + "Like"]) {
-                    where[attrName] = { like: args[attrName + "Like"] };
-                }
+                addStringArgs(where, args, attrName);
                 break;
             case AttributeType.Float:
             case AttributeType.Integer:
             case AttributeType.Date:
             case AttributeType.Datetime:
-                if (args[attrName + "LessThan"]) {
-                    where[attrName] = {
-                        lessThan: attrType === AttributeType.Date || attrType === AttributeType.Datetime ?
-                            new Date(args[attrName + "LessThan"]) :
-                            args[attrName + "LessThan"],
-                    };
-                }
-                if (args[attrName + "LessThanOrEqual"]) {
-                    where[attrName] = {
-                        lessThanOrEqual: attrType === AttributeType.Date || attrType === AttributeType.Datetime ?
-                            new Date(args[attrName + "LessThan"]) :
-                            args[attrName + "LessThanOrEqual"],
-                    };
-                }
-                if (args[attrName + "GreaterThan"]) {
-                    where[attrName] = {
-                        greaterThan: attrType === AttributeType.Date || attrType === AttributeType.Datetime ?
-                            new Date(args[attrName + "LessThan"]) :
-                            args[attrName + "GreaterThan"],
-                    };
-                }
-                if (args[attrName + "GreaterThanOrEqual"]) {
-                    where[attrName] = {
-                        greaterThanOrEqual: attrType === AttributeType.Date || attrType === AttributeType.Datetime ?
-                            new Date(args[attrName + "LessThan"]) :
-                            args[attrName + "GreaterThanOrEqual"],
-                    };
-                }
+                addNumericArgs(where, args, attrName, attrType);
                 break;
             case AttributeType.Boolean:
                 // TODO 

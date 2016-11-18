@@ -1,5 +1,31 @@
 "use strict";
 const attribute_type_1 = require("./../model/attribute-type");
+const decapitalize_1 = require("./../utils/decapitalize");
+function addStringArgs(where, args, attrName) {
+    const postfixes = ["Contains", "StartsWith", "EndsWith", "Like"];
+    postfixes.map((postfix) => {
+        if (args[attrName + postfix]) {
+            if (!where[attrName]) {
+                where[attrName] = {};
+            }
+            where[attrName][decapitalize_1.default(postfix)] = args[attrName + postfix];
+        }
+    });
+}
+function addNumericArgs(where, args, attrName, attrType) {
+    const postfixes = ["LessThan", "LessThanOrEqual", "GreaterThan", "GreaterThanOrEqual"];
+    postfixes.map((postfix) => {
+        if (args[attrName + postfix]) {
+            if (!where[attrName]) {
+                where[attrName] = {};
+            }
+            where[attrName][decapitalize_1.default(postfix)] =
+                attrType === attribute_type_1.default.Date || attrType === attribute_type_1.default.Datetime ?
+                    new Date(args[attrName + postfix]) :
+                    args[attrName + postfix];
+        }
+    });
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (model, args) => {
     let where = {};
@@ -18,51 +44,13 @@ exports.default = (model, args) => {
         const attrType = attr.type;
         switch (attrType) {
             case attribute_type_1.default.String:
-                if (args[attrName + "Contains"]) {
-                    where[attrName] = { contains: args[attrName + "Contains"] };
-                }
-                if (args[attrName + "StartsWith"]) {
-                    where[attrName] = { contains: args[attrName + "StartsWith"] };
-                }
-                if (args[attrName + "EndsWith"]) {
-                    where[attrName] = { contains: args[attrName + "EndsWith"] };
-                }
-                if (args[attrName + "Like"]) {
-                    where[attrName] = { like: args[attrName + "Like"] };
-                }
+                addStringArgs(where, args, attrName);
                 break;
             case attribute_type_1.default.Float:
             case attribute_type_1.default.Integer:
             case attribute_type_1.default.Date:
             case attribute_type_1.default.Datetime:
-                if (args[attrName + "LessThan"]) {
-                    where[attrName] = {
-                        lessThan: attrType === attribute_type_1.default.Date || attrType === attribute_type_1.default.Datetime ?
-                            new Date(args[attrName + "LessThan"]) :
-                            args[attrName + "LessThan"],
-                    };
-                }
-                if (args[attrName + "LessThanOrEqual"]) {
-                    where[attrName] = {
-                        lessThanOrEqual: attrType === attribute_type_1.default.Date || attrType === attribute_type_1.default.Datetime ?
-                            new Date(args[attrName + "LessThan"]) :
-                            args[attrName + "LessThanOrEqual"],
-                    };
-                }
-                if (args[attrName + "GreaterThan"]) {
-                    where[attrName] = {
-                        greaterThan: attrType === attribute_type_1.default.Date || attrType === attribute_type_1.default.Datetime ?
-                            new Date(args[attrName + "LessThan"]) :
-                            args[attrName + "GreaterThan"],
-                    };
-                }
-                if (args[attrName + "GreaterThanOrEqual"]) {
-                    where[attrName] = {
-                        greaterThanOrEqual: attrType === attribute_type_1.default.Date || attrType === attribute_type_1.default.Datetime ?
-                            new Date(args[attrName + "LessThan"]) :
-                            args[attrName + "GreaterThanOrEqual"],
-                    };
-                }
+                addNumericArgs(where, args, attrName, attrType);
                 break;
             case attribute_type_1.default.Boolean:
                 // TODO 
