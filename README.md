@@ -40,7 +40,7 @@ Or you can use `generate` and `controller`
 
 1. Single model, like `user(where:{id:1}){ name }`
 
-2. Connection for list of model, like `users(where:{nameContains:"Jo"}){ id firstName }`
+2. Connection for list of model, like `users(where:{nameContains:"Jo"}){ edges{ node{id, firstName }} }`
 
 3. Count, like `countUsers(where:{birthdayGreaterThan:"Fri Nov 18 2016 17:39:43 GMT+0700 (SE Asia Standard Time)"}){ count }` // Not implemented now
 
