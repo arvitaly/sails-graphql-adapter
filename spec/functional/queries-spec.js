@@ -10,12 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const generate_1 = require("./../../generate");
 const app1_1 = require("./app1");
 const graphql_1 = require("graphql");
-const dt1 = "Fri Nov 18 2016 18:25:11 GMT+0700 (SE Asia Standard Time)";
-fdescribe("Function tests for queries", () => {
+const dt1 = new Date("Fri Nov 18 2016 18:25:11 GMT+0700 (SE Asia Standard Time)");
+describe("Function tests for queries", () => {
     let query;
     pit("query for single model", () => __awaiter(this, void 0, void 0, function* () {
-        const dt2 = "Fri Nov 10 2016 18:25:11 GMT+0700 (SE Asia Standard Time)";
-        const dt3 = "Fri Nov 20 2016 18:25:11 GMT+0700 (SE Asia Standard Time)";
+        const dt2 = new Date("Fri Nov 10 2016 18:25:11 GMT+0700 (SE Asia Standard Time)");
+        const dt3 = new Date("Fri Nov 20 2016 18:25:11 GMT+0700 (SE Asia Standard Time)");
         yield createRow({ isActive: true, name: "fn1f" });
         expect(yield query(`query Q1 {modelName1(
                 nameContains:"n1"
