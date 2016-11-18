@@ -27,7 +27,7 @@ function generateQueryForModel(id, generator) {
         }, {
             field: {
                 args: args_1.default(id, generator),
-                description: "List of " + model.name,
+                description: "Connection for " + model.name,
                 resolve: (root, args, context) => {
                     return generator.resolver.resolve({
                         args,

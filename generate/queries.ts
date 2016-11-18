@@ -30,7 +30,7 @@ export default function generateQueryForModel(id: string, generator: Generator):
     }, {
         field: {
             args: argsForModel(id, generator),
-            description: "List of " + model.name,
+            description: "Connection for " + model.name,
             resolve: (root, args, context) => {
                 return generator.resolver.resolve({
                     args,
