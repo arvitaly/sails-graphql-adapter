@@ -47,13 +47,13 @@ You can use sails-hook-graphql for automatic bind this adapter. More info about 
     - [ ] Connection query
         - [ ] Tests    
 - [ ] Node object
-        - [ ] Tests
+    - [ ] Tests
 - [ ] Mutations
     - [x] Update
-            - [ ] Tests
+         - [ ] Tests
     - [x] Create
         - [x] Submodel recursively create
-                - [ ] Tests
+            - [ ] Tests
         - [ ] Tests
     - [ ] DestroyById
         - [ ] Tests        
