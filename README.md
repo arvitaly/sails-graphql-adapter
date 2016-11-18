@@ -11,9 +11,28 @@
 
 # Install
 
-You can use sails-hook-graphql for automatic bind this adapter. More info about config https://github.com/arvitaly/sails-hook-graphql#configure
+You can use sails-hook-graphql for automatic binding this adapter. More info about config https://github.com/arvitaly/sails-hook-graphql#configure
 
     npm install sails-hook-graphql --save
+
+Or you can use `generate` and `controller`
+
+    npm install sails-graphql-adapter --save
+
+    //Generate GraphQL schema
+    const generate = require("sails-graphql-adapter").generate;
+    const schema = generate(sails);
+    //Controller for graphql queries
+    const Controller = require("sails-graphql-adapter").controller;
+    const controller = Controller({schema: schema}); // {index:(req, res)=>void}
+
+    //example manual binding
+    // config/routes.js
+    {
+        "/graphql" : "GraphQLController:index"
+    }
+    // api/controllers/GraphQLController.js
+    module.export = controller;
 
 # Usage
 
@@ -37,13 +56,11 @@ You can use sails-hook-graphql for automatic bind this adapter. More info about 
     
 # Feautures
 
-- [x] Adapter for sails
-    - [ ] Tests
 - [ ] Args for find https://github.com/arvitaly/sails-graphql-adapter/issues/1
-        - [ ] Tests
+    - [ ] Tests
 - [ ] Queries
     - [x] Single query
-        - [ ] Tests
+        - [x] Tests
     - [ ] Connection query
         - [ ] Tests    
 - [ ] Node object
