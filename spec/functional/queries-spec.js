@@ -24,7 +24,7 @@ describe("Function tests for queries", () => {
                 lastActiveLessThan :"${dt3}"
             ){name lastActive}}`)).toEqual({
             modelName1: {
-                lastActive: dt1,
+                lastActive: dt1.toString(),
                 name: "fn1f",
             },
         });
