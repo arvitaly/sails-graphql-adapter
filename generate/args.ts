@@ -2,7 +2,7 @@ import Generator from "./../generate/generator";
 import AttributeType from "./../model/attribute-type";
 import argsForScalarType from "./query-args/for-scalar-type";
 import argsForModel from "./query-args/model";
-import { GraphQLArgumentConfig, GraphQLFieldConfigArgumentMap } from "graphql";
+import { GraphQLArgumentConfig, GraphQLFieldConfigArgumentMap, GraphQLInt, GraphQLString } from "graphql";
 export type Args = Array<{ name: string, field: GraphQLArgumentConfig }>;
 export default function (id: string, generator: Generator): GraphQLFieldConfigArgumentMap {
     const model = generator.getModel(id);
@@ -14,7 +14,11 @@ export default function (id: string, generator: Generator): GraphQLFieldConfigAr
             argsA = argsA.concat(argsForScalarType(attr.name, attr.type));
         }
     });
-    let args: GraphQLFieldConfigArgumentMap = {};
+    let args: GraphQLFieldConfigArgumentMap = {
+        limit: { type: GraphQLInt },
+        skip: { type: GraphQLInt },
+        sort: { type: GraphQLString },
+    };
     argsA.map((arg) => {
         args[arg.name] = arg.field;
     });

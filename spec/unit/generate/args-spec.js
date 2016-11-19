@@ -9,6 +9,6 @@ describe("Args for queries spec", () => {
             argName = argName;
             count++;
         }
-        expect(count).toBe(49);
+        expect(count).toBe(52);
     });
 });

@@ -2,6 +2,7 @@
 const attribute_type_1 = require("./../model/attribute-type");
 const for_scalar_type_1 = require("./query-args/for-scalar-type");
 const model_1 = require("./query-args/model");
+const graphql_1 = require("graphql");
 function default_1(id, generator) {
     const model = generator.getModel(id);
     let argsA = [];
@@ -13,7 +14,11 @@ function default_1(id, generator) {
             argsA = argsA.concat(for_scalar_type_1.default(attr.name, attr.type));
         }
     });
-    let args = {};
+    let args = {
+        limit: { type: graphql_1.GraphQLInt },
+        skip: { type: graphql_1.GraphQLInt },
+        sort: { type: graphql_1.GraphQLString },
+    };
     argsA.map((arg) => {
         args[arg.name] = arg.field;
     });
