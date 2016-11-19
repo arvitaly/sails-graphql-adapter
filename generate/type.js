@@ -32,6 +32,11 @@ exports.default = (id, generator) => {
                 type: generator.getType(attr.model),
             };
         }
+        else if (attr.name.toLowerCase() === "id") {
+            fields[attr.name] = {
+                type: graphql_1.GraphQLString,
+            };
+        }
         else {
             let graphqlType;
             switch (attr.type) {

@@ -1,6 +1,7 @@
 import generate from "./../../generate";
 import app1 from "./app1";
 import { graphql } from "graphql";
+import { toGlobalId } from "graphql-relay";
 const dt1 = new Date("Fri Nov 18 2016 18:25:11 GMT+0700 (SE Asia Standard Time)");
 describe("Function tests for queries", () => {
     let query: (q: string) => Promise<{ data: any, errors: Array<any> }>;
@@ -23,14 +24,14 @@ describe("Function tests for queries", () => {
         });
     });
     pit("query for connection of model", async () => {
-        await createRow({ name: "n1" });
-        await createRow({ name: "n2" });
-        const result = await query(`query Q1 {modelName1s(nameContains:"n"){edges{node{name} }}}`);
+        await createRow({ id: 5, name: "n1" });
+        await createRow({ id: 6, name: "n2" });
+        const result = await query(`query Q1 {modelName1s(nameContains:"n"){edges{node{ id name} }}}`);
         expect(result).toEqual({
             modelName1s: {
                 edges: [
-                    { node: { name: "n1" } },
-                    { node: { name: "n2" } }],
+                    { node: { id: toGlobalId("ModelName1", "5"), name: "n1" } },
+                    { node: { id: toGlobalId("ModelName1", "6"), name: "n2" } }],
             },
         });
     });

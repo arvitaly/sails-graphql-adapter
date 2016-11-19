@@ -1,7 +1,7 @@
 import Generator from "./../generate/generator";
 import argsToFind from "./args-to-find";
 import ResolveType from "./type";
-import { Connection } from "graphql-relay";
+import { Connection, toGlobalId } from "graphql-relay";
 type ResolveOpts = {
     type: ResolveType;
     identity?: string;
@@ -41,7 +41,9 @@ export default class Resolver {
         });
         const result = await this.generator.sails.models[opts.identity].update(where, updated);
         let res = {};
-        res[model.pluralizeQueryName] = result;
+        res[model.pluralizeQueryName] = result.map((r) => {
+            return this.convertRow(model, r);
+        });
         return res;
     }
     protected generateCreateParams(modelId: string, createParams) {
@@ -62,7 +64,7 @@ export default class Resolver {
         let created = this.generateCreateParams(opts.identity, opts.mutateObject);
         const result = (await this.generator.sails.models[opts.identity].create(created));
         let res = {};
-        res[model.queryName] = result;
+        res[model.queryName] = this.convertRow(model, result);
         return res;
     }
     protected async resolveSubmodel(opts: ResolveOpts) {
@@ -71,26 +73,33 @@ export default class Resolver {
         where[model.primary.name] = opts.root[opts.attrName];
         const result = (await this.generator.sails.models[opts.identity].find(where));
         if (result) {
-            return result[0];
+            return this.convertRow(model, result[0]);
         }
         return null;
     }
     protected async resolveOne(opts: ResolveOpts) {
-        const args = argsToFind(this.generator.getModel(opts.identity), opts.args);
+        const model = this.generator.getModel(opts.identity);
+        const args = argsToFind(model, opts.args);
         const result = (await this.generator.sails.models[opts.identity].find(args));
         if (result) {
-            return result[0];
+            return this.convertRow(model, result[0]);
         }
         return null;
     }
+    protected convertRow(model, n) {
+        n.id = toGlobalId(model.name, n.id);
+        return n;
+    }
     protected async resolveConnection(opts: ResolveOpts): Promise<Connection<any>> {
-        const args = argsToFind(this.generator.getModel(opts.identity), opts.args);
+        const model = this.generator.getModel(opts.identity);
+        const args = argsToFind(model, opts.args);
         const result = (await this.generator.sails.models[opts.identity].find(args));
         const connection: Connection<any> = {
             edges: result.map((n) => {
+
                 return {
                     cursor: "",
-                    node: n,
+                    node: this.convertRow(model, n),
                 };
             }),
             // TODO 

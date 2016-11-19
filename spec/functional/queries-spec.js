@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const generate_1 = require("./../../generate");
 const app1_1 = require("./app1");
 const graphql_1 = require("graphql");
+const graphql_relay_1 = require("graphql-relay");
 const dt1 = new Date("Fri Nov 18 2016 18:25:11 GMT+0700 (SE Asia Standard Time)");
 describe("Function tests for queries", () => {
     let query;
@@ -30,14 +31,14 @@ describe("Function tests for queries", () => {
         });
     }));
     pit("query for connection of model", () => __awaiter(this, void 0, void 0, function* () {
-        yield createRow({ name: "n1" });
-        yield createRow({ name: "n2" });
-        const result = yield query(`query Q1 {modelName1s(nameContains:"n"){edges{node{name} }}}`);
+        yield createRow({ id: 5, name: "n1" });
+        yield createRow({ id: 6, name: "n2" });
+        const result = yield query(`query Q1 {modelName1s(nameContains:"n"){edges{node{ id name} }}}`);
         expect(result).toEqual({
             modelName1s: {
                 edges: [
-                    { node: { name: "n1" } },
-                    { node: { name: "n2" } }],
+                    { node: { id: graphql_relay_1.toGlobalId("ModelName1", "5"), name: "n1" } },
+                    { node: { id: graphql_relay_1.toGlobalId("ModelName1", "6"), name: "n2" } }],
             },
         });
     }));

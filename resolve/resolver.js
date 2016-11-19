@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const args_to_find_1 = require("./args-to-find");
 const type_1 = require("./type");
+const graphql_relay_1 = require("graphql-relay");
 class Resolver {
     constructor(generator) {
         this.generator = generator;
@@ -41,7 +42,9 @@ class Resolver {
             });
             const result = yield this.generator.sails.models[opts.identity].update(where, updated);
             let res = {};
-            res[model.pluralizeQueryName] = result;
+            res[model.pluralizeQueryName] = result.map((r) => {
+                return this.convertRow(model, r);
+            });
             return res;
         });
     }
@@ -62,7 +65,7 @@ class Resolver {
             let created = this.generateCreateParams(opts.identity, opts.mutateObject);
             const result = (yield this.generator.sails.models[opts.identity].create(created));
             let res = {};
-            res[model.queryName] = result;
+            res[model.queryName] = this.convertRow(model, result);
             return res;
         });
     }
@@ -73,30 +76,36 @@ class Resolver {
             where[model.primary.name] = opts.root[opts.attrName];
             const result = (yield this.generator.sails.models[opts.identity].find(where));
             if (result) {
-                return result[0];
+                return this.convertRow(model, result[0]);
             }
             return null;
         });
     }
     resolveOne(opts) {
         return __awaiter(this, void 0, void 0, function* () {
-            const args = args_to_find_1.default(this.generator.getModel(opts.identity), opts.args);
+            const model = this.generator.getModel(opts.identity);
+            const args = args_to_find_1.default(model, opts.args);
             const result = (yield this.generator.sails.models[opts.identity].find(args));
             if (result) {
-                return result[0];
+                return this.convertRow(model, result[0]);
             }
             return null;
         });
     }
+    convertRow(model, n) {
+        n.id = graphql_relay_1.toGlobalId(model.name, n.id);
+        return n;
+    }
     resolveConnection(opts) {
         return __awaiter(this, void 0, void 0, function* () {
-            const args = args_to_find_1.default(this.generator.getModel(opts.identity), opts.args);
+            const model = this.generator.getModel(opts.identity);
+            const args = args_to_find_1.default(model, opts.args);
             const result = (yield this.generator.sails.models[opts.identity].find(args));
             const connection = {
                 edges: result.map((n) => {
                     return {
                         cursor: "",
-                        node: n,
+                        node: this.convertRow(model, n),
                     };
                 }),
                 // TODO 

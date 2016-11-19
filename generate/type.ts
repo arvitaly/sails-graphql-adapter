@@ -2,7 +2,7 @@ import AttributeType from "./../model/attribute-type";
 import ResolveType from "./../resolve/type";
 import scalarTypeToGraphql from "./../utils/scalar-type-to-graphql";
 import Generator from "./generator";
-import { GraphQLFieldConfigMap, GraphQLObjectType } from "graphql";
+import { GraphQLFieldConfigMap, GraphQLObjectType, GraphQLString } from "graphql";
 export default (id: string, generator: Generator) => {
     const model = generator.getModel(id);
     let fields: GraphQLFieldConfigMap<any> = {};
@@ -21,6 +21,10 @@ export default (id: string, generator: Generator) => {
                     });
                 },
                 type: generator.getType(attr.model),
+            };
+        } else if (attr.name.toLowerCase() === "id") {
+            fields[attr.name] = {
+                type: GraphQLString,
             };
         } else {
             let graphqlType;
