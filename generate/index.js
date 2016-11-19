@@ -30,7 +30,7 @@ function generate(sails) {
                 resolve: () => {
                     return {};
                 },
-                type: viewerType
+                type: viewerType,
             },
         },
         name: "Query",

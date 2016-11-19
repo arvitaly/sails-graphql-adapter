@@ -29,7 +29,7 @@ function generate(sails: Sails.Sails): GraphQLSchema {
                 resolve: () => {
                     return {};
                 },
-                type: viewerType
+                type: viewerType,
             },
         },
         name: "Query",
