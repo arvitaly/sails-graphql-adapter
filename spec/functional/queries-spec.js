@@ -18,27 +18,31 @@ describe("Function tests for queries", () => {
         const dt2 = new Date("Fri Nov 10 2016 18:25:11 GMT+0700 (SE Asia Standard Time)");
         const dt3 = new Date("Fri Nov 20 2016 18:25:11 GMT+0700 (SE Asia Standard Time)");
         yield createRow({ isActive: true, name: "fn1f" });
-        expect(yield query(`query Q1 {modelName1(
+        expect(yield query(`query Q1 {viewer{modelName1(
                 nameContains:"n1"
                 isActive: true
                 lastActiveGreaterThan:"${dt2}"                
                 lastActiveLessThan :"${dt3}"
-            ){name lastActive}}`)).toEqual({
-            modelName1: {
-                lastActive: dt1.toString(),
-                name: "fn1f",
+            ){name lastActive}}}`)).toEqual({
+            viewer: {
+                modelName1: {
+                    lastActive: dt1.toString(),
+                    name: "fn1f",
+                },
             },
         });
     }));
     pit("query for connection of model", () => __awaiter(this, void 0, void 0, function* () {
         yield createRow({ id: 5, name: "n1" });
         yield createRow({ id: 6, name: "n2" });
-        const result = yield query(`query Q1 {modelName1s(nameContains:"n"){edges{node{ id name} }}}`);
+        const result = yield query(`query Q1 {viewer{modelName1s(nameContains:"n"){edges{node{ id name} }}}}`);
         expect(result).toEqual({
-            modelName1s: {
-                edges: [
-                    { node: { id: graphql_relay_1.toGlobalId("ModelName1", "5"), name: "n1" } },
-                    { node: { id: graphql_relay_1.toGlobalId("ModelName1", "6"), name: "n2" } }],
+            viewer: {
+                modelName1s: {
+                    edges: [
+                        { node: { id: graphql_relay_1.toGlobalId("ModelName1", "5"), name: "n1" } },
+                        { node: { id: graphql_relay_1.toGlobalId("ModelName1", "6"), name: "n2" } }],
+                },
             },
         });
     }));

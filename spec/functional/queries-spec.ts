@@ -10,28 +10,32 @@ describe("Function tests for queries", () => {
         const dt3 = new Date("Fri Nov 20 2016 18:25:11 GMT+0700 (SE Asia Standard Time)");
         await createRow({ isActive: true, name: "fn1f" });
         expect(await query(
-            `query Q1 {modelName1(
+            `query Q1 {viewer{modelName1(
                 nameContains:"n1"
                 isActive: true
                 lastActiveGreaterThan:"${dt2}"                
                 lastActiveLessThan :"${dt3}"
-            ){name lastActive}}`
+            ){name lastActive}}}`
         )).toEqual({
-            modelName1: {
-                lastActive: dt1.toString(),
-                name: "fn1f",
+            viewer: {
+                modelName1: {
+                    lastActive: dt1.toString(),
+                    name: "fn1f",
+                },
             },
         });
     });
     pit("query for connection of model", async () => {
         await createRow({ id: 5, name: "n1" });
         await createRow({ id: 6, name: "n2" });
-        const result = await query(`query Q1 {modelName1s(nameContains:"n"){edges{node{ id name} }}}`);
+        const result = await query(`query Q1 {viewer{modelName1s(nameContains:"n"){edges{node{ id name} }}}}`);
         expect(result).toEqual({
-            modelName1s: {
-                edges: [
-                    { node: { id: toGlobalId("ModelName1", "5"), name: "n1" } },
-                    { node: { id: toGlobalId("ModelName1", "6"), name: "n2" } }],
+            viewer: {
+                modelName1s: {
+                    edges: [
+                        { node: { id: toGlobalId("ModelName1", "5"), name: "n1" } },
+                        { node: { id: toGlobalId("ModelName1", "6"), name: "n2" } }],
+                },
             },
         });
     });

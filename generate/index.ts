@@ -19,8 +19,19 @@ function generate(sails: Sails.Sails): GraphQLSchema {
             mutationTypeFields[name] = field;
         })*/
     });
-    const queryType = new GraphQLObjectType({
+    const viewerType = new GraphQLObjectType({
         fields: queryTypeFields,
+        name: "Viewer",
+    });
+    const queryType = new GraphQLObjectType({
+        fields: {
+            viewer: {
+                resolve: () => {
+                    return {};
+                },
+                type: viewerType
+            },
+        },
         name: "Query",
     });
     const mutationType = new GraphQLObjectType({
