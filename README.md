@@ -11,11 +11,15 @@
 
 # Install
 
+## Automatic install by sails hook
+
 You can use sails-hook-graphql for automatic binding this adapter. More info about config https://github.com/arvitaly/sails-hook-graphql#configure
 
     npm install sails-hook-graphql --save
 
-Or you can use `generate` and `controller`
+## Manual install
+
+You can use `generate` and `controller`
 
     npm install sails-graphql-adapter --save
 
