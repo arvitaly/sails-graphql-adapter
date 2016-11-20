@@ -38,9 +38,11 @@ You can use `generate` and `controller`
     // api/controllers/GraphQLController.js
     module.export = controller;
 
-# Usage
+# Documentation
 
-## For every model generated 3 query object:
+## Queries
+
+For every model generated 3 query object:
 
 1. Single model, like `user(where:{id:1}){ name }`
 
@@ -48,7 +50,9 @@ You can use `generate` and `controller`
 
 3. Count, like `countUsers(where:{birthdayGreaterThan:"Fri Nov 18 2016 17:39:43 GMT+0700 (SE Asia Standard Time)"}){ count }` // Not implemented now
 
-## For every model generated mutations:
+## Mutations
+
+For every model generated mutations:
 
 1. Update mutation with setters, like `updateUsers(where:{heightGreaterThan:150} user:{ setHeight( height: 151) } ){ users{ height } }`
 
@@ -60,12 +64,29 @@ You can use `generate` and `controller`
 
 Subscriptions looked like queries
 
+
+# API
+
+## generate(sails): GraphQLSchema;
+
+Arg `sails` is initialized sails-app. Should be initialized ORM. This may be after hook-event `hook:orm:loaded` or using config/bootstrap.js
+
+GraphQLSchema - native schema from [graphql-js](https://github.com/graphql/graphql-js)
+
+## controller(opts?: {schema?: GraphQLSchema;  sails? }) : {index: (req, res, next)=>void };
+
+Controller generate method for request and ready for using as sails-controller.
+
+You can create it with schema or sails (like in `generate`).
+
+Controller use native [express-graphql adapter](https://github.com/graphql/express-graphql).
+
 # Tests
 
     npm install    
     npm test
     
-# Feautures
+# TODO
 
 - [ ] Args for find https://github.com/arvitaly/sails-graphql-adapter/issues/1
     - [ ] Tests
