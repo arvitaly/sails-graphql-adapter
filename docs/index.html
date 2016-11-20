@@ -15,7 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Sails-graphql-adapter-docs</h1>
+        <h1>🐙 Sails 💖 GraphQL 💮</h1>
         <p></p>
 
         <p class="view"><a href="https://github.com/arvitaly/sails-graphql-adapter-docs">View the Project on GitHub <small>arvitaly/sails-graphql-adapter-docs</small></a></p>
@@ -73,10 +73,12 @@ module.export = controller;
 </code></pre>
 
 <h1>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h1>
 
 <h2>
-<a id="for-every-model-generated-3-query-object" class="anchor" href="#for-every-model-generated-3-query-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>For every model generated 3 query object:</h2>
+<a id="queries" class="anchor" href="#queries" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Queries</h2>
+
+<p>For every model generated 3 query object:</p>
 
 <ol>
 <li><p>Single model, like <code>user(where:{id:1}){ name }</code></p></li>
@@ -85,7 +87,9 @@ module.export = controller;
 </ol>
 
 <h2>
-<a id="for-every-model-generated-mutations" class="anchor" href="#for-every-model-generated-mutations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>For every model generated mutations:</h2>
+<a id="mutations" class="anchor" href="#mutations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mutations</h2>
+
+<p>For every model generated mutations:</p>
 
 <ol>
 <li><p>Update mutation with setters, like <code>updateUsers(where:{heightGreaterThan:150} user:{ setHeight( height: 151) } ){ users{ height } }</code></p></li>
@@ -99,6 +103,25 @@ module.export = controller;
 <p>Subscriptions looked like queries</p>
 
 <h1>
+<a id="api" class="anchor" href="#api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API</h1>
+
+<h2>
+<a id="generatesails-graphqlschema" class="anchor" href="#generatesails-graphqlschema" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>generate(sails): GraphQLSchema;</h2>
+
+<p>Arg <code>sails</code> is initialized sails-app. Should be initialized ORM. This may be after hook-event <code>hook:orm:loaded</code> or using config/bootstrap.js</p>
+
+<p>GraphQLSchema - native schema from <a href="https://github.com/graphql/graphql-js">graphql-js</a></p>
+
+<h2>
+<a id="controlleropts-schema-graphqlschema--sails---index-req-res-nextvoid-" class="anchor" href="#controlleropts-schema-graphqlschema--sails---index-req-res-nextvoid-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>controller(opts?: {schema?: GraphQLSchema;  sails? }) : {index: (req, res, next)=&gt;void };</h2>
+
+<p>Controller generate method for request and ready for using as sails-controller.</p>
+
+<p>You can create it with schema or sails (like in <code>generate</code>).</p>
+
+<p>Controller use native <a href="https://github.com/graphql/express-graphql">express-graphql adapter</a>.</p>
+
+<h1>
 <a id="tests" class="anchor" href="#tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tests</h1>
 
 <pre><code>npm install    
@@ -106,7 +129,7 @@ npm test
 </code></pre>
 
 <h1>
-<a id="feautures" class="anchor" href="#feautures" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Feautures</h1>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TODO</h1>
 
 <ul>
 <li>[ ] Args for find <a href="https://github.com/arvitaly/sails-graphql-adapter/issues/1">https://github.com/arvitaly/sails-graphql-adapter/issues/1</a>
