@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const app1_lift_1 = require("./app1-lift");
 const create_model1_1 = require("./create-model1");
 const sails_graphql_client_1 = require("sails-graphql-client");
-fdescribe("Function tests for subscriptions", () => {
+describe("Function tests for subscriptions", () => {
     let sailsClient;
     beforeAll((done) => {
         sailsClient = new sails_graphql_client_1.default({
@@ -33,6 +33,7 @@ fdescribe("Function tests for subscriptions", () => {
             viewer{
                 modelName1{
                     name
+                    title
                 }
             }
         }`)((data) => {

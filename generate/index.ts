@@ -1,9 +1,15 @@
+import ResolveOpts from "./../resolve/resolve-opts";
 import Generator from "./generator";
 import mutationsForModel from "./mutations";
 import queriesForModel from "./queries";
 import subscriptionsForModel from "./subscriptions";
 import { GraphQLFieldConfigMap, GraphQLObjectType, GraphQLSchema } from "graphql";
-function generate(sails: Sails.Sails): GraphQLSchema {
+
+export interface IGenerateResult {
+    schema: GraphQLSchema;
+    bindResolve: (resolve: (opts: ResolveOpts) => any) => void;
+}
+function generate(sails: Sails.Sails): IGenerateResult {
     let generator: Generator = new Generator(sails);
     let queryTypeFields: GraphQLFieldConfigMap<any> = {};
     let mutationTypeFields: GraphQLFieldConfigMap<any> = {};
@@ -58,6 +64,11 @@ function generate(sails: Sails.Sails): GraphQLSchema {
         query: queryType,
         subscription: subscriptionType
     });
-    return schema;
+    return {
+        bindResolve: (resolve) => {
+            generator.resolver.resolve = resolve;
+        },
+        schema,
+    }
 }
 export default generate;

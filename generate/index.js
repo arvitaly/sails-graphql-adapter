@@ -59,7 +59,12 @@ function generate(sails) {
         query: queryType,
         subscription: subscriptionType
     });
-    return schema;
+    return {
+        bindResolve: (resolve) => {
+            generator.resolver.resolve = resolve;
+        },
+        schema,
+    };
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = generate;

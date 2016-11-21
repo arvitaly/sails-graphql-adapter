@@ -1,7 +1,7 @@
 import convertModel from "./../model";
 import Model from "./../model/model";
-import Resolver from "./../resolve/resolver";
 import generateCreateMutationType from "./mutations/create-type";
+import Resolver from "./resolver";
 import generateTypeForModel from "./type";
 import { GraphQLInputObjectType, GraphQLObjectType } from "graphql";
 import { connectionDefinitions } from "graphql-relay";
@@ -13,12 +13,11 @@ class Generator implements Generator {
     protected connectionTypes: { [index: string]: GraphQLObjectType } = {};
     protected sailsModels: Array<Sails.Model>;
     constructor(public sails: Sails.Sails) {
-        console.log("generator");
         this.sailsModels = sailsModelsToArray(sails.models);
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = convertModel(sailsModel);
         });
-        this.resolver = new Resolver(this);
+        this.resolver = new Resolver();
     }
     public mapSailsModels(cb) {
         return this.sailsModels.map(cb);

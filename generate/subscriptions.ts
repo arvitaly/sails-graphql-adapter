@@ -9,13 +9,14 @@ export default function generateQueryForModel(id: string, generator: Generator):
     return [{
         field: {
             args: argsForModel(id, generator),
-            resolve: (root, args, context) => {
+            resolve: (root, args, context, resolveInfo) => {
                 return generator.resolver.resolve({
                     args,
                     attrName: null,
                     context,
                     identity: model.id,
                     parentIdentity: null,
+                    resolveInfo,
                     root,
                     type: ResolveType.SubscriptionOne,
                 });

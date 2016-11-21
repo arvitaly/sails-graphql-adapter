@@ -23,6 +23,7 @@ class Resolver {
                     if (s.opts.context.request.socket.connected) {
                         if (equal_row_to_find_params_1.default(s.args, created, modelName, this.generator)) {
                             const row = yield this.resolveOne(s.opts);
+                            console.log(s.opts.resolveInfo);
                             s.opts.context.request.socket.emit(modelName, {
                                 data: row,
                                 id: row._id,

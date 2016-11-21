@@ -8,13 +8,14 @@ function generateQueryForModel(id, generator) {
             field: {
                 args: args_1.default(id, generator),
                 description: model.name,
-                resolve: (root, args, context) => {
+                resolve: (root, args, context, resolveInfo) => {
                     return generator.resolver.resolve({
                         args,
                         attrName: null,
                         context,
                         identity: model.id,
                         parentIdentity: null,
+                        resolveInfo,
                         root,
                         type: type_1.default.Model,
                     });
@@ -26,13 +27,14 @@ function generateQueryForModel(id, generator) {
             field: {
                 args: args_1.default(id, generator),
                 description: "Connection for " + model.name,
-                resolve: (root, args, context) => {
+                resolve: (root, args, context, resolveInfo) => {
                     return generator.resolver.resolve({
                         args,
                         attrName: null,
                         context,
                         identity: model.id,
                         parentIdentity: null,
+                        resolveInfo,
                         root,
                         type: type_1.default.ListOfModel,
                     });

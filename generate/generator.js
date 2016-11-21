@@ -1,7 +1,7 @@
 "use strict";
 const model_1 = require("./../model");
-const resolver_1 = require("./../resolve/resolver");
 const create_type_1 = require("./mutations/create-type");
+const resolver_1 = require("./resolver");
 const type_1 = require("./type");
 const graphql_relay_1 = require("graphql-relay");
 class Generator {
@@ -11,12 +11,11 @@ class Generator {
         this.types = {};
         this.createTypes = {};
         this.connectionTypes = {};
-        console.log("generator");
         this.sailsModels = sailsModelsToArray(sails.models);
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = model_1.default(sailsModel);
         });
-        this.resolver = new resolver_1.default(this);
+        this.resolver = new resolver_1.default();
     }
     mapSailsModels(cb) {
         return this.sailsModels.map(cb);

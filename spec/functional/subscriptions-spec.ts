@@ -1,7 +1,7 @@
 import app1 from "./app1-lift";
 import createModel1, { mutation } from "./create-model1";
 import Client from "sails-graphql-client";
-fdescribe("Function tests for subscriptions", () => {
+describe("Function tests for subscriptions", () => {
     let sailsClient: Client;
     beforeAll((done) => {
         sailsClient = new Client({
@@ -25,6 +25,7 @@ fdescribe("Function tests for subscriptions", () => {
             viewer{
                 modelName1{
                     name
+                    title
                 }
             }
         }`)((data) => {

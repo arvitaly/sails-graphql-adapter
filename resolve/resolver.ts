@@ -1,19 +1,11 @@
 import Generator from "./../generate/generator";
-import { IContext } from "./../typings";
 import argsToFind, { FindParams } from "./args-to-find";
 import eqRowToFindParams from "./equal-row-to-find-params";
+import ResolveOpts from "./resolve-opts";
 import ResolveType from "./type";
+import { GraphQLResolveInfo, graphql, OperationDefinition, SelectionSet } from "graphql";
 import { Connection, toGlobalId } from "graphql-relay";
-type ResolveOpts = {
-    type: ResolveType;
-    identity?: string;
-    parentIdentity?: string;
-    attrName?: string;
-    root?;
-    args?;
-    context?: IContext;
-    mutateObject?: any;
-}
+
 export default class Resolver {
     public subscribers: { [index: string]: Array<{ args: FindParams; opts: ResolveOpts; ids: Array<Sails.Id> }> } = {};
     constructor(public generator: Generator) {
@@ -25,6 +17,7 @@ export default class Resolver {
                     if (s.opts.context.request.socket.connected) {
                         if (eqRowToFindParams(s.args, created, modelName, this.generator)) {
                             const row = await this.resolveOne(s.opts);
+                            console.log(s.opts.resolveInfo);
                             s.opts.context.request.socket.emit(modelName, <Sails.WebSocketCreateEvent<any>>{
                                 data: row,
                                 id: row._id,
