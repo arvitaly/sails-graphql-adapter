@@ -57,6 +57,7 @@ const create = (id: string, generator: Generator): Array<{ name: string, field: 
             inputFields,
             mutateAndGetPayload: (mutateObject, info) => {
                 return generator.resolver.resolve({
+                    context: info,
                     identity: model.id,
                     mutateObject,
                     parentIdentity: null,

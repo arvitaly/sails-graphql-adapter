@@ -40,6 +40,7 @@ const create = (id, generator) => {
                 inputFields,
                 mutateAndGetPayload: (mutateObject, info) => {
                     return generator.resolver.resolve({
+                        context: info,
                         identity: model.id,
                         mutateObject,
                         parentIdentity: null,

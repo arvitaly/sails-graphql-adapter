@@ -3,6 +3,7 @@ import ResolveType from "./../resolve/type";
 import scalarTypeToGraphql from "./../utils/scalar-type-to-graphql";
 import Generator from "./generator";
 import { GraphQLFieldConfigMap, GraphQLObjectType, GraphQLString } from "graphql";
+const realIdName = "_id";
 export default (id: string, generator: Generator) => {
     const model = generator.getModel(id);
     let fields: GraphQLFieldConfigMap<any> = {};
@@ -26,6 +27,7 @@ export default (id: string, generator: Generator) => {
             fields[attr.name] = {
                 type: GraphQLString,
             };
+            fields[realIdName] = { type: scalarTypeToGraphql(attr.type) };
         } else {
             let graphqlType;
             switch (attr.type) {

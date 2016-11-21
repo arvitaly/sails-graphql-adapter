@@ -3,12 +3,15 @@ const model_1 = require("./../model");
 const resolver_1 = require("./../resolve/resolver");
 const create_type_1 = require("./mutations/create-type");
 const type_1 = require("./type");
+const graphql_relay_1 = require("graphql-relay");
 class Generator {
     constructor(sails) {
         this.sails = sails;
         this.models = {};
         this.types = {};
         this.createTypes = {};
+        this.connectionTypes = {};
+        console.log("generator");
         this.sailsModels = sailsModelsToArray(sails.models);
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = model_1.default(sailsModel);
@@ -30,10 +33,13 @@ class Generator {
         }
         return this.createTypes[id];
     }
-    getType(name) {
-        if (!name) {
-            throw new Error("Name should be set");
+    getConnectionType(name) {
+        if (!this.connectionTypes[name]) {
+            this.connectionTypes[name] = graphql_relay_1.connectionDefinitions({ nodeType: this.getType(name) }).connectionType;
         }
+        return this.connectionTypes[name];
+    }
+    getType(name) {
         const lName = name.toLowerCase();
         if (!this.types[lName]) {
             this.types[lName] = type_1.default(name, this);

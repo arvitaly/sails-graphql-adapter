@@ -2,12 +2,10 @@ import ResolveType from "./../resolve/type";
 import argsForModel from "./args";
 import Generator from "./generator";
 import { GraphQLFieldConfig } from "graphql";
-import { connectionDefinitions } from "graphql-relay";
 export type Queries = Array<{ name: string, field: GraphQLFieldConfig<any> }>;
 export default function generateQueryForModel(id: string, generator: Generator): Queries {
     const model = generator.getModel(id);
     const modelType = generator.getType(model.id);
-    const connectionParams = connectionDefinitions({ nodeType: modelType });
     return [{
         field: {
             args: argsForModel(id, generator),
@@ -42,7 +40,7 @@ export default function generateQueryForModel(id: string, generator: Generator):
                     type: ResolveType.ListOfModel,
                 });
             },
-            type: connectionParams.connectionType,
+            type: generator.getConnectionType(id),
         },
         name: model.pluralizeQueryName,
     }];

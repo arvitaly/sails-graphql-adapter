@@ -11,6 +11,7 @@ const attribute_type_1 = require("./../model/attribute-type");
 const type_1 = require("./../resolve/type");
 const scalar_type_to_graphql_1 = require("./../utils/scalar-type-to-graphql");
 const graphql_1 = require("graphql");
+const realIdName = "_id";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (id, generator) => {
     const model = generator.getModel(id);
@@ -36,6 +37,7 @@ exports.default = (id, generator) => {
             fields[attr.name] = {
                 type: graphql_1.GraphQLString,
             };
+            fields[realIdName] = { type: scalar_type_to_graphql_1.default(attr.type) };
         }
         else {
             let graphqlType;

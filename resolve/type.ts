@@ -5,5 +5,7 @@ enum ResolveType {
     MutateAndGetPayloadCreate,
     MutateAndGetPayloadUpdate,
     MutateAndGetPayloadDestroy,
+    SubscriptionOne,
+    SubscriptionConnection
 }
 export default ResolveType;

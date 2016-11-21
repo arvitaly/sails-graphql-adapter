@@ -7,6 +7,8 @@ var ResolveType;
     ResolveType[ResolveType["MutateAndGetPayloadCreate"] = 3] = "MutateAndGetPayloadCreate";
     ResolveType[ResolveType["MutateAndGetPayloadUpdate"] = 4] = "MutateAndGetPayloadUpdate";
     ResolveType[ResolveType["MutateAndGetPayloadDestroy"] = 5] = "MutateAndGetPayloadDestroy";
+    ResolveType[ResolveType["SubscriptionOne"] = 6] = "SubscriptionOne";
+    ResolveType[ResolveType["SubscriptionConnection"] = 7] = "SubscriptionConnection";
 })(ResolveType || (ResolveType = {}));
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ResolveType;

@@ -1,7 +1,44 @@
-/*import { GraphQLFieldConfig, GraphQLFieldConfigMap, GraphQLNonNull,
-    GraphQLInt, GraphQLInputFieldConfigMap, GraphQLInputObjectType,
-    GraphQLObjectType, GraphQLList, GraphQLString } from 'graphql';
-import Generator from './generator';
-export default (model: Sails.Model, generator: Generator): Array<{ name: string, field: GraphQLFieldConfig<any> }> => {
-    return [];
-}*/
+"use strict";
+const type_1 = require("./../resolve/type");
+const args_1 = require("./args");
+function generateQueryForModel(id, generator) {
+    const model = generator.getModel(id);
+    const modelType = generator.getType(model.id);
+    return [{
+            field: {
+                args: args_1.default(id, generator),
+                resolve: (root, args, context) => {
+                    return generator.resolver.resolve({
+                        args,
+                        attrName: null,
+                        context,
+                        identity: model.id,
+                        parentIdentity: null,
+                        root,
+                        type: type_1.default.SubscriptionOne,
+                    });
+                },
+                type: modelType,
+            },
+            name: model.queryName,
+        }, {
+            field: {
+                args: args_1.default(id, generator),
+                resolve: (root, args, context) => {
+                    return generator.resolver.resolve({
+                        args,
+                        attrName: null,
+                        context,
+                        identity: model.id,
+                        parentIdentity: null,
+                        root,
+                        type: type_1.default.SubscriptionConnection,
+                    });
+                },
+                type: generator.getConnectionType(model.id),
+            },
+            name: model.pluralizeQueryName,
+        }];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = generateQueryForModel;

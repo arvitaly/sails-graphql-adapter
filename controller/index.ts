@@ -22,8 +22,12 @@ export default (opts?: {
             }
         }
         return graphqlHTTP({
+            context: {
+                request: req,
+                response: res,
+            },
             graphiql: true,
-            schema,
+            schema
         }).apply(this, arguments);
     };
     return { index };

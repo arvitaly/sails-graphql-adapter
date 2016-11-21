@@ -22,6 +22,10 @@ describe("Controller spec", () => {
         graphqlHTTP.and.returnValue(graphqlHTTPHandler);
         controller({ schema: schema as any }).index(req, res);
         expect(graphqlHTTP.calls.allArgs()).toEqual([[{
+            context: {
+                request: req,
+                response: res,
+            },
             schema,
             graphiql: true,
         }]]);
@@ -33,6 +37,10 @@ describe("Controller spec", () => {
         controller({ sails: sails as any }).index(req, res);
         expect(generateSpy.calls.allArgs()).toEqual([[sails]]);
         expect(graphqlHTTP.calls.allArgs()).toEqual([[{
+            context: {
+                request: req,
+                response: res,
+            },
             schema,
             graphiql: true,
         }]]);
@@ -46,6 +54,10 @@ describe("Controller spec", () => {
         controller().index(req, res);
         expect(generateSpy.calls.allArgs()).toEqual([[sails]]);
         expect(graphqlHTTP.calls.allArgs()).toEqual([[{
+            context: {
+                request: req,
+                response: res,
+            },
             schema,
             graphiql: true,
         }]]);

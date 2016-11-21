@@ -43,6 +43,7 @@
     "mock2": "0.0.17",
     "sails": "^0.12.9",
     "sails-disk": "^0.10.10",
+    "sails-graphql-client": "0.0.3",
     "sails-memory": "^0.10.7",
     "tslint": "^3.15.1",
     "typescript": "^2.0.10",

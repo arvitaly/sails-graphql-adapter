@@ -2,23 +2,23 @@
 const generator_1 = require("./generator");
 const mutations_1 = require("./mutations");
 const queries_1 = require("./queries");
+const subscriptions_1 = require("./subscriptions");
 const graphql_1 = require("graphql");
-// import subscriptionsForModel from "./subscriptions";
 function generate(sails) {
     let generator = new generator_1.default(sails);
     let queryTypeFields = {};
     let mutationTypeFields = {};
-    // let subscriptionTypeFields: GraphQLFieldConfigMap<any> = {};
+    let subscriptionTypeFields = {};
     generator.mapSailsModels((sailsModel) => {
         queries_1.default(sailsModel.identity, generator).map(({ name, field }) => {
             queryTypeFields[name] = field;
         });
         mutations_1.default(sailsModel.identity, generator).map(({ name, field }) => {
             mutationTypeFields[name] = field;
-        }); /*
-        subscriptionsForModel(models[modelName], generator).map(({name, field}) => {
-            mutationTypeFields[name] = field;
-        })*/
+        });
+        subscriptions_1.default(sailsModel.identity, generator).map(({ name, field }) => {
+            subscriptionTypeFields[name] = field;
+        });
     });
     const viewerType = new graphql_1.GraphQLObjectType({
         fields: queryTypeFields,
@@ -39,13 +39,25 @@ function generate(sails) {
         fields: mutationTypeFields,
         name: "Mutation",
     });
-    /*const subscriptionType = new GraphQLObjectType({
+    const subscriptionViewerType = new graphql_1.GraphQLObjectType({
+        fields: subscriptionTypeFields,
+        name: "SubscriptionViewer",
+    });
+    const subscriptionType = new graphql_1.GraphQLObjectType({
+        fields: {
+            viewer: {
+                resolve: () => {
+                    return {};
+                },
+                type: subscriptionViewerType,
+            },
+        },
         name: "Subscription",
-        fields: subscriptionTypeFields
-    })*/
+    });
     const schema = new graphql_1.GraphQLSchema({
         mutation: mutationType,
         query: queryType,
+        subscription: subscriptionType
     });
     return schema;
 }

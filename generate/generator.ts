@@ -4,13 +4,16 @@ import Resolver from "./../resolve/resolver";
 import generateCreateMutationType from "./mutations/create-type";
 import generateTypeForModel from "./type";
 import { GraphQLInputObjectType, GraphQLObjectType } from "graphql";
+import { connectionDefinitions } from "graphql-relay";
 class Generator implements Generator {
     public resolver: Resolver;
     public models: { [index: string]: Model } = {};
     protected types: { [index: string]: GraphQLObjectType } = {};
     protected createTypes: { [index: string]: GraphQLInputObjectType } = {};
+    protected connectionTypes: { [index: string]: GraphQLObjectType } = {};
     protected sailsModels: Array<Sails.Model>;
     constructor(public sails: Sails.Sails) {
+        console.log("generator");
         this.sailsModels = sailsModelsToArray(sails.models);
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = convertModel(sailsModel);
@@ -32,10 +35,13 @@ class Generator implements Generator {
         }
         return this.createTypes[id];
     }
-    public getType(name: string): GraphQLObjectType {
-        if (!name) {
-            throw new Error("Name should be set");
+    public getConnectionType(name: string): GraphQLObjectType {
+        if (!this.connectionTypes[name]) {
+            this.connectionTypes[name] = connectionDefinitions({ nodeType: this.getType(name) }).connectionType;
         }
+        return this.connectionTypes[name];
+    }
+    public getType(name: string): GraphQLObjectType {
         const lName = name.toLowerCase();
         if (!this.types[lName]) {
             this.types[lName] = generateTypeForModel(name, this);
