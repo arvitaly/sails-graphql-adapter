@@ -8,10 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const generate_1 = require("./../../../generate");
+const get_fields_from_connection_ast_1 = require("./../../../utils/get-fields-from-connection-ast");
 const model1_1 = require("./../../fixtures/model1");
 const model2_1 = require("./../../fixtures/model2");
 const graphql_1 = require("graphql");
-fdescribe("GetFieldsFromConnectionAST spec", () => {
+const fixFieldInfo = {
+    name: "node",
+    fields: [{ name: "title" }, { name: "model2Field", fields: [{ name: "name" }] }]
+};
+describe("GetFieldsFromConnectionAST spec", () => {
     pit("simple", () => __awaiter(this, void 0, void 0, function* () {
         const generateInfo = generate_1.default({
             models: {
@@ -35,6 +40,9 @@ fdescribe("GetFieldsFromConnectionAST spec", () => {
             throw result.errors;
         }
         const resolveInfo = resolveSpy.calls.argsFor(0)[0].resolveInfo;
-        console.log(resolveInfo);
+        expect(get_fields_from_connection_ast_1.default(resolveInfo)).toEqual(fixFieldInfo);
     }));
+    it("getQueryFragmentFromFieldInfo", () => {
+        expect(get_fields_from_connection_ast_1.getQueryFragmentFromFieldInfo(fixFieldInfo)).toEqual(`title,model2Field{name}`);
+    });
 });

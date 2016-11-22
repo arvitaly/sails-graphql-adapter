@@ -1,9 +1,14 @@
 import generate from "./../../../generate";
-import getFieldsFromConnectionAST from "./../../../utils/get-fields-from-connection-ast";
+import getFieldsFromConnectionAST, { getQueryFragmentFromFieldInfo }
+    from "./../../../utils/get-fields-from-connection-ast";
 import model1 from "./../../fixtures/model1";
 import model2 from "./../../fixtures/model2";
 import { GraphQLResolveInfo, graphql } from "graphql";
-fdescribe("GetFieldsFromConnectionAST spec", () => {
+const fixFieldInfo = {
+    name: "node",
+    fields: [{ name: "title" }, { name: "model2Field", fields: [{ name: "name" }] }]
+};
+describe("GetFieldsFromConnectionAST spec", () => {
     pit("simple", async () => {
         const generateInfo = generate({
             models: {
@@ -28,7 +33,9 @@ fdescribe("GetFieldsFromConnectionAST spec", () => {
             throw result.errors;
         }
         const resolveInfo: GraphQLResolveInfo = resolveSpy.calls.argsFor(0)[0].resolveInfo;
-        console.log(resolveInfo);
+        expect(getFieldsFromConnectionAST(resolveInfo)).toEqual(fixFieldInfo);
     });
-})
-    ;
+    it("getQueryFragmentFromFieldInfo", () => {
+        expect(getQueryFragmentFromFieldInfo(fixFieldInfo)).toEqual(`title,model2Field{name}`);
+    });
+});
