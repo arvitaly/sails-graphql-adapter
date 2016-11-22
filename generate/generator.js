@@ -5,13 +5,13 @@ const resolver_1 = require("./resolver");
 const type_1 = require("./type");
 const graphql_relay_1 = require("graphql-relay");
 class Generator {
-    constructor(sails) {
-        this.sails = sails;
+    constructor(sailsModelDict) {
+        this.sailsModelDict = sailsModelDict;
         this.models = {};
         this.types = {};
         this.createTypes = {};
         this.connectionTypes = {};
-        this.sailsModels = sailsModelsToArray(sails.models);
+        this.sailsModels = sailsModelsToArray(sailsModelDict);
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = model_1.default(sailsModel);
         });

@@ -1,3 +1,4 @@
+import Sails = require("sails");
 import convertModel from "./../model";
 import Model from "./../model/model";
 import generateCreateMutationType from "./mutations/create-type";
@@ -12,8 +13,8 @@ class Generator implements Generator {
     protected createTypes: { [index: string]: GraphQLInputObjectType } = {};
     protected connectionTypes: { [index: string]: GraphQLObjectType } = {};
     protected sailsModels: Array<Sails.Model>;
-    constructor(public sails: Sails.Sails) {
-        this.sailsModels = sailsModelsToArray(sails.models);
+    constructor(public sailsModelDict: Sails.Models) {
+        this.sailsModels = sailsModelsToArray(sailsModelDict);
         this.sailsModels.map((sailsModel) => {
             this.models[sailsModel.identity] = convertModel(sailsModel);
         });

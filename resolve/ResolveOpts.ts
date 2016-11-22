@@ -1,5 +1,5 @@
 import { IContext } from "./../typings";
-import ResolveType from "./type";
+import ResolveType from "./ResolveType";
 import { GraphQLResolveInfo } from "graphql";
 type ResolveOpts = {
     type: ResolveType;

@@ -30,7 +30,7 @@
     "express-graphql": "^0.6.1",
     "graphql": "^0.8.1",
     "graphql-relay": "^0.4.3",
-    "sails-typings": "0.0.3",
+    "sails-typings": "^0.1.0",
     "waterline-typings": "0.0.2"
   },
   "devDependencies": {

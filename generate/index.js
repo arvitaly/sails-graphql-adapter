@@ -4,8 +4,8 @@ const mutations_1 = require("./mutations");
 const queries_1 = require("./queries");
 const subscriptions_1 = require("./subscriptions");
 const graphql_1 = require("graphql");
-function generate(sails) {
-    let generator = new generator_1.default(sails);
+function generate(sailsModels) {
+    let generator = new generator_1.default(sailsModels);
     let queryTypeFields = {};
     let mutationTypeFields = {};
     let subscriptionTypeFields = {};

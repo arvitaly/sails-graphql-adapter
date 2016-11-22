@@ -1,12 +1,7 @@
 import AttributeType from "./../model/attribute-type";
 import Model from "./../model/model";
+import { FindParams } from "./../typings";
 import decapitalize from "./../utils/decapitalize";
-export type FindParams = {
-    where?;
-    sort?: string;
-    skip?: number;
-    limit?: number;
-}
 function addStringArgs(where, args, attrName) {
     const postfixes = ["Contains", "StartsWith", "EndsWith", "Like"];
     postfixes.map((postfix) => {

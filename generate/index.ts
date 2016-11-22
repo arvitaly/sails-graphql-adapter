@@ -1,3 +1,4 @@
+import Sails = require("sails");
 import ResolveOpts from "./../resolve/resolve-opts";
 import Generator from "./generator";
 import mutationsForModel from "./mutations";
@@ -9,8 +10,8 @@ export interface IGenerateResult {
     schema: GraphQLSchema;
     bindResolve: (resolve: (opts: ResolveOpts) => any) => void;
 }
-function generate(sails: Sails.Sails): IGenerateResult {
-    let generator: Generator = new Generator(sails);
+function generate(sailsModels: Sails.Models): IGenerateResult {
+    let generator: Generator = new Generator(sailsModels);
     let queryTypeFields: GraphQLFieldConfigMap<any> = {};
     let mutationTypeFields: GraphQLFieldConfigMap<any> = {};
     let subscriptionTypeFields: GraphQLFieldConfigMap<any> = {};
