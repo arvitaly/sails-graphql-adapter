@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/arvitaly/typed-graphql-relay/master/graphql-relay.d.ts",
-    "raw": "github:arvitaly/typed-graphql-relay/graphql-relay.d.ts",
-    "typings": "https://raw.githubusercontent.com/arvitaly/typed-graphql-relay/master/graphql-relay.d.ts"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "C:\\Users\\arvitaly\\projects\\utils\\sails-graphql-adapter\\node_modules\\waterline-typings\\index.d.ts",
-    "raw": "npm:waterline-typings/index.d.ts",
-    "typings": "C:\\Users\\arvitaly\\projects\\utils\\sails-graphql-adapter\\node_modules\\waterline-typings\\index.d.ts"
-  }
-}
