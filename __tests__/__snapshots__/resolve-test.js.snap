@@ -1,0 +1,41 @@
+exports[`Resolver tests resolve query one 1`] = `
+Object {
+  "createdAt": "2016-12-02T06:12:20.460Z",
+  "firstActive": "2016-11-18T11:25:11.000Z",
+  "id": 1,
+  "isActive": false,
+  "name": "na0.9655400584631264",
+  "num": 15,
+  "updatedAt": "2016-12-02T06:12:20.460Z",
+}
+`;
+
+exports[`Resolver tests resolve query one with subscribe 1`] = `
+Object {
+  "createdAt": "2016-12-02T06:12:21.559Z",
+  "firstActive": "2016-11-18T11:25:11.000Z",
+  "id": 2,
+  "isActive": false,
+  "name": "na0.9511953018816008",
+  "num": 15,
+  "updatedAt": "2016-12-02T06:12:21.559Z",
+}
+`;
+
+exports[`Resolver tests resolve query one with subscribe 2`] = `
+Array [
+  Array [
+    "update",
+    Object {
+      "createdAt": "2016-12-02T06:12:21.559Z",
+      "firstActive": "2016-11-18T11:25:11.000Z",
+      "id": 2,
+      "isActive": false,
+      "name": "na0.9511953018816008",
+      "num": 15,
+      "title": "test",
+      "updatedAt": "2016-12-02T06:12:21.565Z",
+    },
+  ],
+]
+`;

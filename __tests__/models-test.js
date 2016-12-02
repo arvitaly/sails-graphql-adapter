@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const app1_1 = require("./../__fixtures__/app1");
 const models_1 = require("./../models");
-describe("Model tests", () => {
+xdescribe("Model tests", () => {
     let app;
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
         app = yield app1_1.default();

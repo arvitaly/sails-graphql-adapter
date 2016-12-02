@@ -46,7 +46,7 @@ namespace Sails {
         i18n?: I18nConfig;
         globals?: boolean | GlobalsConfig;
         log?: {
-            level?: "warn" | "info";
+            level?: "silent" | "error" | "warn" | "debug" | "info" | "verbose" | "silly";
             inspect?: boolean;
             custom?: any; //TODO http://sailsjs.com/documentation/reference/configuration/sails-config-log
         }

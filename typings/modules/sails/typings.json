@@ -4,7 +4,7 @@
     "src": "C:\\Users\\arvitaly\\projects\\utils\\sails-graphql-adapter\\node_modules\\sails-typings\\package.json",
     "raw": "npm:sails-typings",
     "main": "index.js",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "global": false,
     "dependencies": {
       "@types/bluebird": {
