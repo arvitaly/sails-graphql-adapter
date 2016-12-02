@@ -41,7 +41,7 @@ describe("Resolver tests", () => {
             args: { id: created.id },
             context: {
                 request: {
-                    isSocket: true, socket: {
+                    headers: { "X-Subscription-Id": 123 }, socket: {
                         emit: socketEmit,
                     },
                 } as any,

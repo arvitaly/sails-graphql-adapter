@@ -23,11 +23,12 @@ class Resolver {
         const primaryAttrName = model.getPrimaryKeyAttribute().name;
         // opts.context.request
         const result = await this.sails.models[opts.model].findOne(opts.args[primaryAttrName]);
-        if (opts.context.request.isSocket) {
-            const socket: SocketIO.Socket = opts.context.request.socket;
+        const request: Sails.Request = opts.context.request;
+        const subscriptionId = request.headers["X-Subscription-Id"];
+        if (subscriptionId) {
             this.callbacks.on("update", (updated) => {
                 if (updated[primaryAttrName] === opts.args[primaryAttrName]) {
-                    socket.emit("update", updated);
+                    request.socket.emit("subscription-" + subscriptionId, updated);
                 }
             });
         }
