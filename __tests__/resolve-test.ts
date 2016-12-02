@@ -51,8 +51,8 @@ describe("Resolver tests", () => {
             parentModel: null,
         });
         expect(result).toMatchSnapshot();
-        const updated = await app.models[model1Id].update({ id: created.id }, { title: "test" });
-        callbacks.emit("update", updated[0]);
+        created.title = "newTitle";
+        callbacks.emit("update", created);
         expect(socketEmit.mock.calls).toMatchSnapshot();
     });
 });

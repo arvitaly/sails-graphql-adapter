@@ -24,7 +24,7 @@ class Resolver {
         // opts.context.request
         const result = await this.sails.models[opts.model].findOne(opts.args[primaryAttrName]);
         const request: Sails.Request = opts.context.request;
-        const subscriptionId = request.headers["X-Subscription-Id"];
+        const subscriptionId = request && request.headers ? request.headers["X-Subscription-Id"] : null;
         if (subscriptionId) {
             this.callbacks.on("update", (updated) => {
                 if (updated[primaryAttrName] === opts.args[primaryAttrName]) {

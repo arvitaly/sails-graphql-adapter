@@ -1,24 +1,24 @@
 exports[`Resolver tests resolve query one 1`] = `
 Object {
-  "createdAt": "2016-12-02T06:21:04.274Z",
+  "createdAt": "2016-11-18T11:25:11.000Z",
   "firstActive": "2016-11-18T11:25:11.000Z",
   "id": 1,
   "isActive": false,
-  "name": "na0.7634763846945991",
+  "name": "na1",
   "num": 15,
-  "updatedAt": "2016-12-02T06:21:04.274Z",
+  "updatedAt": "2016-11-18T11:25:11.000Z",
 }
 `;
 
 exports[`Resolver tests resolve query one with subscribe 1`] = `
 Object {
-  "createdAt": "2016-12-02T06:22:48.785Z",
+  "createdAt": "2016-11-18T11:25:11.000Z",
   "firstActive": "2016-11-18T11:25:11.000Z",
   "id": 2,
   "isActive": false,
-  "name": "na0.8272061912372501",
+  "name": "na2",
   "num": 15,
-  "updatedAt": "2016-12-02T06:22:48.785Z",
+  "updatedAt": "2016-11-18T11:25:11.000Z",
 }
 `;
 
@@ -27,14 +27,14 @@ Array [
   Array [
     "subscription-123",
     Object {
-      "createdAt": "2016-12-02T06:22:48.785Z",
+      "createdAt": "2016-11-18T11:25:11.000Z",
       "firstActive": "2016-11-18T11:25:11.000Z",
       "id": 2,
       "isActive": false,
-      "name": "na0.8272061912372501",
+      "name": "na2",
       "num": 15,
-      "title": "test",
-      "updatedAt": "2016-12-02T06:22:48.794Z",
+      "title": "newTitle",
+      "updatedAt": "2016-11-18T11:25:11.000Z",
     },
   ],
 ]

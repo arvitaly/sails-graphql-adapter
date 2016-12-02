@@ -2,7 +2,7 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
@@ -58,8 +58,8 @@ describe("Resolver tests", () => {
             parentModel: null,
         });
         expect(result).toMatchSnapshot();
-        const updated = yield app.models[app1_1.model1Id].update({ id: created.id }, { title: "test" });
-        callbacks.emit("update", updated[0]);
+        created.title = "newTitle";
+        callbacks.emit("update", created);
         expect(socketEmit.mock.calls).toMatchSnapshot();
     }));
 });

@@ -1,7 +1,7 @@
 import Sails = require("sails");
 import app1 from "./../__fixtures__/app1";
 import convert from "./../models";
-xdescribe("Model tests", () => {
+describe("Model tests", () => {
     let app: Sails.App;
     beforeEach(async () => {
         app = await app1();
