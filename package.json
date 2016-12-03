@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/arvitaly/sails-graphql-adapter#readme",
   "dependencies": {
+    "@types/express-graphql": "0.0.33",
+    "express-graphql": "^0.6.1",
     "graphql-models": "^0.2.3",
     "sails-typings": "^0.2.2",
     "typescript": "^2.1.1"

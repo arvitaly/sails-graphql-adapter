@@ -2,6 +2,9 @@
 const graphql_models_1 = require("graphql-models");
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (sails) => {
+    return new graphql_models_1.Collection(getModels(sails));
+};
+function getModels(sails) {
     return Object.keys(sails.models).map((modelName) => {
         let modelConfig = {
             attributes: [],
@@ -56,7 +59,9 @@ exports.default = (sails) => {
         });
         return modelConfig;
     });
-};
+}
+exports.getModels = getModels;
+;
 function sailsTypeTo(type) {
     switch (type.toLowerCase()) {
         case "string":

@@ -14,6 +14,8 @@ class Resolver {
         switch (opts.type) {
             case ResolveTypes.QueryOne:
                 return this.resolveQueryOne(opts);
+            case ResolveTypes.Viewer:
+                return {};
             default:
                 throw new Error("Unsupported resolve types");
         }

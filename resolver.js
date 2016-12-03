@@ -18,6 +18,8 @@ class Resolver {
         switch (opts.type) {
             case graphql_models_1.ResolveTypes.QueryOne:
                 return this.resolveQueryOne(opts);
+            case graphql_models_1.ResolveTypes.Viewer:
+                return {};
             default:
                 throw new Error("Unsupported resolve types");
         }

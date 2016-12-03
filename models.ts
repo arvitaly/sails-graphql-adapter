@@ -1,7 +1,10 @@
-import { Attribute, AttributeType, AttributeTypes, Model, ModelConfig } from "graphql-models";
+import { Attribute, AttributeType, AttributeTypes, Collection, Model, ModelConfig } from "graphql-models";
 import Sails = require("sails");
 import Waterline = require("waterline");
 export default (sails: Sails.App) => {
+    return new Collection(getModels(sails));
+};
+export function getModels(sails: Sails.App) {
     return Object.keys(sails.models).map((modelName) => {
         let modelConfig: ModelConfig = {
             attributes: [],
