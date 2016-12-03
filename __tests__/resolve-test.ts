@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { Collection, ResolveTypes } from "graphql-models";
 import Sails = require("sails");
-import app1, { createModel1, model1Id } from "./../__fixtures__/app1";
+import { createModel1, model1Id, start as startApp } from "sails-fixture-app";
 import models1 from "./../__fixtures__/app1-models";
 import Resolver from "./../resolver";
 
@@ -11,7 +11,7 @@ describe("Resolver tests", () => {
     let collection: Collection;
     let resolver: Resolver;
     beforeEach(async () => {
-        app = await app1();
+        app = await startApp(__dirname + "/../__fixtures__/app1");
         callbacks = new EventEmitter();
         collection = new Collection(models1);
         resolver = new Resolver(collection, app, callbacks);

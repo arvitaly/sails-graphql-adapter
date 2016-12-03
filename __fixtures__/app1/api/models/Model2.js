@@ -1,10 +1,3 @@
 "use strict";
-module.exports = {
-    attributes: {
-        name: "string",
-        key: {
-            type: "string",
-            primaryKey: true,
-        },
-    },
-};
+const model = require("sails-fixture-app/api/models/Model2");
+module.exports = model;

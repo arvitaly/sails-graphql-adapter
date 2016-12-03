@@ -1,9 +1,2 @@
-export = {
-    attributes: {
-        name: "string",
-        key: {
-            type: "string",
-            primaryKey: true,
-        },
-    },
-};
+import model = require("sails-fixture-app/api/models/Model2");
+export = model;

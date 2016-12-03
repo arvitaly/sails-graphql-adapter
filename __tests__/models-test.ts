@@ -1,10 +1,10 @@
 import Sails = require("sails");
-import app1 from "./../__fixtures__/app1";
+import { start } from "sails-fixture-app";
 import convert from "./../models";
 describe("Model tests", () => {
     let app: Sails.App;
     beforeEach(async () => {
-        app = await app1();
+        app = await start(__dirname + "/../__fixtures__/app1");
     });
     afterEach((done) => {
         app.lower(done);
