@@ -25,7 +25,7 @@ describe("Resolver tests", () => {
             type: ResolveTypes.QueryOne,
             model: model1Id,
             args: { id: created.id },
-            context: { request: {} as any },
+            context: { request: {} as any, subscriptionId: null },
             info: {} as any,
             source: null,
             parentModel: null,
@@ -40,8 +40,9 @@ describe("Resolver tests", () => {
             model: model1Id,
             args: { id: created.id },
             context: {
+                subscriptionId: "123",
                 request: {
-                    headers: { "X-Subscription-Id": 123 }, socket: {
+                    socket: {
                         emit: socketEmit,
                     },
                 } as any,
@@ -52,7 +53,7 @@ describe("Resolver tests", () => {
         });
         expect(result).toMatchSnapshot();
         created.title = "newTitle";
-        callbacks.emit("update", created);
+        callbacks.emit("updated", created);
         expect(socketEmit.mock.calls).toMatchSnapshot();
     });
 });

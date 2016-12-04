@@ -8,6 +8,7 @@ exports.default = (opts) => {
             context: {
                 request: req,
                 response: res,
+                subscriptionId: req.body ? req.body.subscriptionId : null,
             },
             graphiql: true,
             schema: opts.schema,

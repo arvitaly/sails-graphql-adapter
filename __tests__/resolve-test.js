@@ -2,7 +2,7 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
@@ -32,7 +32,7 @@ describe("Resolver tests", () => {
             type: graphql_models_1.ResolveTypes.QueryOne,
             model: sails_fixture_app_1.model1Id,
             args: { id: created.id },
-            context: { request: {} },
+            context: { request: {}, subscriptionId: null },
             info: {},
             source: null,
             parentModel: null,
@@ -47,8 +47,9 @@ describe("Resolver tests", () => {
             model: sails_fixture_app_1.model1Id,
             args: { id: created.id },
             context: {
+                subscriptionId: "123",
                 request: {
-                    headers: { "X-Subscription-Id": 123 }, socket: {
+                    socket: {
                         emit: socketEmit,
                     },
                 },
@@ -59,7 +60,7 @@ describe("Resolver tests", () => {
         });
         expect(result).toMatchSnapshot();
         created.title = "newTitle";
-        callbacks.emit("update", created);
+        callbacks.emit("updated", created);
         expect(socketEmit.mock.calls).toMatchSnapshot();
     }));
 });
