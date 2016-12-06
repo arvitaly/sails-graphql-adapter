@@ -19,7 +19,7 @@ class SailsPublisher extends Publisher {
         });
     }
     public publishUpdate(subscriptionId: SubscriptionID, modelId: ModelID, updated, context: Context) {
-        context.request.emit("subscription-" + subscriptionId, {
+        context.request.socket.emit("subscription-" + subscriptionId, {
             type: "update",
             modelId,
             data: updated,

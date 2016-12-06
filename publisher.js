@@ -16,7 +16,7 @@ class SailsPublisher extends graphql_models_1.Publisher {
         });
     }
     publishUpdate(subscriptionId, modelId, updated, context) {
-        context.request.emit("subscription-" + subscriptionId, {
+        context.request.socket.emit("subscription-" + subscriptionId, {
             type: "update",
             modelId,
             data: updated,

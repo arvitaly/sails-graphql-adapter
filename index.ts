@@ -11,6 +11,9 @@ export function getGraphQLSchema(sails: Sails.App, callbacks: Callbacks) {
     const adapter = new Adapter(sails);
     const publisher = new Publisher();
     const resolver = new Resolver(adapter, callbacks, publisher);
+    collection.map((model) => {
+        model.setResolveFn(resolver.resolve.bind(resolver));
+    });
     const schema = new Schema(resolver);
     resolver.setCollection(collection);
     schema.setCollection(collection);

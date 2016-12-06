@@ -57,3 +57,5 @@ class SailsCallbacks extends events_1.EventEmitter {
     }
 }
 ;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = SailsCallbacks;

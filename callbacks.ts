@@ -53,4 +53,4 @@ class SailsCallbacks extends EventEmitter implements Callbacks {
         this.on(modelId + "destroyed", cb);
     }
 };
-export default Callbacks;
+export default SailsCallbacks;
