@@ -1,14 +1,20 @@
 "use strict";
 const graphql_models_1 = require("graphql-models");
-var callbacks_1 = require("./callbacks");
-exports.Callbacks = callbacks_1.default;
+const adapter_1 = require("./adapter");
 var models_1 = require("./models");
 exports.createModels = models_1.default;
-var resolver_1 = require("./resolver");
-exports.Resolver = resolver_1.default;
+const models_2 = require("./models");
 var controller_1 = require("./controller");
 exports.Controller = controller_1.default;
-function getGraphQLSchema(collection, resolver) {
-    return new graphql_models_1.Schema(collection, resolver.resolve.bind(resolver)).getGraphQLSchema();
+const publisher_1 = require("./publisher");
+function getGraphQLSchema(sails, callbacks) {
+    const collection = models_2.default(sails);
+    const adapter = new adapter_1.default(sails);
+    const publisher = new publisher_1.default();
+    const resolver = new graphql_models_1.Resolver(adapter, callbacks, publisher);
+    const schema = new graphql_models_1.Schema(resolver);
+    resolver.setCollection(collection);
+    schema.setCollection(collection);
+    return schema.getGraphQLSchema();
 }
 exports.getGraphQLSchema = getGraphQLSchema;

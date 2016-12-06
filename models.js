@@ -51,6 +51,7 @@ function getModels(sails) {
             }
             modelConfig.attributes.push({
                 name: attrName,
+                realName: attrName,
                 model,
                 primaryKey,
                 required,

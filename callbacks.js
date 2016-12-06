@@ -1,6 +1,6 @@
 "use strict";
 const events_1 = require("events");
-class Callbacks extends events_1.EventEmitter {
+class SailsCallbacks extends events_1.EventEmitter {
     constructor(sails) {
         super();
         this.sails = sails;
@@ -9,12 +9,12 @@ class Callbacks extends events_1.EventEmitter {
             sails.models[modelName].afterCreate = (created, cb) => {
                 if (oldAfterCreate) {
                     oldAfterCreate(created, () => {
-                        this.emit("created", created);
+                        this.emit(modelName + "created", created);
                         cb();
                     });
                 }
                 else {
-                    this.emit("created", created);
+                    this.emit(modelName + "created", created);
                     cb();
                 }
             };
@@ -22,12 +22,12 @@ class Callbacks extends events_1.EventEmitter {
             sails.models[modelName].afterUpdate = (updated, cb) => {
                 if (oldAfterUpdate) {
                     oldAfterUpdate(updated, () => {
-                        this.emit("updated", updated);
+                        this.emit(modelName + "updated", updated);
                         cb();
                     });
                 }
                 else {
-                    this.emit("updated", updated);
+                    this.emit(modelName + "updated", updated);
                     cb();
                 }
             };
@@ -35,18 +35,25 @@ class Callbacks extends events_1.EventEmitter {
             sails.models[modelName].afterDestroy = (destroyed, cb) => {
                 if (oldAfterDestroy) {
                     oldAfterDestroy(destroyed, () => {
-                        this.emit("destroyed", destroyed);
+                        this.emit(modelName + "destroyed", destroyed);
                         cb();
                     });
                 }
                 else {
-                    this.emit("destroyed", destroyed);
+                    this.emit(modelName + "destroyed", destroyed);
                     cb();
                 }
             };
         });
     }
+    onUpdate(modelId, cb) {
+        this.on(modelId + "updated", cb);
+    }
+    onCreate(modelId, cb) {
+        this.on(modelId + "created", cb);
+    }
+    onDelete(modelId, cb) {
+        this.on(modelId + "destroyed", cb);
+    }
 }
 ;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Callbacks;

@@ -48,6 +48,7 @@ export function getModels(sails: Sails.App) {
             }
             modelConfig.attributes.push({
                 name: attrName,
+                realName: attrName,
                 model,
                 primaryKey,
                 required,
