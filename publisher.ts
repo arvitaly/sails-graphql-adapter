@@ -5,14 +5,14 @@ type Context = {
 };
 class SailsPublisher extends Publisher {
     public publishAdd(subscriptionId: SubscriptionID, modelId: ModelID, added, context: Context) {
-        context.request.emit("subscription-" + subscriptionId, {
+        context.request.socket.emit("subscription-" + subscriptionId, {
             type: "add",
             modelId,
             data: added,
         });
     }
     public publishRemove(subscriptionId: SubscriptionID, modelId: ModelID, removed, context: Context) {
-        context.request.emit("subscription-" + subscriptionId, {
+        context.request.socket.emit("subscription-" + subscriptionId, {
             type: "remove",
             modelId,
             data: removed,

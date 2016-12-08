@@ -5,7 +5,9 @@ export default (sails: Sails.App) => {
     return new Collection(getModels(sails));
 };
 export function getModels(sails: Sails.App) {
-    return Object.keys(sails.models).map((modelName) => {
+    return Object.keys(sails.models).filter((modelName) => {
+        return !!sails.models[modelName].globalId;
+    }).map((modelName) => {
         let modelConfig: ModelConfig = {
             attributes: [],
             id: sails.models[modelName].globalId.toLowerCase(),
@@ -71,6 +73,8 @@ function sailsTypeTo(type: string): AttributeType {
         case "date":
         case "datetime":
             return AttributeTypes.Date;
+        case "json":
+            return AttributeTypes.String;
         default:
             throw new Error("Unknown sails type " + type);
     }

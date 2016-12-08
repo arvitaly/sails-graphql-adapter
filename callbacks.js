@@ -7,6 +7,7 @@ class SailsCallbacks extends events_1.EventEmitter {
         Object.keys(sails.models).map((modelName) => {
             const oldAfterCreate = sails.models[modelName].afterCreate;
             sails.models[modelName].afterCreate = (created, cb) => {
+                const z = Math.random();
                 if (oldAfterCreate) {
                     oldAfterCreate(created, () => {
                         this.emit(modelName + "created", created);

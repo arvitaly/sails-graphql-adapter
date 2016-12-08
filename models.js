@@ -5,7 +5,9 @@ exports.default = (sails) => {
     return new graphql_models_1.Collection(getModels(sails));
 };
 function getModels(sails) {
-    return Object.keys(sails.models).map((modelName) => {
+    return Object.keys(sails.models).filter((modelName) => {
+        return !!sails.models[modelName].globalId;
+    }).map((modelName) => {
         let modelConfig = {
             attributes: [],
             id: sails.models[modelName].globalId.toLowerCase(),
@@ -76,6 +78,8 @@ function sailsTypeTo(type) {
         case "date":
         case "datetime":
             return graphql_models_1.AttributeTypes.Date;
+        case "json":
+            return graphql_models_1.AttributeTypes.String;
         default:
             throw new Error("Unknown sails type " + type);
     }

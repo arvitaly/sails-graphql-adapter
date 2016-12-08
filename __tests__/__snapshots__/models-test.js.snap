@@ -43,12 +43,42 @@ Collection {
       "attributes": Array [
         Object {
           "model": undefined,
+          "name": "title",
+          "primaryKey": false,
+          "realName": "title",
+          "required": false,
+          "type": "string",
+        },
+        Object {
+          "model": undefined,
           "name": "id",
           "primaryKey": true,
           "realName": "id",
           "required": false,
           "type": "integer",
         },
+        Object {
+          "model": undefined,
+          "name": "createdAt",
+          "primaryKey": false,
+          "realName": "createdAt",
+          "required": false,
+          "type": "date",
+        },
+        Object {
+          "model": undefined,
+          "name": "updatedAt",
+          "primaryKey": false,
+          "realName": "updatedAt",
+          "required": false,
+          "type": "date",
+        },
+      ],
+      "id": "model3",
+      "name": "Model3",
+    },
+    Object {
+      "attributes": Array [
         Object {
           "model": undefined,
           "name": "name",
@@ -112,6 +142,22 @@ Collection {
           "realName": "model2Field",
           "required": false,
           "type": "model",
+        },
+        Object {
+          "model": "model3",
+          "name": "model3s",
+          "primaryKey": false,
+          "realName": "model3s",
+          "required": false,
+          "type": "collection",
+        },
+        Object {
+          "model": undefined,
+          "name": "id",
+          "primaryKey": true,
+          "realName": "id",
+          "required": false,
+          "type": "integer",
         },
         Object {
           "model": undefined,
@@ -225,10 +271,18 @@ Collection {
         "required": false,
         "type": "string",
       },
+      "queryName": "model2",
       "resolveFn": undefined,
     },
     Model {
       "attributes": Array [
+        Object {
+          "model": undefined,
+          "name": "title",
+          "realName": "title",
+          "required": false,
+          "type": "string",
+        },
         Object {
           "model": undefined,
           "name": "_id",
@@ -237,6 +291,84 @@ Collection {
           "required": false,
           "type": "integer",
         },
+        Object {
+          "model": undefined,
+          "name": "createdAt",
+          "realName": "createdAt",
+          "required": false,
+          "type": "date",
+        },
+        Object {
+          "model": undefined,
+          "name": "updatedAt",
+          "realName": "updatedAt",
+          "required": false,
+          "type": "date",
+        },
+        Object {
+          "name": "id",
+          "realName": null,
+          "required": false,
+          "type": "id",
+        },
+      ],
+      "collector": [Circular],
+      "config": Object {
+        "attributes": Array [
+          Object {
+            "model": undefined,
+            "name": "title",
+            "primaryKey": false,
+            "realName": "title",
+            "required": false,
+            "type": "string",
+          },
+          Object {
+            "model": undefined,
+            "name": "id",
+            "primaryKey": true,
+            "realName": "id",
+            "required": false,
+            "type": "integer",
+          },
+          Object {
+            "model": undefined,
+            "name": "createdAt",
+            "primaryKey": false,
+            "realName": "createdAt",
+            "required": false,
+            "type": "date",
+          },
+          Object {
+            "model": undefined,
+            "name": "updatedAt",
+            "primaryKey": false,
+            "realName": "updatedAt",
+            "required": false,
+            "type": "date",
+          },
+        ],
+        "id": "model3",
+        "name": "Model3",
+      },
+      "id": "model3",
+      "name": "Model3",
+      "opts": Object {
+        "interfaces": Array [],
+      },
+      "primaryKeyAttribute": Object {
+        "model": undefined,
+        "name": "_id",
+        "primaryKey": true,
+        "realName": "id",
+        "required": false,
+        "type": "integer",
+      },
+      "queryName": "model3",
+      "resolveFn": undefined,
+    },
+    Model {
+      "attributes": Array [
         Object {
           "model": undefined,
           "name": "name",
@@ -294,6 +426,21 @@ Collection {
           "type": "model",
         },
         Object {
+          "model": "model3",
+          "name": "model3s",
+          "realName": "model3s",
+          "required": false,
+          "type": "collection",
+        },
+        Object {
+          "model": undefined,
+          "name": "_id",
+          "primaryKey": true,
+          "realName": "id",
+          "required": false,
+          "type": "integer",
+        },
+        Object {
           "model": undefined,
           "name": "createdAt",
           "realName": "createdAt",
@@ -317,14 +464,6 @@ Collection {
       "collector": [Circular],
       "config": Object {
         "attributes": Array [
-          Object {
-            "model": undefined,
-            "name": "id",
-            "primaryKey": true,
-            "realName": "id",
-            "required": false,
-            "type": "integer",
-          },
           Object {
             "model": undefined,
             "name": "name",
@@ -390,6 +529,22 @@ Collection {
             "type": "model",
           },
           Object {
+            "model": "model3",
+            "name": "model3s",
+            "primaryKey": false,
+            "realName": "model3s",
+            "required": false,
+            "type": "collection",
+          },
+          Object {
+            "model": undefined,
+            "name": "id",
+            "primaryKey": true,
+            "realName": "id",
+            "required": false,
+            "type": "integer",
+          },
+          Object {
             "model": undefined,
             "name": "createdAt",
             "primaryKey": false,
@@ -422,6 +577,7 @@ Collection {
         "required": false,
         "type": "integer",
       },
+      "queryName": "modelName1",
       "resolveFn": undefined,
     },
   ],
