@@ -1,11 +1,5 @@
 {
-  "globalDependencies": {
-    "graphql-relay": "github:arvitaly/typed-graphql-relay/graphql-relay.d.ts",
-    "jasmine": "registry:dt/jasmine#2.5.0+20161025102649",
-    "socket.io": "registry:dt/socket.io#1.4.4+20160909205835",
-    "waterline": "npm:waterline-typings/index.d.ts"
-  },
   "dependencies": {
-    "sails": "npm:sails-typings/index.d.ts"
+    "sails": "npm:sails-typings"
   }
 }

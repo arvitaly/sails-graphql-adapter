@@ -1,0 +1,10 @@
+exports[`Adapter test findCriteriaWhereToWhere 1`] = `
+Object {
+  "atrt2": Object {
+    "greaterThan": "v2",
+  },
+  "attr1": Object {
+    "contains": "v1",
+  },
+}
+`;

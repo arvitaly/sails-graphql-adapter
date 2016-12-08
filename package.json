@@ -4,8 +4,8 @@
   "description": "This is lib create graphql api for Sails application. (In depelopment)",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && tslint --project=tsconfig.json && istanbul cover node_modules/jasmine/bin/jasmine.js",
-    "watch:test": "nodemon --exec jasmine"
+    "test": "tsc && tslint --project=tsconfig.json && jest --verbose --coverage",
+    "watch:test": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -17,36 +17,35 @@
     "waterline",
     "relay"
   ],
-  "author": "",
+  "author": "arvitaly",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/arvitaly/sails-graphql-adapter/issues"
   },
   "homepage": "https://github.com/arvitaly/sails-graphql-adapter#readme",
   "dependencies": {
-    "@types/express": "^4.0.34",
     "@types/express-graphql": "0.0.33",
-    "@types/graphql": "^0.7.3",
     "express-graphql": "^0.6.1",
-    "graphql": "^0.8.1",
-    "graphql-relay": "^0.4.3",
-    "sails-typings": "^0.1.0",
-    "waterline-typings": "0.0.2"
+    "graphql-models": "^0.3.18",
+    "sails-typings": "^0.2.2",
+    "typescript": "^2.1.1"
   },
   "devDependencies": {
-    "coveralls": "^2.11.12",
-    "express": "^4.14.0",
+    "@types/jest": "^16.0.1",
+    "coveralls": "^2.11.15",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
-    "istanbul": "^0.4.5",
-    "jasmine": "2.4.1",
-    "mock2": "0.0.17",
-    "sails": "^0.12.9",
-    "sails-disk": "^0.10.10",
-    "sails-graphql-client": "0.0.3",
+    "jest": "^17.0.3",
+    "sails": "^0.12.11",
+    "sails-fixture-app": "^0.0.8",
     "sails-memory": "^0.10.7",
-    "tslint": "^3.15.1",
-    "typescript": "^2.0.10",
-    "waterline": "^0.11.6"
+    "tslint": "^4.0.2",
+    "typescript": "^2.0.10"
+  },
+  "jest": {
+    "automock": false,
+    "unmockedModulePathPatterns": [
+      "react"
+    ]
   }
 }

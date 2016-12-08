@@ -1,8 +1,8 @@
 {
-    "extends": "tslint:latest",
+    "extends": [
+        "tslint:latest"
+    ],
     "rules": {
-        "forin": false
-    },
-    "object-literal-sort-keys": false,
-    "ordered-imports": false
+        "object-literal-sort-keys": false
+    }
 }
