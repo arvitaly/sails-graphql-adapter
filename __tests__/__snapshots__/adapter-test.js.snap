@@ -42,6 +42,16 @@ Object {
 }
 `;
 
+exports[`Adapter test find with null submodel 1`] = `
+Object {
+  "firstActive": "2016-11-18T11:25:11.000Z",
+  "id": 2,
+  "isActive": false,
+  "model2Field": null,
+  "num": 1,
+}
+`;
+
 exports[`Adapter test findCriteriaWhereToWhere 1`] = `
 Object {
   "atrt2": Object {

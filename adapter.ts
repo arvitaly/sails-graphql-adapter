@@ -25,6 +25,9 @@ class SailsAdapter {
         return row;
     }
     public async populate(modelId: ModelID, row, populates: PopulateFields) {
+        if (typeof (row) === "undefined" || row === null) {
+            return null;
+        }
         row = Object.assign({}, row);
         await Promise.all(populates.map(async (populate) => {
             if (populate.attribute.type === AttributeTypes.Model) {

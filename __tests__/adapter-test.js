@@ -94,6 +94,19 @@ describe("Adapter test", () => {
         });
         expect(result).toMatchSnapshot();
     }));
+    it("find with null submodel", () => __awaiter(this, void 0, void 0, function* () {
+        const created = yield app.models[sails_fixture_app_1.model1Id].create({
+            firstActive: new Date(dt1),
+            isActive: false,
+            num: 1,
+        });
+        const result = yield adapter.findOne(sails_fixture_app_1.model1Id, created.id, [
+            { attribute: models.get(sails_fixture_app_1.model1Id).attributes.find((a) => a.name === "model2Field"), fields: [] }
+        ]);
+        delete result.createdAt;
+        delete result.updatedAt;
+        expect(result).toMatchSnapshot();
+    }));
     it("findCriteriaWhereToWhere", () => {
         const attr1 = {
             name: "attr1",

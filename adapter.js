@@ -35,6 +35,9 @@ class SailsAdapter {
     }
     populate(modelId, row, populates) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (typeof (row) === "undefined" || row === null) {
+                return null;
+            }
             row = Object.assign({}, row);
             yield Promise.all(populates.map((populate) => __awaiter(this, void 0, void 0, function* () {
                 if (populate.attribute.type === graphql_models_1.AttributeTypes.Model) {

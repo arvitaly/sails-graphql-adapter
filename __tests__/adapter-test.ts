@@ -86,6 +86,18 @@ describe("Adapter test", () => {
         });
         expect(result).toMatchSnapshot();
     });
+    it("find with null submodel", async () => {
+        const created = await app.models[model1Id].create({
+            firstActive: new Date(dt1),
+            isActive: false,
+            num: 1,
+        });
+        const result = await adapter.findOne(model1Id, created.id, [
+            { attribute: models.get(model1Id).attributes.find((a) => a.name === "model2Field"), fields: [] }]);
+        delete result.createdAt;
+        delete result.updatedAt;
+        expect(result).toMatchSnapshot();
+    });
     it("findCriteriaWhereToWhere", () => {
         const attr1 = {
             name: "attr1",
