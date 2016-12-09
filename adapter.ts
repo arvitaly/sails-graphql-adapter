@@ -12,16 +12,7 @@ class SailsAdapter {
             rowObject = rowObject.populate(populate.attribute.realName);
         });
         const row = (await rowObject).toJSON();
-        await Promise.all(populates.map(async (populate) => {
-            if (populate.attribute.type === AttributeTypes.Collection) {
-                row[populate.attribute.realName] = await Promise.all(row[populate.attribute.realName].map(async (r) => {
-                    return await this.populate(populate.attribute.model, r, populate.fields);
-                }));
-            } else {
-                row[populate.attribute.realName] = await this.populate(populate.attribute.model,
-                    row[populate.attribute.realName], populate.fields);
-            }
-        }));
+        await this.populateRow(row, populates);
         return row;
     }
     public async populate(modelId: ModelID, row, populates: PopulateFields) {
@@ -55,10 +46,21 @@ class SailsAdapter {
                             }, populate.fields);
                         break;
                     case "ManyToMany":
-                        const viaPopulateAttr =
-                            populate.attribute.model + "_" + populate.attribute.name + "_" + populate.attribute.model;
+                        let viaPopulateAttr;
+                        if (realAttr.via) {
+                            viaPopulateAttr = populate.attribute.model + "_" + realAttr.via;
+                        } else {
+                            viaPopulateAttr =
+                                populate.attribute.model + "_" + populate.attribute.name + "_" +
+                                populate.attribute.model;
+                        }
                         const viaModelId = modelId + "_" + populate.attribute.name + "__" + viaPopulateAttr;
-                        const viaRows = await this.app.models[viaModelId].find().populate(viaPopulateAttr);
+                        const viaRows = await this.app.models[viaModelId].find({
+                            where: {
+                                [modelId + "_" + populate.attribute.name]:
+                                row[this.collection.get(modelId).getPrimaryKeyAttribute().realName],
+                            },
+                        }).populate(viaPopulateAttr);
                         let rows = [];
                         viaRows.map((viaRow) => {
                             rows = rows.concat(viaRow[viaPopulateAttr]);
@@ -77,7 +79,11 @@ class SailsAdapter {
                                 populate.attribute.model;
                         }
                         const viaModelId2 = modelId + "_" + populate.attribute.name + "__" + viaPopulateAttr2;
-                        const viaRows2 = await this.app.models[viaModelId2].find().populate(viaPopulateAttr2);
+                        const viaRows2 = await this.app.models[viaModelId2].find({
+                            where: {
+                                [viaPopulateAttr2]: row[this.collection.get(modelId).getPrimaryKeyAttribute().realName],
+                            },
+                        }).populate(viaPopulateAttr2);
                         let rows2 = [];
                         viaRows2.map((viaRow) => {
                             rows2 = rows2.concat(viaRow[viaPopulateAttr2]);
@@ -102,7 +108,11 @@ class SailsAdapter {
             resultObject = resultObject.populate(populate.attribute.name);
         });
         const result = await resultObject;
-        return result.map((row) => row.toJSON());
+        const rows = result.map((row) => row.toJSON());
+        return await Promise.all(rows.map(async (row) => {
+            await this.populateRow(row, populates);
+            return row;
+        }));
     }
     public hasNextPage(modelId: string, findCriteria: FindCriteria): boolean {
         return true;
@@ -117,6 +127,19 @@ class SailsAdapter {
     public async updateOne(modelId: ModelID, id: any, updated: any) {
         const result = await this.app.models[modelId].update(id, updated);
         return result[0];
+    }
+    protected async populateRow(row, populates: PopulateFields) {
+        await Promise.all(populates.map(async (populate) => {
+            if (populate.attribute.type === AttributeTypes.Collection) {
+                row[populate.attribute.realName] =
+                    await Promise.all(row[populate.attribute.realName].map(async (r) => {
+                        return await this.populate(populate.attribute.model, r, populate.fields);
+                    }));
+            } else {
+                row[populate.attribute.realName] = await this.populate(populate.attribute.model,
+                    row[populate.attribute.realName], populate.fields);
+            }
+        }));
     }
     protected getCollectionType(attribute: Waterline.Attribute): AttributeCollectionType {
         const via = (attribute as Waterline.OneToManyAttribute).via;

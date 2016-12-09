@@ -1,3 +1,30 @@
+exports[`Adapter test find many 1`] = `
+Array [
+  Object {
+    "firstActive": "2016-11-18T11:25:11.000Z",
+    "id": 3,
+    "isActive": false,
+    "model3s": Array [
+      Object {
+        "id": 3,
+        "model4s": Array [
+          Object {
+            "id": 3,
+            "model5Field": Object {
+              "id": 1,
+              "name": "model5Name1",
+            },
+            "name": "model4Name1",
+          },
+        ],
+        "title": "model3Title1",
+      },
+    ],
+    "num": 1001,
+  },
+]
+`;
+
 exports[`Adapter test find one with populates 1`] = `
 Object {
   "firstActive": "2016-11-18T11:25:11.000Z",
@@ -10,8 +37,8 @@ Object {
         "id": 1,
         "model4s": Array [
           Object {
-            "id": 2,
-            "name": "model4Name1",
+            "id": 1,
+            "name": "model4Name5",
           },
         ],
         "title": "model3Title2",
@@ -19,7 +46,7 @@ Object {
     ],
     "model4s": Array [
       Object {
-        "id": 1,
+        "id": 2,
         "name": "model4Name2",
         "owner": "key1",
       },
@@ -29,12 +56,7 @@ Object {
   "model3s": Array [
     Object {
       "id": 2,
-      "model4s": Array [
-        Object {
-          "id": 2,
-          "name": "model4Name1",
-        },
-      ],
+      "model4s": Array [],
       "title": "model3Title1",
     },
   ],

@@ -33,6 +33,9 @@ describe("Adapter test", () => {
                     title: "model3Title1",
                     model4s: [{
                             name: "model4Name1",
+                            model5Field: {
+                                name: "model5Name1",
+                            },
                         }],
                 }],
             model2Field: {
@@ -40,6 +43,9 @@ describe("Adapter test", () => {
                 name: "model2Name1",
                 model3s: [{
                         title: "model3Title2",
+                        model4s: [{
+                                name: "model4Name5",
+                            }],
                     }],
                 model4s: [{
                         name: "model4Name2",
@@ -64,7 +70,14 @@ describe("Adapter test", () => {
             },
             {
                 attribute: models.get(sails_fixture_app_1.model1Id).attributes.find((a) => a.name === "model3s"), fields: [
-                    { attribute: models.get("model3").attributes.find((a) => a.name === "model4s"), fields: [] },
+                    {
+                        attribute: models.get("model3").attributes.find((a) => a.name === "model4s"), fields: [
+                            {
+                                attribute: models.get("model4").attributes.find((a) => a.name === "model5Field"),
+                                fields: [],
+                            },
+                        ],
+                    },
                 ],
             },
         ]);
@@ -90,6 +103,8 @@ describe("Adapter test", () => {
             m.model4s.map((m4) => {
                 delete m4.createdAt;
                 delete m4.updatedAt;
+                delete m4.model5Field.createdAt;
+                delete m4.model5Field.updatedAt;
             });
         });
         expect(result).toMatchSnapshot();
@@ -105,6 +120,59 @@ describe("Adapter test", () => {
         ]);
         delete result.createdAt;
         delete result.updatedAt;
+        expect(result).toMatchSnapshot();
+    }));
+    it("find many", () => __awaiter(this, void 0, void 0, function* () {
+        const createds = yield app.models[sails_fixture_app_1.model1Id].create([{
+                firstActive: new Date(dt1),
+                isActive: false,
+                num: 1001,
+                model3s: [{
+                        title: "model3Title1",
+                        model4s: [{
+                                name: "model4Name1",
+                                model5Field: {
+                                    name: "model5Name1",
+                                },
+                            }],
+                    }],
+            }]);
+        const result = yield adapter.findMany(sails_fixture_app_1.model1Id, {
+            where: [{
+                    attribute: models.get(sails_fixture_app_1.model1Id).attributes.find((a) => a.name === "num"),
+                    graphQLType: null,
+                    name: "numGreaterThan",
+                    type: graphql_models_1.ArgumentTypes.GreaterThan,
+                    value: 1000,
+                }],
+        }, [
+            {
+                attribute: models.get(sails_fixture_app_1.model1Id).attributes.find((a) => a.name === "model3s"), fields: [
+                    {
+                        attribute: models.get("model3").attributes.find((a) => a.name === "model4s"), fields: [
+                            {
+                                attribute: models.get("model4").attributes.find((a) => a.name === "model5Field"),
+                                fields: [],
+                            },
+                        ],
+                    },
+                ],
+            }
+        ]);
+        result.map((model1) => {
+            delete model1.createdAt;
+            delete model1.updatedAt;
+            model1.model3s.map((model3) => {
+                delete model3.createdAt;
+                delete model3.updatedAt;
+                model3.model4s.map((model4) => {
+                    delete model4.createdAt;
+                    delete model4.updatedAt;
+                    delete model4.model5Field.createdAt;
+                    delete model4.model5Field.updatedAt;
+                });
+            });
+        });
         expect(result).toMatchSnapshot();
     }));
     it("findCriteriaWhereToWhere", () => {

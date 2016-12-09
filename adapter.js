@@ -20,16 +20,7 @@ class SailsAdapter {
                 rowObject = rowObject.populate(populate.attribute.realName);
             });
             const row = (yield rowObject).toJSON();
-            yield Promise.all(populates.map((populate) => __awaiter(this, void 0, void 0, function* () {
-                if (populate.attribute.type === graphql_models_1.AttributeTypes.Collection) {
-                    row[populate.attribute.realName] = yield Promise.all(row[populate.attribute.realName].map((r) => __awaiter(this, void 0, void 0, function* () {
-                        return yield this.populate(populate.attribute.model, r, populate.fields);
-                    })));
-                }
-                else {
-                    row[populate.attribute.realName] = yield this.populate(populate.attribute.model, row[populate.attribute.realName], populate.fields);
-                }
-            })));
+            yield this.populateRow(row, populates);
             return row;
         });
     }
@@ -63,9 +54,21 @@ class SailsAdapter {
                                 }, populate.fields);
                             break;
                         case "ManyToMany":
-                            const viaPopulateAttr = populate.attribute.model + "_" + populate.attribute.name + "_" + populate.attribute.model;
+                            let viaPopulateAttr;
+                            if (realAttr.via) {
+                                viaPopulateAttr = populate.attribute.model + "_" + realAttr.via;
+                            }
+                            else {
+                                viaPopulateAttr =
+                                    populate.attribute.model + "_" + populate.attribute.name + "_" +
+                                        populate.attribute.model;
+                            }
                             const viaModelId = modelId + "_" + populate.attribute.name + "__" + viaPopulateAttr;
-                            const viaRows = yield this.app.models[viaModelId].find().populate(viaPopulateAttr);
+                            const viaRows = yield this.app.models[viaModelId].find({
+                                where: {
+                                    [modelId + "_" + populate.attribute.name]: row[this.collection.get(modelId).getPrimaryKeyAttribute().realName],
+                                },
+                            }).populate(viaPopulateAttr);
                             let rows = [];
                             viaRows.map((viaRow) => {
                                 rows = rows.concat(viaRow[viaPopulateAttr]);
@@ -85,7 +88,11 @@ class SailsAdapter {
                                         populate.attribute.model;
                             }
                             const viaModelId2 = modelId + "_" + populate.attribute.name + "__" + viaPopulateAttr2;
-                            const viaRows2 = yield this.app.models[viaModelId2].find().populate(viaPopulateAttr2);
+                            const viaRows2 = yield this.app.models[viaModelId2].find({
+                                where: {
+                                    [viaPopulateAttr2]: row[this.collection.get(modelId).getPrimaryKeyAttribute().realName],
+                                },
+                            }).populate(viaPopulateAttr2);
                             let rows2 = [];
                             viaRows2.map((viaRow) => {
                                 rows2 = rows2.concat(viaRow[viaPopulateAttr2]);
@@ -112,7 +119,11 @@ class SailsAdapter {
                 resultObject = resultObject.populate(populate.attribute.name);
             });
             const result = yield resultObject;
-            return result.map((row) => row.toJSON());
+            const rows = result.map((row) => row.toJSON());
+            return yield Promise.all(rows.map((row) => __awaiter(this, void 0, void 0, function* () {
+                yield this.populateRow(row, populates);
+                return row;
+            })));
         });
     }
     hasNextPage(modelId, findCriteria) {
@@ -131,6 +142,21 @@ class SailsAdapter {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.app.models[modelId].update(id, updated);
             return result[0];
+        });
+    }
+    populateRow(row, populates) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield Promise.all(populates.map((populate) => __awaiter(this, void 0, void 0, function* () {
+                if (populate.attribute.type === graphql_models_1.AttributeTypes.Collection) {
+                    row[populate.attribute.realName] =
+                        yield Promise.all(row[populate.attribute.realName].map((r) => __awaiter(this, void 0, void 0, function* () {
+                            return yield this.populate(populate.attribute.model, r, populate.fields);
+                        })));
+                }
+                else {
+                    row[populate.attribute.realName] = yield this.populate(populate.attribute.model, row[populate.attribute.realName], populate.fields);
+                }
+            })));
         });
     }
     getCollectionType(attribute) {
