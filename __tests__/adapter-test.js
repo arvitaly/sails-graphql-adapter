@@ -16,12 +16,12 @@ describe("Adapter test", () => {
     let app;
     let adapter;
     let models;
-    beforeEach(() => __awaiter(this, void 0, void 0, function* () {
+    beforeAll(() => __awaiter(this, void 0, void 0, function* () {
         app = yield sails_fixture_app_1.start(__dirname + "/../__fixtures__/app1");
         models = models_1.default(app);
         adapter = new adapter_1.default(app, models);
     }));
-    afterEach((done) => {
+    afterAll((done) => {
         app.lower(done);
     });
     it("find one with populates", () => __awaiter(this, void 0, void 0, function* () {

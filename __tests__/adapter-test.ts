@@ -8,12 +8,12 @@ describe("Adapter test", () => {
     let app: Sails.App;
     let adapter: Adapter;
     let models: Collection;
-    beforeEach(async () => {
+    beforeAll(async () => {
         app = await start(__dirname + "/../__fixtures__/app1");
         models = convert(app);
         adapter = new Adapter(app, models);
     });
-    afterEach((done) => {
+    afterAll((done) => {
         app.lower(done);
     });
     it("find one with populates", async () => {
