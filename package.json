@@ -26,7 +26,7 @@
   "dependencies": {
     "@types/express-graphql": "0.0.33",
     "express-graphql": "^0.6.1",
-    "graphql-models": "^0.3.20",
+    "graphql-models": "^0.3.21",
     "sails-typings": "^0.2.2",
     "typescript": "^2.1.1"
   },
