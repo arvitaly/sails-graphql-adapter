@@ -2,7 +2,7 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
@@ -38,7 +38,9 @@ class SailsAdapter {
             row = Object.assign({}, row);
             yield Promise.all(populates.map((populate) => __awaiter(this, void 0, void 0, function* () {
                 if (populate.attribute.type === graphql_models_1.AttributeTypes.Model) {
-                    row[populate.attribute.realName] = yield this.findOne(populate.attribute.model, row[populate.attribute.realName], populate.fields);
+                    if (row[populate.attribute.realName]) {
+                        row[populate.attribute.realName] = yield this.findOne(populate.attribute.model, row[populate.attribute.realName], populate.fields);
+                    }
                 }
                 if (populate.attribute.type === graphql_models_1.AttributeTypes.Collection) {
                     const realAttr = this.app.models[modelId].attributes[populate.attribute.name];

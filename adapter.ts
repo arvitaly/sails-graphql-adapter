@@ -28,8 +28,10 @@ class SailsAdapter {
         row = Object.assign({}, row);
         await Promise.all(populates.map(async (populate) => {
             if (populate.attribute.type === AttributeTypes.Model) {
-                row[populate.attribute.realName] = await this.findOne(
-                    populate.attribute.model, row[populate.attribute.realName], populate.fields);
+                if (row[populate.attribute.realName]) {
+                    row[populate.attribute.realName] = await this.findOne(
+                        populate.attribute.model, row[populate.attribute.realName], populate.fields);
+                }
             }
             if (populate.attribute.type === AttributeTypes.Collection) {
                 const realAttr =
