@@ -1,3 +1,47 @@
+exports[`Adapter test find one with populates 1`] = `
+Object {
+  "firstActive": "2016-11-18T11:25:11.000Z",
+  "id": 1,
+  "isActive": false,
+  "model2Field": Object {
+    "key": "key1",
+    "model3s": Array [
+      Object {
+        "id": 1,
+        "model4s": Array [
+          Object {
+            "id": 2,
+            "name": "model4Name1",
+          },
+        ],
+        "title": "model3Title2",
+      },
+    ],
+    "model4s": Array [
+      Object {
+        "id": 1,
+        "name": "model4Name2",
+        "owner": "key1",
+      },
+    ],
+    "name": "model2Name1",
+  },
+  "model3s": Array [
+    Object {
+      "id": 2,
+      "model4s": Array [
+        Object {
+          "id": 2,
+          "name": "model4Name1",
+        },
+      ],
+      "title": "model3Title1",
+    },
+  ],
+  "num": 1,
+}
+`;
+
 exports[`Adapter test findCriteriaWhereToWhere 1`] = `
 Object {
   "atrt2": Object {
@@ -5,6 +49,9 @@ Object {
   },
   "attr1": Object {
     "contains": "v1",
+    "not": Object {
+      "contains": "v3",
+    },
   },
 }
 `;

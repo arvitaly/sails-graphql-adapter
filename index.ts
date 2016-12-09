@@ -8,7 +8,7 @@ export { default as Controller } from "./controller";
 import Publisher from "./publisher";
 export function getGraphQLSchema(sails: Sails.App, callbacks: Callbacks) {
     const collection = createModels(sails);
-    const adapter = new Adapter(sails);
+    const adapter = new Adapter(sails, collection);
     const publisher = new Publisher();
     const resolver = new Resolver(adapter, callbacks, publisher);
     collection.map((model) => {

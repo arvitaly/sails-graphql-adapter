@@ -1,13 +1,91 @@
-import { Adapter, ArgumentTypes, Collection, FindCriteria, ModelID, PopulateFields } from "graphql-models";
+import {
+    Adapter, ArgumentTypes, AttributeTypes,
+    Collection, FindCriteria, ModelID, PopulateFields,
+} from "graphql-models";
 import Sails = require("sails");
+import Waterline = require("waterline");
 class SailsAdapter {
-    constructor(protected app: Sails.App) { }
-    public async findOne(modelId: string, id: any, populates: PopulateFields) {
+    constructor(protected app: Sails.App, protected collection: Collection) { }
+    public async findOne(modelId: ModelID, id: any, populates: PopulateFields) {
         let rowObject = this.app.models[modelId].findOne(id);
         populates.map((populate) => {
-            rowObject = rowObject.populate(populate.attribute.name);
+            rowObject = rowObject.populate(populate.attribute.realName);
         });
-        return (await rowObject).toJSON();
+        const row = (await rowObject).toJSON();
+        await Promise.all(populates.map(async (populate) => {
+            if (populate.attribute.type === AttributeTypes.Collection) {
+                row[populate.attribute.realName] = await Promise.all(row[populate.attribute.realName].map(async (r) => {
+                    return await this.populate(populate.attribute.model, r, populate.fields);
+                }));
+            } else {
+                row[populate.attribute.realName] = await this.populate(populate.attribute.model,
+                    row[populate.attribute.realName], populate.fields);
+            }
+        }));
+        return row;
+    }
+    public async populate(modelId: ModelID, row, populates: PopulateFields) {
+        row = Object.assign({}, row);
+        await Promise.all(populates.map(async (populate) => {
+            if (populate.attribute.type === AttributeTypes.Model) {
+                row[populate.attribute.realName] = await this.findOne(
+                    populate.attribute.model, row[populate.attribute.realName], populate.fields);
+            }
+            if (populate.attribute.type === AttributeTypes.Collection) {
+                const realAttr =
+                    this.app.models[modelId].attributes[populate.attribute.name] as Waterline.ManyToManyAttribute;
+                switch (this.getCollectionType(realAttr)) {
+                    case "OneToMany":
+                        const where = [{
+                            type: ArgumentTypes.Equal,
+                            name: realAttr.via,
+                            graphQLType: null,
+                            attribute: this.collection.get(realAttr.collection)
+                                .attributes.find((a) => a.name === realAttr.via),
+                            value: row[this.collection.get(modelId).getPrimaryKeyAttribute().realName],
+                        }];
+                        row[populate.attribute.realName] =
+                            await this.findMany(populate.attribute.model, {
+                                where,
+                            }, populate.fields);
+                        break;
+                    case "ManyToMany":
+                        const viaPopulateAttr =
+                            populate.attribute.model + "_" + populate.attribute.name + "_" + populate.attribute.model;
+                        const viaModelId = modelId + "_" + populate.attribute.name + "__" + viaPopulateAttr;
+                        const viaRows = await this.app.models[viaModelId].find().populate(viaPopulateAttr);
+                        let rows = [];
+                        viaRows.map((viaRow) => {
+                            rows = rows.concat(viaRow[viaPopulateAttr]);
+                        });
+                        row[populate.attribute.realName] = await Promise.all(rows.map(async (r) => {
+                            return await this.populate(populate.attribute.model, r, populate.fields);
+                        }));
+                        break;
+                    case "ManyToManyDominant":
+                        let viaPopulateAttr2;
+                        if (realAttr.via) {
+                            viaPopulateAttr2 = populate.attribute.model + "_" + realAttr.via;
+                        } else {
+                            viaPopulateAttr2 =
+                                populate.attribute.model + "_" + populate.attribute.name + "_" +
+                                populate.attribute.model;
+                        }
+                        const viaModelId2 = modelId + "_" + populate.attribute.name + "__" + viaPopulateAttr2;
+                        const viaRows2 = await this.app.models[viaModelId2].find().populate(viaPopulateAttr2);
+                        let rows2 = [];
+                        viaRows2.map((viaRow) => {
+                            rows2 = rows2.concat(viaRow[viaPopulateAttr2]);
+                        });
+                        row[populate.attribute.realName] = await Promise.all(rows2.map(async (r) => {
+                            return await this.populate(populate.attribute.model, r, populate.fields);
+                        }));
+                        break;
+                    default:
+                }
+            }
+        }));
+        return row;
     }
     public async findMany(modelId: string, findCriteria: FindCriteria, populates: PopulateFields) {
         let criteria: any = { where: findCriteriaWhereToWhere(findCriteria) };
@@ -35,7 +113,20 @@ class SailsAdapter {
         const result = await this.app.models[modelId].update(id, updated);
         return result[0];
     }
+    protected getCollectionType(attribute: Waterline.Attribute): AttributeCollectionType {
+        const via = (attribute as Waterline.OneToManyAttribute).via;
+        const viaAttr = this.app.models[(attribute as Waterline.OneToManyAttribute).collection].attributes[via];
+        if (viaAttr && (viaAttr as Waterline.OneToOneAttribute).model) {
+            return "OneToMany";
+        }
+        if ((attribute as Waterline.ManyToManyAttribute).dominant) {
+            return "ManyToManyDominant";
+        } else {
+            return "ManyToMany";
+        }
+    }
 }
+export type AttributeCollectionType = "OneToMany" | "ManyToMany" | "ManyToManyDominant";
 export function findCriteriaWhereToWhere(findCriteria: FindCriteria) {
     let where: any = {};
     findCriteria.where.map((arg) => {

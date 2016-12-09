@@ -9,16 +9,91 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const graphql_models_1 = require("graphql-models");
 class SailsAdapter {
-    constructor(app) {
+    constructor(app, collection) {
         this.app = app;
+        this.collection = collection;
     }
     findOne(modelId, id, populates) {
         return __awaiter(this, void 0, void 0, function* () {
             let rowObject = this.app.models[modelId].findOne(id);
             populates.map((populate) => {
-                rowObject = rowObject.populate(populate.attribute.name);
+                rowObject = rowObject.populate(populate.attribute.realName);
             });
-            return (yield rowObject).toJSON();
+            const row = (yield rowObject).toJSON();
+            yield Promise.all(populates.map((populate) => __awaiter(this, void 0, void 0, function* () {
+                if (populate.attribute.type === graphql_models_1.AttributeTypes.Collection) {
+                    row[populate.attribute.realName] = yield Promise.all(row[populate.attribute.realName].map((r) => __awaiter(this, void 0, void 0, function* () {
+                        return yield this.populate(populate.attribute.model, r, populate.fields);
+                    })));
+                }
+                else {
+                    row[populate.attribute.realName] = yield this.populate(populate.attribute.model, row[populate.attribute.realName], populate.fields);
+                }
+            })));
+            return row;
+        });
+    }
+    populate(modelId, row, populates) {
+        return __awaiter(this, void 0, void 0, function* () {
+            row = Object.assign({}, row);
+            yield Promise.all(populates.map((populate) => __awaiter(this, void 0, void 0, function* () {
+                if (populate.attribute.type === graphql_models_1.AttributeTypes.Model) {
+                    row[populate.attribute.realName] = yield this.findOne(populate.attribute.model, row[populate.attribute.realName], populate.fields);
+                }
+                if (populate.attribute.type === graphql_models_1.AttributeTypes.Collection) {
+                    const realAttr = this.app.models[modelId].attributes[populate.attribute.name];
+                    switch (this.getCollectionType(realAttr)) {
+                        case "OneToMany":
+                            const where = [{
+                                    type: graphql_models_1.ArgumentTypes.Equal,
+                                    name: realAttr.via,
+                                    graphQLType: null,
+                                    attribute: this.collection.get(realAttr.collection)
+                                        .attributes.find((a) => a.name === realAttr.via),
+                                    value: row[this.collection.get(modelId).getPrimaryKeyAttribute().realName],
+                                }];
+                            row[populate.attribute.realName] =
+                                yield this.findMany(populate.attribute.model, {
+                                    where,
+                                }, populate.fields);
+                            break;
+                        case "ManyToMany":
+                            const viaPopulateAttr = populate.attribute.model + "_" + populate.attribute.name + "_" + populate.attribute.model;
+                            const viaModelId = modelId + "_" + populate.attribute.name + "__" + viaPopulateAttr;
+                            const viaRows = yield this.app.models[viaModelId].find().populate(viaPopulateAttr);
+                            let rows = [];
+                            viaRows.map((viaRow) => {
+                                rows = rows.concat(viaRow[viaPopulateAttr]);
+                            });
+                            row[populate.attribute.realName] = yield Promise.all(rows.map((r) => __awaiter(this, void 0, void 0, function* () {
+                                return yield this.populate(populate.attribute.model, r, populate.fields);
+                            })));
+                            break;
+                        case "ManyToManyDominant":
+                            let viaPopulateAttr2;
+                            if (realAttr.via) {
+                                viaPopulateAttr2 = populate.attribute.model + "_" + realAttr.via;
+                            }
+                            else {
+                                viaPopulateAttr2 =
+                                    populate.attribute.model + "_" + populate.attribute.name + "_" +
+                                        populate.attribute.model;
+                            }
+                            const viaModelId2 = modelId + "_" + populate.attribute.name + "__" + viaPopulateAttr2;
+                            const viaRows2 = yield this.app.models[viaModelId2].find().populate(viaPopulateAttr2);
+                            let rows2 = [];
+                            viaRows2.map((viaRow) => {
+                                rows2 = rows2.concat(viaRow[viaPopulateAttr2]);
+                            });
+                            row[populate.attribute.realName] = yield Promise.all(rows2.map((r) => __awaiter(this, void 0, void 0, function* () {
+                                return yield this.populate(populate.attribute.model, r, populate.fields);
+                            })));
+                            break;
+                        default:
+                    }
+                }
+            })));
+            return row;
         });
     }
     findMany(modelId, findCriteria, populates) {
@@ -52,6 +127,19 @@ class SailsAdapter {
             const result = yield this.app.models[modelId].update(id, updated);
             return result[0];
         });
+    }
+    getCollectionType(attribute) {
+        const via = attribute.via;
+        const viaAttr = this.app.models[attribute.collection].attributes[via];
+        if (viaAttr && viaAttr.model) {
+            return "OneToMany";
+        }
+        if (attribute.dominant) {
+            return "ManyToManyDominant";
+        }
+        else {
+            return "ManyToMany";
+        }
     }
 }
 function findCriteriaWhereToWhere(findCriteria) {

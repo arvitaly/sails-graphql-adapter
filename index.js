@@ -11,7 +11,7 @@ exports.Controller = controller_1.default;
 const publisher_1 = require("./publisher");
 function getGraphQLSchema(sails, callbacks) {
     const collection = models_2.default(sails);
-    const adapter = new adapter_1.default(sails);
+    const adapter = new adapter_1.default(sails, collection);
     const publisher = new publisher_1.default();
     const resolver = new graphql_models_1.Resolver(adapter, callbacks, publisher);
     collection.map((model) => {

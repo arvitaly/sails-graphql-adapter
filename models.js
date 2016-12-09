@@ -18,6 +18,7 @@ function getModels(sails) {
             let model;
             let primaryKey;
             let required;
+            let collectionType;
             const attr = sails.models[modelName].attributes[attrName];
             if (typeof (attr) === "string") {
                 type = sailsTypeTo(attr);
@@ -51,14 +52,15 @@ function getModels(sails) {
                     primaryKey = false;
                 }
             }
-            modelConfig.attributes.push({
+            const newAttr = {
                 name: attrName,
                 realName: attrName,
                 model,
                 primaryKey,
                 required,
                 type,
-            });
+            };
+            modelConfig.attributes.push(newAttr);
         });
         return modelConfig;
     });

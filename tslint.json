@@ -3,6 +3,7 @@
         "tslint:latest"
     ],
     "rules": {
-        "object-literal-sort-keys": false
+        "object-literal-sort-keys": false,
+        "arrow-parens": false
     }
 }

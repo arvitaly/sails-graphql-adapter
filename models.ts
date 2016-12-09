@@ -4,6 +4,7 @@ import Waterline = require("waterline");
 export default (sails: Sails.App) => {
     return new Collection(getModels(sails));
 };
+type AttributeCollectionType = "OneToMany" | "ManyToMany" | "ManyToManyDominant";
 export function getModels(sails: Sails.App) {
     return Object.keys(sails.models).filter((modelName) => {
         return !!sails.models[modelName].globalId;
@@ -18,6 +19,7 @@ export function getModels(sails: Sails.App) {
             let model: string;
             let primaryKey: boolean;
             let required: boolean;
+            let collectionType: AttributeCollectionType;
             const attr = sails.models[modelName].attributes[attrName] as Sails.Attribute;
             if (typeof (attr) === "string") {
                 type = sailsTypeTo(attr);
@@ -48,14 +50,15 @@ export function getModels(sails: Sails.App) {
                     primaryKey = false;
                 }
             }
-            modelConfig.attributes.push({
+            const newAttr: Attribute = {
                 name: attrName,
                 realName: attrName,
                 model,
                 primaryKey,
                 required,
                 type,
-            });
+            };
+            modelConfig.attributes.push(newAttr);
         });
         return modelConfig;
     });
