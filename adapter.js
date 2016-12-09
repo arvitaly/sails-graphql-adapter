@@ -27,7 +27,11 @@ class SailsAdapter {
             if (findCriteria.first) {
                 criteria.limit = findCriteria.first;
             }
-            const result = yield this.app.models[modelId].find(criteria);
+            let resultObject = this.app.models[modelId].find(criteria);
+            populates.map((populate) => {
+                resultObject = resultObject.populate(populate.attribute.name);
+            });
+            const result = yield resultObject;
             return result.map((row) => row.toJSON());
         });
     }
