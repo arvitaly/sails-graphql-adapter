@@ -26,9 +26,9 @@
   "dependencies": {
     "@types/express-graphql": "0.0.33",
     "express-graphql": "^0.6.1",
-    "graphql-models": "^0.3.21",
-    "sails-typings": "^0.2.2",
-    "typescript": "^2.1.1"
+    "graphql-models": "^0.3.22",
+    "sails-graphql-interfaces": "0.0.2",
+    "sails-typings": "^0.2.2"
   },
   "devDependencies": {
     "@types/jest": "^16.0.1",
@@ -37,15 +37,12 @@
     "grunt-cli": "^1.2.0",
     "jest": "^17.0.3",
     "sails": "^0.12.11",
-    "sails-fixture-app": "^0.0.11",
+    "sails-fixture-app": "^0.0.19",
     "sails-memory": "^0.10.7",
     "tslint": "^4.0.2",
-    "typescript": "^2.0.10"
+    "typescript": "^2.1.1"
   },
   "jest": {
-    "automock": false,
-    "unmockedModulePathPatterns": [
-      "react"
-    ]
+    "automock": false
   }
 }

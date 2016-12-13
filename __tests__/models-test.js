@@ -7,12 +7,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-const sails_fixture_app_1 = require("sails-fixture-app");
+const start_1 = require("sails-fixture-app/start");
 const models_1 = require("./../models");
 describe("Model tests", () => {
     let app;
     beforeEach(() => __awaiter(this, void 0, void 0, function* () {
-        app = yield sails_fixture_app_1.start(__dirname + "/../__fixtures__/app1");
+        app = yield start_1.default();
     }));
     afterEach((done) => {
         app.lower(done);

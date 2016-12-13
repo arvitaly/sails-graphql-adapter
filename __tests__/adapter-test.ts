@@ -1,6 +1,7 @@
 import { ArgumentTypes, AttributeTypes, Collection } from "graphql-models";
 import Sails = require("sails");
-import { createModel1, model1Id, start } from "sails-fixture-app";
+import { createModel1, model1Id } from "sails-fixture-app";
+import start from "sails-fixture-app/start";
 import Adapter, { findCriteriaWhereToWhere } from "./../adapter";
 import convert from "./../models";
 const dt1 = "2016-11-18T11:25:11.000Z";
@@ -9,7 +10,7 @@ describe("Adapter test", () => {
     let adapter: Adapter;
     let models: Collection;
     beforeAll(async () => {
-        app = await start(__dirname + "/../__fixtures__/app1");
+        app = await start();
         models = convert(app);
         adapter = new Adapter(app, models);
     });

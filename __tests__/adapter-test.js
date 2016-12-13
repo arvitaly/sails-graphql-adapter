@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const graphql_models_1 = require("graphql-models");
 const sails_fixture_app_1 = require("sails-fixture-app");
+const start_1 = require("sails-fixture-app/start");
 const adapter_1 = require("./../adapter");
 const models_1 = require("./../models");
 const dt1 = "2016-11-18T11:25:11.000Z";
@@ -17,7 +18,7 @@ describe("Adapter test", () => {
     let adapter;
     let models;
     beforeAll(() => __awaiter(this, void 0, void 0, function* () {
-        app = yield sails_fixture_app_1.start(__dirname + "/../__fixtures__/app1");
+        app = yield start_1.default();
         models = models_1.default(app);
         adapter = new adapter_1.default(app, models);
     }));
