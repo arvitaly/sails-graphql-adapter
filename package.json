@@ -1,6 +1,6 @@
 {
   "name": "sails-graphql-adapter",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "This is lib create graphql api for Sails application. (In depelopment)",
   "main": "index.js",
   "scripts": {
