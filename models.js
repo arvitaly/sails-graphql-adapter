@@ -77,6 +77,8 @@ function sailsTypeTo(type) {
             return graphql_models_1.AttributeTypes.Float;
         case "boolean":
             return graphql_models_1.AttributeTypes.Boolean;
+        case "json":
+            return graphql_models_1.AttributeTypes.JSON;
         case "date":
         case "datetime":
             return graphql_models_1.AttributeTypes.Date;

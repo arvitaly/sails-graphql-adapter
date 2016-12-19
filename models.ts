@@ -73,6 +73,8 @@ function sailsTypeTo(type: string): AttributeType {
             return AttributeTypes.Float;
         case "boolean":
             return AttributeTypes.Boolean;
+        case "json":
+            return AttributeTypes.JSON;
         case "date":
         case "datetime":
             return AttributeTypes.Date;
