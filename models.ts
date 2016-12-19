@@ -73,13 +73,11 @@ function sailsTypeTo(type: string): AttributeType {
             return AttributeTypes.Float;
         case "boolean":
             return AttributeTypes.Boolean;
-        case "json":
-            return AttributeTypes.JSON;
         case "date":
         case "datetime":
             return AttributeTypes.Date;
         case "json":
-            return AttributeTypes.String;
+            return AttributeTypes.JSON;
         default:
             throw new Error("Unknown sails type " + type);
     }
