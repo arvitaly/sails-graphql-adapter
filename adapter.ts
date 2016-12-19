@@ -103,6 +103,9 @@ class SailsAdapter {
         if (findCriteria.first) {
             criteria.limit = findCriteria.first;
         }
+        if (findCriteria.sort) {
+            criteria.sort = findCriteria.sort;
+        }
         let resultObject = this.app.models[modelId].find(criteria);
         populates.map((populate) => {
             resultObject = resultObject.populate(populate.attribute.name);
