@@ -6,7 +6,7 @@ export { default as createModels } from "./models";
 import createModels from "./models";
 export { default as Controller } from "./controller";
 import Publisher from "./publisher";
-export function getGraphQLSchema(sails: Sails.App, callbacks: Callbacks) {
+export default function getGraphQLSchemaAndResolver(sails: Sails.App, callbacks: Callbacks) {
     const collection = createModels(sails);
     const adapter = new Adapter(sails, collection);
     const publisher = new Publisher();
@@ -17,5 +17,8 @@ export function getGraphQLSchema(sails: Sails.App, callbacks: Callbacks) {
     const schema = new Schema(resolver);
     resolver.setCollection(collection);
     schema.setCollection(collection);
-    return schema.getGraphQLSchema();
+    return {
+        schema: schema.getGraphQLSchema(),
+        resolver,
+    };
 }

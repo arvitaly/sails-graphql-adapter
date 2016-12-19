@@ -9,7 +9,7 @@ const models_2 = require("./models");
 var controller_1 = require("./controller");
 exports.Controller = controller_1.default;
 const publisher_1 = require("./publisher");
-function getGraphQLSchema(sails, callbacks) {
+function getGraphQLSchemaAndResolver(sails, callbacks) {
     const collection = models_2.default(sails);
     const adapter = new adapter_1.default(sails, collection);
     const publisher = new publisher_1.default();
@@ -20,6 +20,10 @@ function getGraphQLSchema(sails, callbacks) {
     const schema = new graphql_models_1.Schema(resolver);
     resolver.setCollection(collection);
     schema.setCollection(collection);
-    return schema.getGraphQLSchema();
+    return {
+        schema: schema.getGraphQLSchema(),
+        resolver,
+    };
 }
-exports.getGraphQLSchema = getGraphQLSchema;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = getGraphQLSchemaAndResolver;
