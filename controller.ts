@@ -28,5 +28,5 @@ export default (opts?: {
             opts.resolver.unsubscribe(req.body.subscriptionId);
         }
     };
-    return { index };
+    return { index, unsubscribe };
 };
