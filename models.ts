@@ -65,6 +65,9 @@ export function getModels(sails: Sails.App) {
 };
 function sailsTypeTo(type: string): AttributeType {
     switch (type.toLowerCase()) {
+        case "longtext":
+        case "mediumtext":
+        case "text":
         case "string":
             return AttributeTypes.String;
         case "integer":

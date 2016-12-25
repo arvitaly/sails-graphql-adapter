@@ -69,6 +69,9 @@ exports.getModels = getModels;
 ;
 function sailsTypeTo(type) {
     switch (type.toLowerCase()) {
+        case "longtext":
+        case "mediumtext":
+        case "text":
         case "string":
             return graphql_models_1.AttributeTypes.String;
         case "integer":
