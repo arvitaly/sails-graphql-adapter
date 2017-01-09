@@ -9,7 +9,7 @@ export function getModels(sails: Sails.App) {
     return Object.keys(sails.models).filter((modelName) => {
         return !!sails.models[modelName].globalId;
     }).map((modelName) => {
-        let modelConfig: ModelConfig = {
+        const modelConfig: ModelConfig = {
             attributes: [],
             id: sails.models[modelName].globalId.toLowerCase(),
             name: sails.models[modelName].globalId,
@@ -19,7 +19,7 @@ export function getModels(sails: Sails.App) {
             let model: string;
             let primaryKey: boolean;
             let required: boolean;
-            let collectionType: AttributeCollectionType;
+            // let collectionType: AttributeCollectionType; ???
             const attr = sails.models[modelName].attributes[attrName] as Sails.Attribute;
             if (typeof (attr) === "string") {
                 type = sailsTypeTo(attr);

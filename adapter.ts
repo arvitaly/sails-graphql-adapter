@@ -20,7 +20,7 @@ class SailsAdapter {
             return null;
         }
         row = Object.assign({}, row);
-        await Promise.all(populates.map(async (populate) => {
+        await Promise.all(populates.map(async(populate) => {
             if (populate.attribute.type === AttributeTypes.Model) {
                 if (row[populate.attribute.realName]) {
                     row[populate.attribute.realName] = await this.findOne(
@@ -65,7 +65,7 @@ class SailsAdapter {
                         viaRows.map((viaRow) => {
                             rows = rows.concat(viaRow[viaPopulateAttr]);
                         });
-                        row[populate.attribute.realName] = await Promise.all(rows.map(async (r) => {
+                        row[populate.attribute.realName] = await Promise.all(rows.map(async(r) => {
                             return await this.populate(populate.attribute.model, r, populate.fields);
                         }));
                         break;
@@ -88,7 +88,7 @@ class SailsAdapter {
                         viaRows2.map((viaRow) => {
                             rows2 = rows2.concat(viaRow[viaPopulateAttr2]);
                         });
-                        row[populate.attribute.realName] = await Promise.all(rows2.map(async (r) => {
+                        row[populate.attribute.realName] = await Promise.all(rows2.map(async(r) => {
                             return await this.populate(populate.attribute.model, r, populate.fields);
                         }));
                         break;
@@ -99,7 +99,7 @@ class SailsAdapter {
         return row;
     }
     public async findMany(modelId: string, findCriteria: FindCriteria, populates: PopulateFields) {
-        let criteria: any = { where: findCriteriaWhereToWhere(findCriteria) };
+        const criteria: any = { where: findCriteriaWhereToWhere(findCriteria) };
         if (findCriteria.first) {
             criteria.limit = findCriteria.first;
         }
@@ -112,7 +112,7 @@ class SailsAdapter {
         });
         const result = await resultObject;
         const rows = result.map((row) => row.toJSON());
-        return await Promise.all(rows.map(async (row) => {
+        return await Promise.all(rows.map(async(row) => {
             await this.populateRow(row, populates);
             return row;
         }));
@@ -132,10 +132,10 @@ class SailsAdapter {
         return result[0];
     }
     protected async populateRow(row, populates: PopulateFields) {
-        await Promise.all(populates.map(async (populate) => {
+        await Promise.all(populates.map(async(populate) => {
             if (populate.attribute.type === AttributeTypes.Collection) {
                 row[populate.attribute.realName] =
-                    await Promise.all(row[populate.attribute.realName].map(async (r) => {
+                    await Promise.all(row[populate.attribute.realName].map(async(r) => {
                         return await this.populate(populate.attribute.model, r, populate.fields);
                     }));
             } else {
@@ -159,7 +159,7 @@ class SailsAdapter {
 }
 export type AttributeCollectionType = "OneToMany" | "ManyToMany" | "ManyToManyDominant";
 export function findCriteriaWhereToWhere(findCriteria: FindCriteria) {
-    let where: any = {};
+    const where: any = {};
     findCriteria.where.map((arg) => {
         switch (arg.type) {
             case ArgumentTypes.Equal:

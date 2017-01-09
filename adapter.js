@@ -110,7 +110,7 @@ class SailsAdapter {
     }
     findMany(modelId, findCriteria, populates) {
         return __awaiter(this, void 0, void 0, function* () {
-            let criteria = { where: findCriteriaWhereToWhere(findCriteria) };
+            const criteria = { where: findCriteriaWhereToWhere(findCriteria) };
             if (findCriteria.first) {
                 criteria.limit = findCriteria.first;
             }
@@ -177,7 +177,7 @@ class SailsAdapter {
     }
 }
 function findCriteriaWhereToWhere(findCriteria) {
-    let where = {};
+    const where = {};
     findCriteria.where.map((arg) => {
         switch (arg.type) {
             case graphql_models_1.ArgumentTypes.Equal:

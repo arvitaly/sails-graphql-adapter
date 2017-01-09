@@ -7,7 +7,7 @@ export default (opts?: {
     resolver: Resolver,
 }) => {
     // tslint:disable:only-arrow-functions
-    const index = function (req: Sails.Request, res) {
+    const index = function(req: Sails.Request, res) {
         req.socket.on("close", () => {
             if (req.body && req.body.subscriptionId) {
                 opts.resolver.unsubscribe(req.body.subscriptionId);
@@ -23,7 +23,7 @@ export default (opts?: {
             schema: opts.schema,
         }).apply(this, arguments);
     };
-    const unsubscribe = function (req: Sails.Request, res) {
+    const unsubscribe = function(req: Sails.Request, res) {
         if (req.body && req.body.subscriptionId) {
             opts.resolver.unsubscribe(req.body.subscriptionId);
         }

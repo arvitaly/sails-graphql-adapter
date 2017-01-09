@@ -8,7 +8,7 @@ function getModels(sails) {
     return Object.keys(sails.models).filter((modelName) => {
         return !!sails.models[modelName].globalId;
     }).map((modelName) => {
-        let modelConfig = {
+        const modelConfig = {
             attributes: [],
             id: sails.models[modelName].globalId.toLowerCase(),
             name: sails.models[modelName].globalId,
@@ -18,7 +18,7 @@ function getModels(sails) {
             let model;
             let primaryKey;
             let required;
-            let collectionType;
+            // let collectionType: AttributeCollectionType; ???
             const attr = sails.models[modelName].attributes[attrName];
             if (typeof (attr) === "string") {
                 type = sailsTypeTo(attr);

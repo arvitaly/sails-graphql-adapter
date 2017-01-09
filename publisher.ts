@@ -1,7 +1,8 @@
 import { ModelID, Publisher, SubscriptionID } from "graphql-models";
 import { GlobalID, ILiveAddMessage, ILiveUpdateMessage } from "sails-graphql-interfaces";
 import Sails = require("sails");
-type Context = {
+// tslint:disable interface-name
+interface Context {
     request: Sails.Request;
 };
 class SailsPublisher extends Publisher {
