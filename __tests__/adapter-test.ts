@@ -90,7 +90,7 @@ describe("Adapter test", () => {
             delete m4.createdAt;
             delete m4.updatedAt;
         });
-        delete result.model3s.map((m) => {
+        result.model3s.map((m) => {
             delete m.createdAt;
             delete m.updatedAt;
             m.model4s.map((m4) => {

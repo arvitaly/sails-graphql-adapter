@@ -10,14 +10,15 @@ var controller_1 = require("./controller");
 exports.Controller = controller_1.default;
 const publisher_1 = require("./publisher");
 function getGraphQLSchemaAndResolver(sails, callbacks) {
-    const collection = models_2.default(sails);
-    const adapter = new adapter_1.default(sails, collection);
+    const adapter = new adapter_1.default(sails);
     const publisher = new publisher_1.default();
     const resolver = new graphql_models_1.Resolver(adapter, callbacks, publisher);
+    const schema = new graphql_models_1.Schema(resolver);
+    const collection = models_2.default(sails, { interfaces: [schema.getNodeDefinition().nodeInterface] });
     collection.map((model) => {
         model.setResolveFn(resolver.resolve.bind(resolver));
     });
-    const schema = new graphql_models_1.Schema(resolver);
+    adapter.setCollection(collection);
     resolver.setCollection(collection);
     schema.setCollection(collection);
     return {

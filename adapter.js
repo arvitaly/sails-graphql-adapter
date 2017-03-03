@@ -9,8 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const graphql_models_1 = require("graphql-models");
 class SailsAdapter {
-    constructor(app, collection) {
+    constructor(app, collection = null) {
         this.app = app;
+        this.collection = collection;
+    }
+    setCollection(collection) {
         this.collection = collection;
     }
     findOne(modelId, id, populates) {

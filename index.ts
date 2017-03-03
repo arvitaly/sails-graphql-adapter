@@ -7,14 +7,15 @@ import createModels from "./models";
 export { default as Controller } from "./controller";
 import Publisher from "./publisher";
 export default function getGraphQLSchemaAndResolver(sails: Sails.App, callbacks: Callbacks) {
-    const collection = createModels(sails);
-    const adapter = new Adapter(sails, collection);
+    const adapter = new Adapter(sails);
     const publisher = new Publisher();
     const resolver = new Resolver(adapter, callbacks, publisher);
+    const schema = new Schema(resolver);
+    const collection = createModels(sails, { interfaces: [schema.getNodeDefinition().nodeInterface] });
     collection.map((model) => {
         model.setResolveFn(resolver.resolve.bind(resolver));
     });
-    const schema = new Schema(resolver);
+    adapter.setCollection(collection);
     resolver.setCollection(collection);
     schema.setCollection(collection);
     return {

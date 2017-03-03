@@ -1,8 +1,8 @@
 import { Attribute, AttributeType, AttributeTypes, Collection, Model, ModelConfig } from "graphql-models";
 import Sails = require("sails");
 import Waterline = require("waterline");
-export default (sails: Sails.App) => {
-    return new Collection(getModels(sails));
+export default (sails: Sails.App, opts = { interfaces: [] }) => {
+    return new Collection(getModels(sails), opts);
 };
 type AttributeCollectionType = "OneToMany" | "ManyToMany" | "ManyToManyDominant";
 export function getModels(sails: Sails.App) {

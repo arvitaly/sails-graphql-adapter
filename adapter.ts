@@ -5,7 +5,10 @@ import {
 import Sails = require("sails");
 import Waterline = require("waterline");
 class SailsAdapter {
-    constructor(protected app: Sails.App, protected collection: Collection) { }
+    constructor(protected app: Sails.App, protected collection: Collection = null) { }
+    public setCollection(collection: Collection) {
+        this.collection = collection;
+    }
     public async findOne(modelId: ModelID, id: any, populates: PopulateFields) {
         let rowObject = this.app.models[modelId].findOne(id);
         populates.map((populate) => {
