@@ -9,7 +9,7 @@ describe("Adapter test", () => {
     let app: Sails.App;
     let adapter: Adapter;
     let models: Collection;
-    beforeAll(async() => {
+    beforeAll(async () => {
         app = await start();
         models = convert(app);
         adapter = new Adapter(app, models);
@@ -17,7 +17,7 @@ describe("Adapter test", () => {
     afterAll((done) => {
         app.lower(done);
     });
-    it("find one with populates", async() => {
+    it("find one with populates", async () => {
         const created = await app.models[model1Id].create({
             firstActive: new Date(dt1),
             isActive: false,
@@ -102,7 +102,7 @@ describe("Adapter test", () => {
         });
         expect(result).toMatchSnapshot();
     });
-    it("find with null submodel", async() => {
+    it("find with null submodel", async () => {
         const created = await app.models[model1Id].create({
             firstActive: new Date(dt1),
             isActive: false,
@@ -114,7 +114,7 @@ describe("Adapter test", () => {
         delete result.updatedAt;
         expect(result).toMatchSnapshot();
     });
-    it("find many", async() => {
+    it("find many", async () => {
         const createds = await app.models[model1Id].create([{
             firstActive: new Date(dt1),
             isActive: false,

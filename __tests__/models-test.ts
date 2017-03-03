@@ -3,7 +3,7 @@ import start from "sails-fixture-app/start";
 import convert from "./../models";
 describe("Model tests", () => {
     let app: Sails.App;
-    beforeEach(async() => {
+    beforeEach(async () => {
         app = await start();
     });
     afterEach((done) => {

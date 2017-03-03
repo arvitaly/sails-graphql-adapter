@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_models_1 = require("graphql-models");
 ;
 class SailsPublisher extends graphql_models_1.Publisher {
@@ -28,5 +29,4 @@ class SailsPublisher extends graphql_models_1.Publisher {
         context.request.socket.emit("live", message);
     }
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SailsPublisher;

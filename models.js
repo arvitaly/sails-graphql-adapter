@@ -1,6 +1,6 @@
 "use strict";
-const graphql_models_1 = require("graphql-models");
 Object.defineProperty(exports, "__esModule", { value: true });
+const graphql_models_1 = require("graphql-models");
 exports.default = (sails, opts = { interfaces: [] }) => {
     return new graphql_models_1.Collection(getModels(sails), opts);
 };

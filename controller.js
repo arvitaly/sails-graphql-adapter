@@ -1,6 +1,6 @@
 "use strict";
-const graphqlHTTP = require("express-graphql");
 Object.defineProperty(exports, "__esModule", { value: true });
+const graphqlHTTP = require("express-graphql");
 exports.default = (opts) => {
     // tslint:disable:only-arrow-functions
     const index = function (req, res) {

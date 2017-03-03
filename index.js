@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_models_1 = require("graphql-models");
 const adapter_1 = require("./adapter");
 var callbacks_1 = require("./callbacks");
@@ -26,5 +27,4 @@ function getGraphQLSchemaAndResolver(sails, callbacks) {
         resolver,
     };
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = getGraphQLSchemaAndResolver;

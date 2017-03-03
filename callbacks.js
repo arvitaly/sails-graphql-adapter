@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const events_1 = require("events");
 class SailsCallbacks extends events_1.EventEmitter {
     constructor(sails) {
@@ -58,5 +59,4 @@ class SailsCallbacks extends events_1.EventEmitter {
     }
 }
 ;
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SailsCallbacks;
