@@ -26,16 +26,16 @@
   "dependencies": {
     "@types/express-graphql": "0.0.33",
     "express-graphql": "^0.6.1",
-    "graphql-models": "^0.3.38",
+    "graphql-models": "^0.3.39",
     "sails-graphql-interfaces": "^0.0.3",
     "sails-typings": "^0.2.2"
   },
   "devDependencies": {
-    "@types/jest": "^16.0.1",
-    "coveralls": "^2.11.15",
+    "@types/jest": "^18.1.1",
+    "coveralls": "^2.11.16",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
-    "jest": "^17.0.3",
+    "jest": "^19.0.2",
     "sails": "^0.12.11",
     "sails-fixture-app": "^0.0.20",
     "sails-memory": "^0.10.7",
