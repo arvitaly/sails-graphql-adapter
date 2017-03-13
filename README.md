@@ -1,5 +1,7 @@
 # sails-graphql-adapter
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/arvitaly/sails-graphql-adapter.svg)](https://greenkeeper.io/)
+
 This is lib create graphql api for Sails application. (In depelopment)
 
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
