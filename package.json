@@ -37,7 +37,7 @@
     "grunt-cli": "^1.2.0",
     "jest": "^19.0.2",
     "sails": "^0.12.11",
-    "sails-fixture-app": "^0.0.26",
+    "sails-fixture-app": "^0.0.27",
     "sails-memory": "^0.10.7",
     "tslint": "^4.5.1",
     "typescript": "^2.2.1"
