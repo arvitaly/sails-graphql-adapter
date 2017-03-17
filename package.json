@@ -27,7 +27,7 @@
     "@types/express-graphql": "0.0.33",
     "express-graphql": "^0.6.1",
     "graphql-models": "^0.3.43",
-    "sails-graphql-interfaces": "^0.0.3",
+    "sails-graphql-interfaces": "^0.0.4",
     "sails-typings": "^0.2.2"
   },
   "devDependencies": {
