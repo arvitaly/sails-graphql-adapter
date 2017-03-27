@@ -7,12 +7,16 @@ export default (opts?: {
     resolver: Resolver,
 }) => {
     // tslint:disable:only-arrow-functions
-    const index = function(req: Sails.Request, res) {
+    // tslint:disable-next-line:space-before-function-paren
+    const index = function (req: Sails.Request, res) {
         req.socket.on("close", () => {
             if (req.body && req.body.subscriptionId) {
                 opts.resolver.unsubscribe(req.body.subscriptionId);
             }
         });
+        if (req.body && req.body.isBase64Transfer) {
+            req.body.query = new Buffer(req.body.query, "base64").toString("utf8");
+        }
         return graphqlHTTP({
             context: {
                 request: req,
@@ -23,7 +27,8 @@ export default (opts?: {
             schema: opts.schema,
         }).apply(this, arguments);
     };
-    const unsubscribe = function(req: Sails.Request, res) {
+    // tslint:disable-next-line:space-before-function-paren
+    const unsubscribe = function (req: Sails.Request, res) {
         if (req.body && req.body.subscriptionId) {
             opts.resolver.unsubscribe(req.body.subscriptionId);
         }
