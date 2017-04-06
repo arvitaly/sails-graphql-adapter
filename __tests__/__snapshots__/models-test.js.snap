@@ -414,6 +414,7 @@ Collection {
         "id": "model2",
         "name": "Model2",
       },
+      "connectionName": "model2s",
       "id": "model2",
       "name": "Model2",
       "opts": Object {
@@ -522,6 +523,7 @@ Collection {
         "id": "model3",
         "name": "Model3",
       },
+      "connectionName": "model3s",
       "id": "model3",
       "name": "Model3",
       "opts": Object {
@@ -660,6 +662,7 @@ Collection {
         "id": "model4",
         "name": "Model4",
       },
+      "connectionName": "model4s",
       "id": "model4",
       "name": "Model4",
       "opts": Object {
@@ -753,6 +756,7 @@ Collection {
         "id": "model5",
         "name": "Model5",
       },
+      "connectionName": "model5s",
       "id": "model5",
       "name": "Model5",
       "opts": Object {
@@ -966,6 +970,7 @@ Collection {
         "id": "modelname1",
         "name": "ModelName1",
       },
+      "connectionName": "modelName1s",
       "id": "modelname1",
       "name": "ModelName1",
       "opts": Object {
