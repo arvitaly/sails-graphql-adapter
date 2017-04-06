@@ -62,7 +62,7 @@ export function getModels(sails: Sails.App) {
         });
         return modelConfig;
     });
-};
+}
 function sailsTypeTo(type: string): AttributeType {
     switch (type.toLowerCase()) {
         case "longtext":

@@ -53,5 +53,5 @@ class SailsCallbacks extends EventEmitter implements Callbacks {
     public onDelete(modelId: string, cb: (updated) => any) {
         this.on(modelId + "destroyed", cb);
     }
-};
+}
 export default SailsCallbacks;

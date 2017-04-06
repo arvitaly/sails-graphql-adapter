@@ -4,7 +4,7 @@ import Sails = require("sails");
 // tslint:disable interface-name
 interface Context {
     request: Sails.Request;
-};
+}
 class SailsPublisher extends Publisher {
     public publishAdd(subscriptionId: SubscriptionID, modelId: ModelID, globalId: GlobalID, added, context: Context) {
         const message: ILiveAddMessage = {

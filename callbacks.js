@@ -58,5 +58,4 @@ class SailsCallbacks extends events_1.EventEmitter {
         this.on(modelId + "destroyed", cb);
     }
 }
-;
 exports.default = SailsCallbacks;

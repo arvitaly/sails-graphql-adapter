@@ -66,7 +66,6 @@ function getModels(sails) {
     });
 }
 exports.getModels = getModels;
-;
 function sailsTypeTo(type) {
     switch (type.toLowerCase()) {
         case "longtext":
