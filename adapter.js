@@ -147,7 +147,7 @@ class SailsAdapter {
                 return result;
             }
             catch (e) {
-                if (e.indexOf("already exists") > -1) {
+                if (e.toString().indexOf("already exists") > -1) {
                     throw new CreateDuplicateError_1.default(e);
                 }
                 else {

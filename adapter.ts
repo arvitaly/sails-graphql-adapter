@@ -132,7 +132,7 @@ class SailsAdapter {
             const result = await this.app.models[modelId].create(created);
             return result;
         } catch (e) {
-            if (e.indexOf("already exists") > -1) {
+            if (e.toString().indexOf("already exists") > -1) {
                 throw new CreateDuplicateError(e);
             } else {
                 throw e;
