@@ -140,8 +140,18 @@ class SailsAdapter {
         }
     }
     public async findOrCreateOne(modelId: ModelID, created: any) {
-        const result = await this.app.models[modelId].findOrCreate(created);
-        return result;
+        const uniqueAttrName = Object.keys(created).map((attrName) => {
+            if (this.app.models[modelId].attributes[attrName] &&
+                (this.app.models[modelId].attributes[attrName] as Waterline.BaseAttribute<any>).unique) {
+                return attrName;
+            }
+        }).find((a) => !!a);
+        if (uniqueAttrName) {
+            const result = await this.app.models[modelId].findOrCreate({ [uniqueAttrName]: created[uniqueAttrName] });
+            return result;
+        } else {
+            throw new Error("Not found unique attribute for model " + modelId);
+        }
     }
     public async updateOne(modelId: ModelID, id: any, updated: any) {
         const result = await this.app.models[modelId].update(id, updated);

@@ -158,8 +158,19 @@ class SailsAdapter {
     }
     findOrCreateOne(modelId, created) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.app.models[modelId].findOrCreate(created);
-            return result;
+            const uniqueAttrName = Object.keys(created).map((attrName) => {
+                if (this.app.models[modelId].attributes[attrName] &&
+                    this.app.models[modelId].attributes[attrName].unique) {
+                    return attrName;
+                }
+            }).find((a) => !!a);
+            if (uniqueAttrName) {
+                const result = yield this.app.models[modelId].findOrCreate({ [uniqueAttrName]: created[uniqueAttrName] });
+                return result;
+            }
+            else {
+                throw new Error("Not found unique attribute for model " + modelId);
+            }
         });
     }
     updateOne(modelId, id, updated) {
