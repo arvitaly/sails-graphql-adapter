@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_models_1 = require("graphql-models");
+const CreateDuplicateError_1 = require("graphql-models/CreateDuplicateError");
 class SailsAdapter {
     constructor(app, collection = null) {
         this.app = app;
@@ -141,7 +142,23 @@ class SailsAdapter {
     }
     createOne(modelId, created) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.app.models[modelId].create(created);
+            try {
+                const result = yield this.app.models[modelId].create(created);
+                return result;
+            }
+            catch (e) {
+                if (e.indexOf("already exists") > -1) {
+                    throw new CreateDuplicateError_1.default(e);
+                }
+                else {
+                    throw e;
+                }
+            }
+        });
+    }
+    findOrCreateOne(modelId, created) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.app.models[modelId].findOrCreate(created);
             return result;
         });
     }

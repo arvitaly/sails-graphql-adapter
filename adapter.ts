@@ -2,6 +2,7 @@ import {
     Adapter, ArgumentTypes, AttributeTypes,
     Collection, FindCriteria, ModelID, PopulateFields,
 } from "graphql-models";
+import CreateDuplicateError from "graphql-models/CreateDuplicateError";
 import Sails = require("sails");
 import Waterline = require("waterline");
 class SailsAdapter {
@@ -127,7 +128,19 @@ class SailsAdapter {
         return true;
     }
     public async createOne(modelId: ModelID, created: any) {
-        const result = await this.app.models[modelId].create(created);
+        try {
+            const result = await this.app.models[modelId].create(created);
+            return result;
+        } catch (e) {
+            if (e.indexOf("already exists") > -1) {
+                throw new CreateDuplicateError(e);
+            } else {
+                throw e;
+            }
+        }
+    }
+    public async findOrCreateOne(modelId: ModelID, created: any) {
+        const result = await this.app.models[modelId].findOrCreate(created);
         return result;
     }
     public async updateOne(modelId: ModelID, id: any, updated: any) {
