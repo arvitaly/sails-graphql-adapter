@@ -26,7 +26,7 @@
   "dependencies": {
     "@types/express-graphql": "0.0.33",
     "express-graphql": "^0.6.1",
-    "graphql-models": "^0.5.2",
+    "graphql-models": "^0.5.3",
     "sails-graphql-interfaces": "^0.0.4",
     "sails-typings": "^0.2.2"
   },
@@ -41,8 +41,5 @@
     "sails-memory": "^0.10.7",
     "tslint": "^5.1.0",
     "typescript": "^2.3.1"
-  },
-  "jest": {
-    "automock": false
   }
 }
