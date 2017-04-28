@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const graphql_models_1 = require("graphql-models");
-class SailsPublisher extends graphql_models_1.Publisher {
+class SailsPublisher {
     publishAdd(subscriptionId, modelId, globalId, added, context) {
         const message = {
             kind: "add",

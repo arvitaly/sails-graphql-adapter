@@ -429,7 +429,7 @@ Collection {
         "type": "string",
       },
       "queryName": "model2",
-      "resolveFn": undefined,
+      "resolveFn": [Function],
     },
     Model {
       "attributes": Array [
@@ -538,7 +538,7 @@ Collection {
         "type": "integer",
       },
       "queryName": "model3",
-      "resolveFn": undefined,
+      "resolveFn": [Function],
     },
     Model {
       "attributes": Array [
@@ -677,7 +677,7 @@ Collection {
         "type": "integer",
       },
       "queryName": "model4",
-      "resolveFn": undefined,
+      "resolveFn": [Function],
     },
     Model {
       "attributes": Array [
@@ -771,7 +771,7 @@ Collection {
         "type": "integer",
       },
       "queryName": "model5",
-      "resolveFn": undefined,
+      "resolveFn": [Function],
     },
     Model {
       "attributes": Array [
@@ -985,7 +985,7 @@ Collection {
         "type": "integer",
       },
       "queryName": "modelName1",
-      "resolveFn": undefined,
+      "resolveFn": [Function],
     },
   ],
 }

@@ -170,11 +170,13 @@ describe("Adapter test", () => {
         const attr1 = {
             name: "attr1",
             type: AttributeTypes.String,
+            realName: null,
             required: false,
         };
         const attr2 = {
             name: "atrt2",
             type: AttributeTypes.Date,
+            realName: null,
             required: false,
         };
         expect(findCriteriaWhereToWhere({

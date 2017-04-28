@@ -5,7 +5,7 @@ import Sails = require("sails");
 interface Context {
     request: Sails.Request;
 }
-class SailsPublisher extends Publisher {
+class SailsPublisher implements Publisher {
     public publishAdd(subscriptionId: SubscriptionID, modelId: ModelID, globalId: GlobalID, added, context: Context) {
         const message: ILiveAddMessage = {
             kind: "add",
